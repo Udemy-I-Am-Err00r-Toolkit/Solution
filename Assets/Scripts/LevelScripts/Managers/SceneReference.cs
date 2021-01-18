@@ -6,6 +6,8 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
+//I_Am_Err00r did not write this script, but due to the rights this author articulated on their GitHub, they allow anyone to use this script for any reason including commercial release games and tutorials like the one you are taking. This is a very handy tool that allows you to use actual scenes as variables and ensure those scenes are able to be added to the build from the inspector window
+
 // Author: JohannesMP (2018-08-12)
 //
 // A wrapper that provides the means to safely serialize Scene Asset References.

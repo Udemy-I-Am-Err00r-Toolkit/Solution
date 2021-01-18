@@ -4,10 +4,13 @@ using UnityEngine;
 
 namespace MetroidvaniaTools
 {
+    //This script loads the appropriate next scene based on whatever door you are going through; this requires correct spawn and scene references from the variables below
     public class NextScene : Managers
     {
+        //The scene that needs to be loaded when going through a door
         [SerializeField]
         protected SceneReference nextScene;
+        //The loacation reference in that scene from the LevelManager script that the player should spawn at when the scene loads
         [SerializeField]
         protected int locationReference;
 
@@ -18,7 +21,7 @@ namespace MetroidvaniaTools
 
         protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
-            if(collision.gameObject == player)
+            if (collision.gameObject == player)
             {
                 levelManager.NextScene(nextScene, locationReference);
             }

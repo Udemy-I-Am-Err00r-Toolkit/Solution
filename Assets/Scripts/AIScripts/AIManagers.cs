@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace MetroidvaniaTools
 {
+    //A quick reference to the EnemyCharacter script for all the different AI scripts
     public class AIManagers : EnemyCharacter
     {
         protected EnemyCharacter enemyCharacter;

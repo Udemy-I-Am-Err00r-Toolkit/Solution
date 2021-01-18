@@ -2,17 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//This script is simply made so that it can be easily located when scene loads by using a FindObjectOfType method
 public class AreYouSureFinder : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

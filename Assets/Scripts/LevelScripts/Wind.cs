@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace MetroidvaniaTools
 {
+    //A simple script that works with the AreaEffector2D component; this script just ensures that if you want the direction of wind to go up, it goes up regardless of it's rotation value; if you want a custom direction for wind however, just rotate the game object in that direction and ensure the goingUp bool is set to false
     [RequireComponent(typeof(BoxCollider2D), typeof(AreaEffector2D))]
     public class Wind : Managers
     {
@@ -15,7 +16,7 @@ namespace MetroidvaniaTools
         {
             base.Initialization();
             effector = GetComponent<AreaEffector2D>();
-            if(goingUp)
+            if (goingUp)
             {
                 effector.forceAngle = 90;
             }

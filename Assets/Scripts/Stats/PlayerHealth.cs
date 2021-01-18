@@ -6,27 +6,41 @@ using UnityEngine.UI;
 
 namespace MetroidvaniaTools
 {
+    //Health script specific to Player; it houses a lot of extra data that normally an Enemy wouldn't need
     public class PlayerHealth : Health
     {
+        //How much time after the Player is hit that they can no longer receive damage; usually a brief amount of time like half a second
         [SerializeField]
         protected float iFrameTime;
+        //How much vertical knockback needs to be applied to the Player when they are dealt damage
         [SerializeField]
         protected float verticalDamageForce;
+        //How much horizontal knockback needs to be applied to the Player when they are dealt damage
         [SerializeField]
         protected float horizontalDamageForce;
+        //How long the time value needs to be adjusted to better visualize when the player is hit; this is an effects feature, not needed for actual gameplay
         [SerializeField]
         protected float slowDownTimeAmount;
+        //How much the time value needs to be adjusted to better visualize when the player is hit; this is an effects feature, not needed for actual gameplay
         [SerializeField]
         protected float slowDownSpeed;
+        //A reference to all the different sprites that make up the Player; this is used to make the Player slightly transparent when hit to visualize the Player received damage
         protected SpriteRenderer[] sprites;
+        //A reference to the Player's RigidBody component to apply knockback force
         protected Rigidbody2D rb;
+        //A reference to a UI screen that would pop-up when the Player dies
         protected Image deadScreenImage;
+        //A reference to the UI text that would display a "Game Over" type message when the Player dies
         protected Text deadScreenText;
+        //The original timescale that needs to go back to after the time is slowed from damage
         protected float originalTimeScale;
+        //A bool that prevents damage from happening if the player is either in an iFrameTime or dodge rolling from Dash
         [HideInInspector]
         public bool invulnerable;
+        //A bool that manages the momement the Player is hit
         [HideInInspector]
         public bool hit;
+        //A quck bool that manages whether or not the Player is facing left when taking damage to apply horizontal knockback force
         [HideInInspector]
         public bool left;
 
@@ -50,13 +64,17 @@ namespace MetroidvaniaTools
 
         public override void DealDamage(int amount)
         {
+            //If the Player is alive
             if (!character.isDead)
             {
+                //If invulnerable or dashing, we return out of this method and deal no damage
                 if (invulnerable || character.isDashing)
                 {
                     return;
                 }
+                //If not invulnerable or dashing, then damage is dealt
                 base.DealDamage(amount);
+                //If health is less than or equal to zero, we manage the Player death state
                 if (healthPoints <= 0)
                 {
                     character.isDead = true;
@@ -64,6 +82,7 @@ namespace MetroidvaniaTools
                     player.GetComponent<Animator>().SetBool("Dying", true);
                     StartCoroutine(Dead());
                 }
+                //Puts the Player into a damage state, and quickly sets everything up so we can handle all the damage effects
                 originalTimeScale = Time.timeScale;
                 hit = true;
                 invulnerable = true;
@@ -71,11 +90,14 @@ namespace MetroidvaniaTools
             }
         }
 
+        //Manages all the damage effects that should happen when damage is dealt
         public virtual void HandleDamageMovement()
         {
-            if (hit)// && !character.isDead)
+            if (hit)
             {
+                //Slows down time to the damage speed
                 Time.timeScale = slowDownSpeed;
+                //Handles vertical and horizontal knockback depending on what direction the Player is facing
                 rb.AddForce(Vector2.up * verticalDamageForce);
                 if (!left)
                 {
@@ -85,16 +107,18 @@ namespace MetroidvaniaTools
                 {
                     rb.AddForce(Vector2.left * horizontalDamageForce);
                 }
+                //Calls method that cancels damage state after the set amount of time
                 Invoke("HitCancel", slowDownTimeAmount);
             }
         }
 
+        //Special effect that makes Player transparent when hit
         protected virtual void HandleIFrames()
         {
             Color spriteColors = new Color();
-            if(invulnerable)
+            if (invulnerable)
             {
-                foreach(SpriteRenderer sprite in sprites)
+                foreach (SpriteRenderer sprite in sprites)
                 {
                     spriteColors = sprite.color;
                     spriteColors.a = .5f;
@@ -112,26 +136,30 @@ namespace MetroidvaniaTools
             }
         }
 
+        //Allows Player to receive damage again
         protected virtual void Cancel()
         {
             invulnerable = false;
         }
 
+        //Method that removes player from Damage state
         protected virtual void HitCancel()
         {
             hit = false;
             Time.timeScale = originalTimeScale;
         }
 
+        //This method is called when the Player grabs a health item and it restores Player health; it is called from the HealthConsumable script when player enters trigger collider
         public virtual void GainCurrentHealth(int amount)
         {
             healthPoints += amount;
-            if(healthPoints > maxHealthPoints)
+            if (healthPoints > maxHealthPoints)
             {
                 healthPoints = maxHealthPoints;
             }
         }
 
+        //This method handles a lot of UI and special effects that would need to be toggled on when Player dies
         protected virtual IEnumerator Dead()
         {
             uiManager.deadScreen.SetActive(true);
@@ -141,7 +169,7 @@ namespace MetroidvaniaTools
             Color currentColor = deadScreenImage.color;
             Color currentTextColor = deadScreenText.color;
             Color spriteColors = new Color();
-            foreach(SpriteRenderer sprite in sprites)
+            foreach (SpriteRenderer sprite in sprites)
             {
                 spriteColors = sprite.color;
             }
@@ -153,7 +181,7 @@ namespace MetroidvaniaTools
                 deadScreenImage.color = currentColor;
                 currentTextColor.a = Mathf.Lerp(0, 1, percentageComplete);
                 deadScreenText.color = currentTextColor;
-                foreach(SpriteRenderer sprite in sprites)
+                foreach (SpriteRenderer sprite in sprites)
                 {
                     spriteColors.a = Mathf.Lerp(0, 1, percentageComplete);
                     sprite.color = spriteColors;
@@ -167,6 +195,7 @@ namespace MetroidvaniaTools
             Invoke("LoadGame", 2);
         }
 
+        //Loads Player back to the last point in which the game was saved; this is called when the Player dies as well as when you load a game from the main menu screen
         public virtual void LoadGame()
         {
             levelManager.loadFromSave = true;

@@ -4,8 +4,10 @@ using UnityEngine;
 
 namespace MetroidvaniaTools
 {
+    //This script handles all the Input Dection by allowing game designers to choose the button and keys from a dropdown in the inspector
     public class InputManager : MonoBehaviour
     {
+        //All the different key inputs the game would need to look for
         [SerializeField]
         protected KeyCode crouchHeld;
         [SerializeField]
@@ -35,7 +37,7 @@ namespace MetroidvaniaTools
         [SerializeField]
         protected KeyCode bigMapPressed;
 
-        // Update is called once per frame
+        //These methods are all bool methods that return true when the key is pressed or held down, depending on how we setup key, and return false when the key is neither presed or held
         void Update()
         {
             CrouchHeld();

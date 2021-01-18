@@ -1,5 +1,7 @@
 ﻿// ArrayPrefs2 v 1.4
 
+//I_Am_Err00r did not write this script, but it is provided as a free tool another Unity user made; this user specified this script can be used for commercial release games or tutorials such as this one. This extends the PlayerPrefs capabilities to allow saving of much more complex data
+
 using UnityEngine;
 using System;
 using System.Collections;

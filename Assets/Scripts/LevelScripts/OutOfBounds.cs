@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace MetroidvaniaTools
 {
+    //This script is used to help place the Player back into a location that would make sense if they fall out of bounds; this uses a trigger collider that when the Player enters warps the Player back to the last standing location, or if the specificLocation bool is selected, to wherever that location variable is set to
     public class OutOfBounds : Managers
     {
         [SerializeField]

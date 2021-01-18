@@ -2,11 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+/*
+ * This script is placed on the player and handles many of the bools that would manage the different
+ * states the character can be in as well as setup common compononents so all the other scripts
+ * on the player have similar references.
+ */
 
 namespace MetroidvaniaTools
 {
     public class Character : MonoBehaviour
     {
+        //These different bools will be managed on the individual child scripts and manage the different
+        //states the player can be in.
         [HideInInspector]
         public bool isFacingLeft;
         [HideInInspector]
@@ -32,6 +39,7 @@ namespace MetroidvaniaTools
         [HideInInspector]
         public bool grabbingLedge;
 
+        //These are common component refernces so other scripts can talk to each other if they need to.
         protected Collider2D col;
         protected Rigidbody2D rb;
         protected Animator anim;
@@ -45,7 +53,7 @@ namespace MetroidvaniaTools
         protected Dash dash;
         protected GameObject currentPlatform;
         protected GameObject player;
-        protected GameManager gameManager; 
+        protected GameManager gameManager;
 
         private Vector2 facingLeft;
 
@@ -55,8 +63,8 @@ namespace MetroidvaniaTools
             Initialization();
         }
 
-        
 
+        //This is essentially the Start() method for all the child scripts of the Character script.
         protected virtual void Initialization()
         {
             gameFile = PlayerPrefs.GetInt("GameFile");
@@ -75,33 +83,39 @@ namespace MetroidvaniaTools
             facingLeft = new Vector2(-transform.localScale.x, transform.localScale.y);
         }
 
+        //This method manages having the player face the correct direction
         protected virtual void Flip()
         {
-            if(isFacingLeft || (!isFacingLeft && isWallSliding))
+            if (isFacingLeft || (!isFacingLeft && isWallSliding))
             {
                 transform.localScale = facingLeft;
             }
-            if(!isFacingLeft || (isFacingLeft && isWallSliding))
+            if (!isFacingLeft || (isFacingLeft && isWallSliding))
             {
                 transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
             }
         }
 
-    protected virtual bool CollisionCheck(Vector2 direction, float distance, LayerMask collision)
-    {
-        RaycastHit2D[] hits = new RaycastHit2D[10];
-        int numHits = col.Cast(direction, hits, distance);
-        for(int i = 0; i < numHits; i ++)
+        //This method is called by the child scripts anytime we need to ensure the player is touching somethin;
+        //this method will require a direction it needs to check in, a distance from the player it needs to check,
+        //and what layers the player will need to check for.
+        protected virtual bool CollisionCheck(Vector2 direction, float distance, LayerMask collision)
         {
-            if ((1 << hits[i].collider.gameObject.layer & collision) != 0)
+            RaycastHit2D[] hits = new RaycastHit2D[10];
+            int numHits = col.Cast(direction, hits, distance);
+            for (int i = 0; i < numHits; i++)
             {
-                currentPlatform = hits[i].collider.gameObject;
-                return true;
+                if ((1 << hits[i].collider.gameObject.layer & collision) != 0)
+                {
+                    currentPlatform = hits[i].collider.gameObject;
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
-    }
 
+        //This method will check to see if the player should enter the Falling state; requires how fast the player should
+        //be falling in order to officially enter the Fall state.
         public virtual bool Falling(float velocity)
         {
             if (!isGrounded && rb.velocity.y < velocity)
@@ -112,21 +126,19 @@ namespace MetroidvaniaTools
                 return false;
         }
 
+        //This method will have the Player fall at a certain speed if it needs to be adjusted; for example when gliding or wall sliding.
         protected virtual void FallSpeed(float speed)
         {
             rb.velocity = new Vector2(rb.velocity.x, (rb.velocity.y * speed));
         }
 
-        void NotHi()
-        {
-            anim.SetBool("Hi", false);
-        }
-
+        //This method will be handled by the LevelManager and GameManager scripts, will instantiate the player into the scene where the player
+        //needs to be.
         public void InitializePlayer()
         {
             player = FindObjectOfType<Character>().gameObject;
             player.GetComponent<Character>().isFacingLeft = PlayerPrefs.GetInt(" " + gameFile + "FacingLeft") == 1 ? true : false;
-            if(player.GetComponent<Character>().isFacingLeft)
+            if (player.GetComponent<Character>().isFacingLeft)
             {
                 player.transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
             }

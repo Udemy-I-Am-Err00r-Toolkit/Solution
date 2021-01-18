@@ -5,6 +5,7 @@ using UnityEngine.PlayerLoop;
 
 namespace MetroidvaniaTools
 {
+    //Like the Character script on the Player, this has many quick references and methods that this script feeds to the different AI scripts; changing anything in this script is not recommended, especially the GroundCheck method
     public class EnemyCharacter : MonoBehaviour
     {
         [HideInInspector]
@@ -22,7 +23,7 @@ namespace MetroidvaniaTools
 
         protected int rayHitNumber;
         public float originalTimeTillDoAction;
-        protected float timeTillDoAction; 
+        protected float timeTillDoAction;
 
         private void Start()
         {
@@ -52,6 +53,8 @@ namespace MetroidvaniaTools
             return false;
         }
 
+        //This method manages all of the different raycasts used to have the AI change directions or rotate when they need to
+        //Changing anything in this method is not recommneded
         protected virtual void CheckGround()
         {
             bool rightward;
