@@ -55,7 +55,7 @@ namespace MetroidvaniaTools
 
         //Bool that handles entering the wall jump state.
         private bool isWallJumping;
-        //Bool that lets other scripts know a wall jump has occured.
+        //Bool that helps manage controlled movement while wall jumping
         private bool justWallJumped;
         //Manages the direction the player should face when wall sliding.
         private bool flipped;
@@ -278,7 +278,7 @@ namespace MetroidvaniaTools
                 {
                     return false;
                 }
-                //Newer logic I added after fliming course, this will allow you to immedietly wall jump again if the player is colliding with a wall; will update video shortly
+                //This will allow you to immedietly wall jump again if the player is colliding with a wall
                 if (justWallJumped)
                 {
                     wallJumpTime = 0;
@@ -324,7 +324,7 @@ namespace MetroidvaniaTools
             }
         }
 
-        //Lets other scripts know the player just wall jumped.
+        //Sets the justWallJumped bool to true 
         protected virtual void JustWallJumped()
         {
             justWallJumped = true;
@@ -335,14 +335,5 @@ namespace MetroidvaniaTools
         {
             character.isJumpingThroughPlatform = false;
         }
-
-        //Turns off horizontal movement when wall jumping to restrict movement when performing a wall jump.
-        protected virtual IEnumerator WallJumped()
-        {
-            movement.enabled = false;
-            yield return new WaitForSeconds(wallJumpTime);
-            movement.enabled = true;
-            isWallJumping = false;
-        }
-    }
+     }
 }
