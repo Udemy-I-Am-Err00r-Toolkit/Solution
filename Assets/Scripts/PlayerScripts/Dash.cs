@@ -19,6 +19,8 @@ namespace MetroidvaniaTools
         //Layers the player can move through when dashing
         [SerializeField]
         protected LayerMask dashingLayers;
+        [SerializeField]
+        protected LayerMask enemyDashingLayers;
 
         //Local bool that determines if the player is allowed to dash based on dashCooldownTime
         private bool canDash;
@@ -76,19 +78,19 @@ namespace MetroidvaniaTools
                 //Propels the player in the correct direction when dashing, and checks to see if the player collides with something while dashing
                 if (!character.isFacingLeft)
                 {
-                    DashCollision(Vector2.right, .5f, dashingLayers);
+                    DashCollision(Vector2.right, .5f, dashingLayers, enemyDashingLayers);
                     rb.AddForce(Vector2.right * dashForce);
                 }
                 else
                 {
-                    DashCollision(Vector2.left, .5f, dashingLayers);
+                    DashCollision(Vector2.left, .5f, dashingLayers, enemyDashingLayers);
                     rb.AddForce(Vector2.left * dashForce);
                 }
             }
         }
 
         //Checks to see what the player is colliding with while dashing; if it is colliding with something that is a dashLayer, then we handle the logic to allow the player to pass through those objects
-        protected virtual void DashCollision(Vector2 direction, float distance, LayerMask collision)
+        protected virtual void DashCollision(Vector2 direction, float distance, LayerMask collision, LayerMask enemyCollision)
         {
             RaycastHit2D[] hits = new RaycastHit2D[10];
             int numHits = col.Cast(direction, hits, distance);
@@ -99,6 +101,18 @@ namespace MetroidvaniaTools
                     hits[i].collider.enabled = false;
                     StartCoroutine(TurnColliderBackOn(hits[i].collider.gameObject));
                 }
+                if ((1 << hits[i].collider.gameObject.layer & enemyCollision) != 0)
+                {
+                    col.isTrigger = true;
+                }
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.gameObject.GetComponent<EnemyCharacter>())
+            {
+                col.isTrigger = false;
             }
         }
 

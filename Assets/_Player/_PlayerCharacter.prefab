@@ -1007,7 +1007,6 @@ GameObject:
   - component: {fileID: 405606524}
   - component: {fileID: 405606526}
   - component: {fileID: 4903329702034984697}
-  - component: {fileID: 1812093428649257092}
   - component: {fileID: 2811520267741093718}
   m_Layer: 11
   m_Name: _PlayerCharacter
@@ -1190,7 +1189,6 @@ MonoBehaviour:
   currentLadder: {fileID: 0}
   deltaPositions: []
   bestDeltaPosition: {x: 0, y: 0, z: 0}
-  above: 0
 --- !u!114 &4397948998414606939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1234,7 +1232,6 @@ MonoBehaviour:
   collisionLayer:
     serializedVersion: 2
     m_Bits: 1792
-  numberOfJumpsLeft: 0
 --- !u!95 &2993050487341425420
 Animator:
   serializedVersion: 3
@@ -1480,35 +1477,6 @@ MonoBehaviour:
   invulnerable: 0
   hit: 0
   left: 0
---- !u!114 &1812093428649257092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3020018129641304751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22ec173fb4131734d912156af1b24a34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isFacingLeft: 0
-  isJumping: 0
-  isJumpingThroughPlatform: 0
-  isSwimming: 0
-  isOnLadder: 0
-  isGrounded: 0
-  isCrouching: 0
-  isDashing: 0
-  isWallSliding: 0
-  isDead: 0
-  gameFile: 0
-  grabbingLedge: 0
-  dashAbility: 0
-  wallJumpAbility: 0
-  footTap: {fileID: 0}
-  getDown: {fileID: 0}
-  flip: {fileID: 0}
 --- !u!114 &2811520267741093718
 MonoBehaviour:
   m_ObjectHideFlags: 0

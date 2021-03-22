@@ -92,15 +92,25 @@ namespace MetroidvaniaTools
         //This method handles all the logic of when a projectile enters a layer that it should cause damage to
         protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
+            //Deals damage first
             if ((1 << collision.gameObject.layer & damageLayers) != 0)
             {
                 if (collision.gameObject.GetComponent<Health>() != null)
                 {
                     collision.gameObject.GetComponent<Health>().DealDamage(damageAmount);
                 }
+                //Causes player knockback second
+                if (collision.gameObject.tag == "Player")
+                {
+                    if (collision.transform.position.x < transform.position.x)
+                    {
+                        collision.gameObject.GetComponent<PlayerHealth>().left = true;
+                    }
+                    else
+                        collision.gameObject.GetComponent<PlayerHealth>().left = false;
+                }
                 DestroyProjectile();
             }
-
         }
 
         //This method removes the projectile from the scene whenever it should

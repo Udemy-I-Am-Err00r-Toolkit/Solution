@@ -17,6 +17,8 @@ namespace MetroidvaniaTools
         //A quick reference to the UI that contains the Load Game menu screen
         public GameObject loadGameMenu;
 
+        public List<AbilityItem> abilitiesToClear = new List<AbilityItem>();
+
         private void Start()
         {
             MainMenu();
@@ -57,6 +59,8 @@ namespace MetroidvaniaTools
             PlayerPrefs.SetInt(" " + slot + "CurrentHealth", 100);
             //Sets up the string reference for the scene it needs to load
             PlayerPrefs.SetString("LoadGame", newGameScene);
+            //This method runs to quickly clear any abilities from previous saves
+            ClearAbilities(slot);
             //Loads the first scene for the game
             SceneManager.LoadScene(newGameScene);
         }
@@ -72,6 +76,15 @@ namespace MetroidvaniaTools
             PlayerPrefs.SetInt(" " + slot + "LoadFromSave", loadFromSave ? 1 : 0);
             //Loads the correct scene for that file based on whatever scene the Player was in when last saved
             SceneManager.LoadScene(PlayerPrefs.GetString(" " + slot + "LoadGame"));
+        }
+
+        //Self explanatory; clears any abilities from a previous save
+        public virtual void ClearAbilities(int slot)
+        {
+            for (int i = 0; i < abilitiesToClear.Count; i++)
+            {
+                PlayerPrefs.SetInt(" " + slot + abilitiesToClear[i].itemName, 0);
+            }
         }
     }
 }

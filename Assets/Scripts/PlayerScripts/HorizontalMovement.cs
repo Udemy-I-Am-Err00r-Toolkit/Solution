@@ -34,8 +34,7 @@ namespace MetroidvaniaTools
         [HideInInspector]
         public Vector3 bestDeltaPosition;
         //A bool that lets other scripts know the player is on top of the ladder.
-        [HideInInspector]
-        public bool above;
+        protected bool above;
         //How quickly the player accelerates to reach max speed.
         private float acceleration;
         //What key is pressed to have the player move horizontally.
@@ -55,8 +54,9 @@ namespace MetroidvaniaTools
 
         protected virtual void Update()
         {
-            MovementPressed();
+            //MovementPressed();
         }
+
 
         //Check input for Horizontal Movement.
         public virtual bool MovementPressed()
@@ -130,27 +130,27 @@ namespace MetroidvaniaTools
             if (character.isOnLadder && currentLadder != null)
             {
                 //Turns off gravity while on ladder
-                FallSpeed(0);
+                rb.bodyType = RigidbodyType2D.Kinematic;
+                rb.velocity = new Vector2(rb.velocity.x, 0);
                 //Determines if the player is standing on top of the ladder
-                if ((transform.position.y + col.bounds.size.y) + .15f > currentLadder.GetComponent<Ladder>().topOfLadder.y)
+                if (col.bounds.min.y >= (currentLadder.GetComponent<Ladder>().topOfLadder.y - col.bounds.extents.y))
                 {
+                    anim.SetBool("OnLadder", false);
                     above = true;
                 }
                 else
                 {
+                    anim.SetBool("OnLadder", true);
                     above = false;
                 }
                 //If Player is in ladder trigger collider, makes the player ascend the ladder and plays animations for climbing the ladder
                 if (input.UpHeld())
                 {
-                    anim.SetBool("OnLadder", true);
                     anim.SetBool("ClimbingLadder", true);
                     transform.position = Vector2.MoveTowards(transform.position, currentLadder.GetComponent<Ladder>().topOfLadder, ladderSpeed * Time.deltaTime);
                     if (above)
                     {
-                        anim.SetBool("OnLadder", false);
                         anim.SetBool("ClimbingLadder", false);
-                        currentLadder.GetComponent<Ladder>().edgeCollider.isTrigger = true;
                     }
                     return;
                 }
@@ -159,24 +159,16 @@ namespace MetroidvaniaTools
                 //If Player is in ladder trigger collider, makes the player descend the ladder and plays animations for climbing the ladder
                 if (input.DownHeld())
                 {
-                    anim.SetBool("OnLadder", true);
                     anim.SetBool("ClimbingLadder", true);
                     transform.position = Vector2.MoveTowards(transform.position, currentLadder.GetComponent<Ladder>().bottomOfLadder, ladderSpeed * Time.deltaTime);
-                    if (above)
-                    {
-                        currentLadder.GetComponent<Ladder>().edgeCollider.isTrigger = true;
-                    }
                     return;
                 }
-                else
-                    anim.SetBool("ClimbingLadder", false);
-                currentLadder.GetComponent<Ladder>().edgeCollider.isTrigger = false;
             }
             //If the player is not in a Ladder trigger collider, then ensures gravity is back on and stops playing the OnLadder animation
             else
             {
                 anim.SetBool("OnLadder", false);
-                FallSpeed(1);
+                rb.bodyType = RigidbodyType2D.Dynamic;
             }
         }
 
