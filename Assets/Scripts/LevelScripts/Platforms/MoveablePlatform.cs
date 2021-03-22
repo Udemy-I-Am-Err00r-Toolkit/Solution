@@ -53,11 +53,18 @@ namespace MetroidvaniaTools
                     //If needsToMove is still true, we quickly set it to false so we can calculate the next path the platform needs to move in
                     needsToMove = false;
                     //Changes the currentPath iteration value to the most appropriate value based on what platformType it is
-                    currentPath = i;
+                    if (!pingPongGoingDown)
+                    {
+                        currentPath = i;
+                    }
+                    else
+                    {
+                        currentPath = i - 2;
+                    }
                     //If the platform is Ascending, it will constantly move to the next path ahead of it, and then reset back to the begining once it reaches the end
                     if (platformType == PlatformTypes.Ascending)
                     {
-                        nextPath = i++;
+                        nextPath = i + 1;
                         //This logic helps ensure the platform goes right back to the begining again in the most direct path if it reaches the end of the numberOfPaths list
                         if (nextPath == numberOfPaths.Count)
                         {
@@ -70,20 +77,21 @@ namespace MetroidvaniaTools
                         //If the path is still going to the final iteration in the numberOfPaths list, the i value for the nextPath will be added
                         if (!pingPongGoingDown)
                         {
-                            nextPath = i++;
+                            nextPath = i + 1;
                             //If the path reaches the end, we set the next path to the previous point by subtracting it by 2, and then set the pingPongGoingDown bool to true
                             if (nextPath == numberOfPaths.Count)
                             {
                                 nextPath = i - 2;
+                                currentPath--;
                                 pingPongGoingDown = true;
                             }
                         }
                         //If the pingPongGoingDown bool is true, rather than adding one to the i value at the end of each point, it subtracts one
                         if (pingPongGoingDown)
                         {
-                            nextPath = i--;
+                            nextPath = i - 1;
                             //If it gets back to the begining of the numberOfPaths list, it sets everything up so the platform will start going forward through that list again
-                            if (nextPath < 0)
+                            if (nextPath == 0)
                             {
                                 nextPath = 0;
                                 currentPath = -1;
@@ -94,7 +102,7 @@ namespace MetroidvaniaTools
                     //If the platform is simply supposed to stop at the end of the path, it doesn't iterate anymore and stops once it reaches the end of the numberOfPaths list
                     if (platformType == PlatformTypes.StopOnEnd)
                     {
-                        nextPath = i++;
+                        nextPath = i + 1;
                         if (nextPath == numberOfPaths.Count)
                         {
                             return;
@@ -117,6 +125,7 @@ namespace MetroidvaniaTools
                     needsToMove = true;
                     currentPath++;
                 }
+                //Debug.Log(nextPath);
                 if (transform.position == numberOfPaths[nextPath] && currentPath == numberOfPaths.Count)
                 {
                     currentPath = 0;
