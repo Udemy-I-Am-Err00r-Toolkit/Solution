@@ -1216,7 +1216,7 @@ MonoBehaviour:
   dashAbility: 0
   wallJumpAbility: 0
   limitAirJumps: 0
-  maxJumps: 3
+  maxJumps: 1
   jumpForce: 350
   holdForce: 150
   buttonHoldTime: 0.35
@@ -1232,6 +1232,7 @@ MonoBehaviour:
   collisionLayer:
     serializedVersion: 2
     m_Bits: 1792
+  numberOfJumpsLeft: 0
 --- !u!95 &2993050487341425420
 Animator:
   serializedVersion: 3
@@ -1351,6 +1352,9 @@ MonoBehaviour:
   dashingLayers:
     serializedVersion: 2
     m_Bits: 8704
+  enemyDashingLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &405606523
 MonoBehaviour:
   m_ObjectHideFlags: 0

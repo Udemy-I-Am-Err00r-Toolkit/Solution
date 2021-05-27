@@ -118,10 +118,6 @@ namespace MetroidvaniaTools
                     isWallJumping = true;
                     return false;
                 }
-                if (character.isWallSliding && !wallJumpAbility)
-                {
-                    return false;
-                }
                 //If none of the other if statements are true and the logic flows here, then performs a standard jump and negates a jump from
                 // numberOfJumpsLeft.
                 numberOfJumpsLeft--;
@@ -324,7 +320,6 @@ namespace MetroidvaniaTools
                     movement.enabled = true;
                     isWallJumping = false;
                     wallJumpTime = 0;
-                    rb.velocity = new Vector2(rb.velocity.x, 0);
                 }
             }
         }

@@ -58,8 +58,7 @@ namespace MetroidvaniaTools
             //Sets the health to 100 because most games start you off with full health, you can toggle this any way you want if you don't want the player to start with 100 health
             PlayerPrefs.SetInt(" " + slot + "CurrentHealth", 100);
             //Sets up the string reference for the scene it needs to load
-            PlayerPrefs.SetString("LoadGame", newGameScene);
-            //This method runs to quickly clear any abilities from previous saves
+            //PlayerPrefs.SetString("LoadGame", newGameScene);
             ClearAbilities(slot);
             //Loads the first scene for the game
             SceneManager.LoadScene(newGameScene);
@@ -78,7 +77,6 @@ namespace MetroidvaniaTools
             SceneManager.LoadScene(PlayerPrefs.GetString(" " + slot + "LoadGame"));
         }
 
-        //Self explanatory; clears any abilities from a previous save
         public virtual void ClearAbilities(int slot)
         {
             for (int i = 0; i < abilitiesToClear.Count; i++)

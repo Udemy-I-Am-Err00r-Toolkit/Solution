@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MetroidvaniaTools
 {
-    //This manages the doors to open when a projectiel hits it
+    //This manages the doors to open when a projectile hits it
     public class Door : Managers
     {
         //The different projectile types that can open the door based on their tag

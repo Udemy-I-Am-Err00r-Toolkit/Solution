@@ -117,7 +117,7 @@ namespace MetroidvaniaTools
                     GetComponent<HorizontalMovement>().enabled = false;
                 }
                 //If the player is no longer on a ledge, toggles the gravity back on and allows the player to move horizontally
-                else
+                if (ledge != null && character.grabbingLedge && !character.isOnLadder)
                 {
                     rb.bodyType = RigidbodyType2D.Dynamic;
                     GetComponent<HorizontalMovement>().enabled = true;

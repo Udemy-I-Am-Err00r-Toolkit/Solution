@@ -27,6 +27,7 @@ namespace MetroidvaniaTools
         //A quick reference on if the bigMap UI is front and center
         [HideInInspector]
         public bool bigMapOn;
+        private bool test;
 
         //This will setup all the initial references to the different UI screens, and then run the ManageUI method
         protected override void Initialization()
@@ -45,6 +46,8 @@ namespace MetroidvaniaTools
         {
             if (player.GetComponent<InputManager>().BigMapPressed())
             {
+                test = !test;
+                Debug.Log(test);
                 GamePaused();
             }
             if (bigMapOn)

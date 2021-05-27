@@ -54,6 +54,7 @@ namespace MetroidvaniaTools
         protected GameObject currentPlatform;
         protected GameObject player;
         protected GameManager gameManager;
+        public RaycastHit2D[] hits;
 
         private Vector2 facingLeft;
 
@@ -101,7 +102,7 @@ namespace MetroidvaniaTools
         //and what layers the player will need to check for.
         protected virtual bool CollisionCheck(Vector2 direction, float distance, LayerMask collision)
         {
-            RaycastHit2D[] hits = new RaycastHit2D[10];
+            hits = new RaycastHit2D[10];
             int numHits = col.Cast(direction, hits, distance);
             for (int i = 0; i < numHits; i++)
             {
