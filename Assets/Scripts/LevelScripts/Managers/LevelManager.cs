@@ -56,22 +56,24 @@ namespace MetroidvaniaTools
             {
                 startingLocation = availableSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SaveSpawnReference")].position;
                 playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SaveSpawnReference")].position;
-            }
-            //If for some reason the SpawnReference value is higher than it is allowed to be, rather than crashing the game, it automatically sets it at 0 so the game can still be tested; this would be an error on your part that you can fix when not playtesting
-            if (availableSpawnLocations.Count <= PlayerPrefs.GetInt(" " + gameFile + "SpawnReference"))
-            {
-                startingLocation = availableSpawnLocations[0].position;
-                playerIndicatorLocation = playerIndicatorSpawnLocations[0].position;
+                if (availableSpawnLocations.Count <= PlayerPrefs.GetInt(" " + gameFile + "SpawnReference"))
+                {
+                    startingLocation = availableSpawnLocations[0].position;
+                    playerIndicatorLocation = playerIndicatorSpawnLocations[0].position;
+                }
             }
             else
             {
                 //If the scene is not being loaded from a save, it grabs the starting location that was set by the NextScene script that runs when you enter a door
-                if (!loadFromSave)
+                startingLocation = availableSpawnLocations[PlayerPrefs.GetInt("SpawnReference")].position;
+                playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt("SpawnReference")].position;
+                if (availableSpawnLocations.Count <= PlayerPrefs.GetInt("SpawnReference"))
                 {
-                    startingLocation = availableSpawnLocations[PlayerPrefs.GetInt("SpawnReference")].position;
-                    playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt("SpawnReference")].position;
+                    startingLocation = availableSpawnLocations[0].position;
+                    playerIndicatorLocation = playerIndicatorSpawnLocations[0].position;
                 }
             }
+            //If for some reason the SpawnReference value is higher than it is allowed to be, rather than crashing the game, it automatically sets it at 0 so the game can still be tested; this would be an error on your part that you can fix when not playtesting
             //Creates the Player at the correct starting location
             CreatePlayer(initialPlayer, startingLocation);
             //Adds the Fog Of War in the scene at the correct position
