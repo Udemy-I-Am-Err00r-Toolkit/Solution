@@ -71,13 +71,13 @@ namespace MetroidvaniaTools
                     startingLocation = availableSpawnLocations[PlayerPrefs.GetInt("SpawnReference")].position;
                     playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt("SpawnReference")].position;
                 }
-                //Creates the Player at the correct starting location
-                CreatePlayer(initialPlayer, startingLocation);
-                //Adds the Fog Of War in the scene at the correct position
-                Instantiate(fogOfWar, fogSpawnLocation.position, Quaternion.identity);
-                //Sets up the Fog array
-                fog = FindObjectsOfType<FogOfWar>();
             }
+            //Creates the Player at the correct starting location
+            CreatePlayer(initialPlayer, startingLocation);
+            //Adds the Fog Of War in the scene at the correct position
+            Instantiate(fogOfWar, fogSpawnLocation.position, Quaternion.identity);
+            //Sets up the Fog array
+            fog = FindObjectsOfType<FogOfWar>();
         }
 
         protected override void Initialization()
@@ -128,10 +128,10 @@ namespace MetroidvaniaTools
         public virtual void NextScene(SceneReference scene, int spawnReference)
         {
             tileID = id.ToArray();
-            PlayerPrefsX.SetIntArray(" " + character.gameFile + "TilesToRemove", tileID);
-            PlayerPrefs.SetInt(" " + character.gameFile + "FacingLeft", character.isFacingLeft ? 1 : 0);
-            PlayerPrefs.SetInt(" " + character.gameFile + "SpawnReference", spawnReference);
-            PlayerPrefs.SetInt(" " + character.gameFile + "CurrentHealth", player.GetComponent<PlayerHealth>().healthPoints);
+            PlayerPrefsX.SetIntArray("TilesToRemove", tileID);
+            PlayerPrefs.SetInt("FacingLeft", character.isFacingLeft ? 1 : 0);
+            PlayerPrefs.SetInt("SpawnReference", spawnReference);
+            PlayerPrefs.SetInt("CurrentHealth", player.GetComponent<PlayerHealth>().healthPoints);
             StartCoroutine(FadeOut(scene));
         }
 
