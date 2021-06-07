@@ -58,8 +58,14 @@ namespace MetroidvaniaTools
             //Sets the health to 100 because most games start you off with full health, you can toggle this any way you want if you don't want the player to start with 100 health
             PlayerPrefs.SetInt(" " + slot + "CurrentHealth", 100);
             //Sets up the string reference for the scene it needs to load
+            PlayerPrefs.SetString(" " + slot + "LoadGame", newGameScene);
+            //Sets the PlayerPrefs value to whatever the loadFromSave value is
+            PlayerPrefs.SetInt(" " + slot + "LoadFromSave", 1);
+            PlayerPrefs.SetInt(" " + slot + "FacingLeft", 0);
             //PlayerPrefs.SetString("LoadGame", newGameScene);
             ClearAbilities(slot);
+            int[] newFog = new int[0];
+            PlayerPrefsX.SetIntArray(" " + slot + "TilesToRemove", newFog);
             //Loads the first scene for the game
             SceneManager.LoadScene(newGameScene);
         }
@@ -67,12 +73,10 @@ namespace MetroidvaniaTools
         //Loads a game from a previous save
         public virtual void LoadGame(int slot)
         {
-            //Makes sure that the PlayerPrefs knows the game is loading from a save, so the LevelManager script can perform additional logic it needs to for that load
-            bool loadFromSave = true;
             //Makes sure teh current game file is the correct one for PlayerPrefs
             PlayerPrefs.SetInt("GameFile", slot);
             //Sets the PlayerPrefs value to whatever the loadFromSave value is
-            PlayerPrefs.SetInt(" " + slot + "LoadFromSave", loadFromSave ? 1 : 0);
+            PlayerPrefs.SetInt(" " + slot + "LoadFromSave", 1);
             //Loads the correct scene for that file based on whatever scene the Player was in when last saved
             SceneManager.LoadScene(PlayerPrefs.GetString(" " + slot + "LoadGame"));
         }

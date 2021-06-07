@@ -23,7 +23,8 @@ namespace MetroidvaniaTools
         //A list of the same game objects above, this list is then converted to the above array for saving when it needs to be saved
         protected List<FogOfWar> fogTiles = new List<FogOfWar>();
         //A list of unique values every game object has that will grow as the Player discovers more of the map and removes Fog Of War tiles
-        protected List<int> id = new List<int>();
+        [HideInInspector]
+        public List<int> id = new List<int>();
         //The same data as above, but converted into an array for saving when it needs to be saved
         public int[] tileID;
 
@@ -54,8 +55,8 @@ namespace MetroidvaniaTools
             //Ensures that if the scene is loading from a save, it sets the Player and Player Indicator at whatever spawn reference they should be at
             if (loadFromSave)
             {
-                startingLocation = availableSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SaveSpawnReference")].position;
-                playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SaveSpawnReference")].position;
+                startingLocation = availableSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")].position;
+                playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")].position;
                 if (availableSpawnLocations.Count <= PlayerPrefs.GetInt(" " + gameFile + "SpawnReference"))
                 {
                     startingLocation = availableSpawnLocations[0].position;
@@ -87,10 +88,7 @@ namespace MetroidvaniaTools
             base.Initialization();
             //Makes sure gameFile is still correct
             int gameFile = PlayerPrefs.GetInt("GameFile");
-            //At this point, loadFromSave needs to be set to false so as we go to the next scene, it manages the logic correctly
-            loadFromSave = false;
-            //Ensures the PlayerPrefs that manages the LoadFromSave value has the correct value
-            PlayerPrefs.SetInt(" " + gameFile + "LoadFromSave", levelManager.loadFromSave ? 1 : 0);
+            int[] numberArray;
             //Moves the Player Indicator to the correct position
             playerIndicator.transform.position = playerIndicatorLocation;
             //Fades the screen in as the camera and everything moves to get setup, this helps make sure everything is in the correct place when scene loads
@@ -100,14 +98,25 @@ namespace MetroidvaniaTools
             {
                 fogTiles.Add(fog[i]);
             }
-            //Based on previous save data that happens everytime you run into a Fog Of War tile, the correct tiles are removed at Start
-            int[] numberArray = PlayerPrefsX.GetIntArray(" " + gameFile + "TilesToRemove");
+            if (loadFromSave)
+            {
+                //Based on previous save data that happens everytime you run into a Fog Of War tile, the correct tiles are removed at Start
+                numberArray = PlayerPrefsX.GetIntArray(" " + gameFile + "TilesToRemove");
+            }
+            else
+            {
+                numberArray = PlayerPrefsX.GetIntArray("TilesToRemove");
+            }
             //The actual foreach loop and method that destroys the Fog tiles already found
             foreach (int number in numberArray)
             {
                 id.Add(number);
                 Destroy(fogTiles[number].gameObject);
             }
+            //At this point, loadFromSave needs to be set to false so as we go to the next scene, it manages the logic correctly
+            loadFromSave = false;
+            //Ensures the PlayerPrefs that manages the LoadFromSave value has the correct value
+            PlayerPrefs.SetInt(" " + gameFile + "LoadFromSave", levelManager.loadFromSave ? 1 : 0);
         }
 
         //This method is called by the FogOfWar script located on each fog tile, this is an OnTriggerEnter method that checks if the PlayerIndicator has collided with that tile
@@ -115,15 +124,6 @@ namespace MetroidvaniaTools
         {
             id.Add(fogTiles.IndexOf(fogTile));
             Destroy(fogTile.gameObject);
-        }
-
-        //When the scene is disabled for any of the mnay reasons a scene is disabled, it remembers everything it should so when the game is loaded again it has the correct data
-        protected virtual void OnDisable()
-        {
-            tileID = id.ToArray();
-            PlayerPrefsX.SetIntArray(" " + character.gameFile + "TilesToRemove", tileID);
-            PlayerPrefs.SetInt(" " + character.gameFile + "FacingLeft", character.isFacingLeft ? 1 : 0);
-            PlayerPrefs.SetString(" " + character.gameFile + "LoadGame", SceneManager.GetActiveScene().name);
         }
 
         //When we load the next scene by walking through a door, it remembers everything it should so when the next scene loads it has the correct data; this also loads the next scene of course and starts the FadeOut method

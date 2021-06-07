@@ -17,7 +17,15 @@ namespace MetroidvaniaTools
         protected override void Initialization()
         {
             base.Initialization();
-            origin = levelManager.playerIndicatorSpawnLocations[PlayerPrefs.GetInt(" " + character.gameFile + "SpawnReference")];
+            int gameFile = PlayerPrefs.GetInt("GameFile");
+            if (levelManager.loadFromSave)
+            {
+                origin = levelManager.playerIndicatorSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")];
+            }
+            else
+            {
+                origin = levelManager.playerIndicatorSpawnLocations[PlayerPrefs.GetInt("SpawnReference")];
+            }
             relativePosition = player.transform.position * -.1f;
         }
 

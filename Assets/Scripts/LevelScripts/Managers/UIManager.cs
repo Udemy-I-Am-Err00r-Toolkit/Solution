@@ -27,7 +27,6 @@ namespace MetroidvaniaTools
         //A quick reference on if the bigMap UI is front and center
         [HideInInspector]
         public bool bigMapOn;
-        private bool test;
 
         //This will setup all the initial references to the different UI screens, and then run the ManageUI method
         protected override void Initialization()
@@ -46,8 +45,6 @@ namespace MetroidvaniaTools
         {
             if (player.GetComponent<InputManager>().BigMapPressed())
             {
-                test = !test;
-                Debug.Log(test);
                 GamePaused();
             }
             if (bigMapOn)
@@ -124,7 +121,6 @@ namespace MetroidvaniaTools
         //If you want to quit game, it saves the player's position within that scene, and goes back to the main menu screen
         public virtual void SureToQuit()
         {
-            PlayerPrefs.SetString(" " + character.gameFile + "LoadGame", SceneManager.GetActiveScene().name);
             SceneManager.LoadScene(mainMenuScene);
             Time.timeScale = originalTimeScale;
             gameManager.gamePaused = false;

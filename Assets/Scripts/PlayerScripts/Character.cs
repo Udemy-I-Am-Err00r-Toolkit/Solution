@@ -137,6 +137,7 @@ namespace MetroidvaniaTools
         //needs to be.
         public void InitializePlayer()
         {
+            gameFile = PlayerPrefs.GetInt("GameFile");
             player = FindObjectOfType<Character>().gameObject;
             bool loadFromSave = PlayerPrefs.GetInt(" " + gameFile + "LoadFromSave") == 1 ? true : false;
             if (loadFromSave)
