@@ -37,13 +37,15 @@ namespace MetroidvaniaTools
             deadScreen = FindObjectOfType<DeadScreenFinder>().gameObject;
             gamePausedScreen = FindObjectOfType<GamePausedFinder>().gameObject;
             areYouSureScreen = FindObjectOfType<AreYouSureFinder>().gameObject;
+            //Adds the NewCharacter method to the event for the CharacterManager delegate
+            CharacterManager.CharacterUpdate += NewCharacter;
             ManageUI();
         }
 
         //Checks input to pause game; the input is labeled as BigMapPressed, and that is because when filming this course I decided to use this key input that was already established to pause the game
         protected virtual void Update()
         {
-            if (player.GetComponent<InputManager>().BigMapPressed())
+            if (player != null && player.GetComponent<InputManager>().BigMapPressed())
             {
                 GamePaused();
             }
@@ -149,6 +151,11 @@ namespace MetroidvaniaTools
             }
             Vector3 currentPosition = bigMapCamera.transform.position;
             bigMapCamera.transform.position = new Vector3(currentPosition.x + horizontal, currentPosition.y + vertical, -10);
+        }
+
+        protected virtual void NewCharacter()
+        {
+            UpdateCharacter();
         }
     }
 }

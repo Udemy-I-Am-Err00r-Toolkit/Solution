@@ -1010,7 +1010,7 @@ GameObject:
   - component: {fileID: 2811520267741093718}
   - component: {fileID: 5053138537355304809}
   m_Layer: 11
-  m_Name: _PlayerCharacter
+  m_Name: _PlayerCharacter 1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1537,8 +1537,8 @@ MonoBehaviour:
   dashAbility: 0
   wallJumpAbility: 0
   characters:
+  - {fileID: 3020018129641304751, guid: 81301af7ebb851442bbbadddbc836b80, type: 3}
   - {fileID: 3020018129641304751}
-  - {fileID: 3020018129641304751, guid: 24b60b2a7b36ec844ae10b2001dc0b90, type: 3}
   - {fileID: 3020018129641304751, guid: 388ee4761bba3834c8a2ed156a28fc42, type: 3}
 --- !u!1 &3148685659325458160
 GameObject:

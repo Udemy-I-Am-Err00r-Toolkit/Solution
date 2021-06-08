@@ -35,11 +35,15 @@ namespace MetroidvaniaTools
             halfCameraX = GetComponent<Camera>().ViewportToWorldPoint(new Vector2(0, 0)).x;
             halfCameraY = GetComponent<Camera>().ViewportToWorldPoint(new Vector2(0, 0)).y;
             transform.position = player.transform.position;
+            CharacterManager.CharacterUpdate += NewCharacter;
         }
 
         protected virtual void FixedUpdate()
         {
-            FollowPlayer();
+            if (player != null)
+            {
+                FollowPlayer();
+            }
         }
 
         //The values in here can be played with, and maybe you would want to make seperate values as variables for your game; most of this method is checking to see if certain criteria is met for the camera position to be moved based on vertical and horizontal speeds
@@ -77,6 +81,11 @@ namespace MetroidvaniaTools
             }
             //Ensures the camera is clamped inside of the current scene bounds based on the LevelManager bounds
             transform.position = new Vector3(Mathf.Clamp(transform.position.x, xMin - halfCameraX, xMax + halfCameraX), Mathf.Clamp(transform.position.y, yMin - halfCameraY, yMax + halfCameraY), -zAdjustment);
+        }
+        
+        protected virtual void NewCharacter()
+        {
+            UpdateCharacter();
         }
     }
 }

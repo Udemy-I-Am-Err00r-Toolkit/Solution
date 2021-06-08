@@ -64,5 +64,24 @@ namespace MetroidvaniaTools
             Instantiate(initialPlayer, new Vector3(location.x, location.y, 0), Quaternion.identity);
             initialPlayer.GetComponent<Character>().InitializePlayer();
         }
+
+        //Method that chanages character, called from the CharacterManager script located on Player
+        public virtual void ChangeCharacter(GameObject currentCharacter)
+        {
+            //Creates an instance of the current Player
+            GameObject oldPlayer = player;
+            //Creates an instance of the newPlayer from the Character Manager characters list
+            GameObject newPlayer = currentCharacter;
+            //Instantiates the newPlayer instance into the scene
+            Instantiate(newPlayer, player.transform.position, player.transform.rotation);
+            //Gets rid of the oldPlayer instance that used to be the player
+            Destroy(oldPlayer);
+        }
+
+        //This method is called by other scripts that need to grab the most recent gameobject that is the player
+        protected virtual void UpdateCharacter()
+        {
+            player = FindObjectOfType<Character>().gameObject;
+        }
     }
 }

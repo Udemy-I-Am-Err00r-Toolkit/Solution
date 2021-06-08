@@ -45,11 +45,12 @@ namespace MetroidvaniaTools
         //Checks to see if the game is being loaded from a save so it can have more accurate data for health and such rather than from a fresh save that would have full health and such
         [HideInInspector]
         public bool loadFromSave;
+        private int gameFile;
 
         protected virtual void Awake()
         {
             //Sets up the game file based on PlayerPrefs; this is set through the TitleScreen script
-            int gameFile = PlayerPrefs.GetInt("GameFile");
+            gameFile = PlayerPrefs.GetInt("GameFile");
             //Sets up the loadFromSave bool based on the PlayerPrefs; this is set through the TitleScreen script
             loadFromSave = PlayerPrefs.GetInt(" " + gameFile + "LoadFromSave") == 1 ? true : false;
             //Ensures that if the scene is loading from a save, it sets the Player and Player Indicator at whatever spawn reference they should be at
@@ -57,6 +58,7 @@ namespace MetroidvaniaTools
             {
                 startingLocation = availableSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")].position;
                 playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")].position;
+                initialPlayer = initialPlayer.GetComponent<CharacterManager>().characters[PlayerPrefs.GetInt(" " + gameFile + "Character")];
                 if (availableSpawnLocations.Count <= PlayerPrefs.GetInt(" " + gameFile + "SpawnReference"))
                 {
                     startingLocation = availableSpawnLocations[0].position;
@@ -68,6 +70,7 @@ namespace MetroidvaniaTools
                 //If the scene is not being loaded from a save, it grabs the starting location that was set by the NextScene script that runs when you enter a door
                 startingLocation = availableSpawnLocations[PlayerPrefs.GetInt("SpawnReference")].position;
                 playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt("SpawnReference")].position;
+                initialPlayer = initialPlayer.GetComponent<CharacterManager>().characters[PlayerPrefs.GetInt("Character")];
                 if (availableSpawnLocations.Count <= PlayerPrefs.GetInt("SpawnReference"))
                 {
                     startingLocation = availableSpawnLocations[0].position;
@@ -86,8 +89,8 @@ namespace MetroidvaniaTools
         protected override void Initialization()
         {
             base.Initialization();
+            CharacterManager.CharacterUpdate += NewCharacter;
             //Makes sure gameFile is still correct
-            int gameFile = PlayerPrefs.GetInt("GameFile");
             int[] numberArray;
             //Moves the Player Indicator to the correct position
             playerIndicator.transform.position = playerIndicatorLocation;
@@ -113,10 +116,7 @@ namespace MetroidvaniaTools
                 id.Add(number);
                 Destroy(fogTiles[number].gameObject);
             }
-            //At this point, loadFromSave needs to be set to false so as we go to the next scene, it manages the logic correctly
-            loadFromSave = false;
-            //Ensures the PlayerPrefs that manages the LoadFromSave value has the correct value
-            PlayerPrefs.SetInt(" " + gameFile + "LoadFromSave", levelManager.loadFromSave ? 1 : 0);
+            Invoke("CancelLoadFromSave", .1f);
         }
 
         //This method is called by the FogOfWar script located on each fog tile, this is an OnTriggerEnter method that checks if the PlayerIndicator has collided with that tile
@@ -200,6 +200,19 @@ namespace MetroidvaniaTools
                 yield return new WaitForEndOfFrame();
             }
             SceneManager.LoadScene(scene);
+        }
+
+        protected virtual void NewCharacter()
+        {
+            UpdateCharacter();
+        }
+
+        private void CancelLoadFromSave()
+        {
+            //At this point, loadFromSave needs to be set to false so as we go to the next scene, it manages the logic correctly
+            loadFromSave = false;
+            //Ensures the PlayerPrefs that manages the LoadFromSave value has the correct value
+            PlayerPrefs.SetInt(" " + gameFile + "LoadFromSave", levelManager.loadFromSave ? 1 : 0);
         }
 
         //Shows visually the bounds for the Level

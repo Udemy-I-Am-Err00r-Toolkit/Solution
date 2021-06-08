@@ -17,6 +17,8 @@ namespace MetroidvaniaTools
         protected override void Initialization()
         {
             base.Initialization();
+            //Adds the NewCharacter method to the event for the CharacterManager delegate
+            CharacterManager.CharacterUpdate += NewCharacter;
         }
 
         protected virtual void OnTriggerEnter2D(Collider2D collision)
@@ -27,5 +29,10 @@ namespace MetroidvaniaTools
             }
         }
 
+        //Runs the UpdateCharacter method on the GameManager script
+         protected virtual void NewCharacter()
+        {
+            UpdateCharacter();
+        }
     }
 }

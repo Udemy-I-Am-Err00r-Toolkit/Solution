@@ -1684,10 +1684,16 @@ MonoBehaviour:
     m_Extent: {x: 63, y: 12.5, z: 0}
   initialPlayer: {fileID: 3020018129641304751, guid: 81301af7ebb851442bbbadddbc836b80, type: 3}
   fadeScreen: {fileID: 3589503386712572062}
+  deadScreen: {fileID: 0}
+  id: 
+  tileID: 
+  fogSpawnLocation: {fileID: 0}
+  fogOfWar: {fileID: 0}
   availableSpawnLocations:
   - {fileID: 1678081481}
   playerIndicatorSpawnLocations:
   - {fileID: 637734247}
+  loadFromSave: 0
 --- !u!1 &1354106222916931288
 GameObject:
   m_ObjectHideFlags: 0
@@ -1712,6 +1718,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 648273492, guid: bb1ee154b7990fa40900f810b084527b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3809937463219563042, guid: bb1ee154b7990fa40900f810b084527b, type: 3}
       propertyPath: m_Name
       value: UI

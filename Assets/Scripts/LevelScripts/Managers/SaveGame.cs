@@ -12,6 +12,12 @@ namespace MetroidvaniaTools
         [SerializeField]
         protected int reference;
 
+        protected override void Initialization()
+        {
+            base.Initialization();
+            CharacterManager.CharacterUpdate += NewCharacter;
+        }
+
         //If you enter the trigger collider of a save point, it runs the save method
         protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
@@ -27,6 +33,8 @@ namespace MetroidvaniaTools
             PlayerPrefs.SetString(" " + character.gameFile + "LoadGame", SceneManager.GetActiveScene().name);
             //Makes sure the correct spawn point is fed to the LevelManager script next time you load game
             PlayerPrefs.SetInt(" " + character.gameFile + "SpawnReference", reference);
+            //Makes sure the correct character is selected for the CharacterManager script
+            PlayerPrefs.SetInt(" " + character.gameFile + "Character", PlayerPrefs.GetInt("Character"));
             //Makes sure the Player is facing the correct direction next time you load game
             PlayerPrefs.SetInt(" " + character.gameFile + "FacingLeft", character.isFacingLeft ? 1 : 0);
             //Makes sure the Player is facing the correct direction next time you load game
@@ -36,6 +44,11 @@ namespace MetroidvaniaTools
             PlayerPrefsX.SetIntArray(" " + character.gameFile + "TilesToRemove", levelManager.tileID);
             //Refils the player health back to full health, as most games do when you save
             player.GetComponent<Health>().healthPoints = player.GetComponent<Health>().maxHealthPoints;
+        }
+
+        protected virtual void NewCharacter()
+        {
+            UpdateCharacter();
         }
     }
 }
