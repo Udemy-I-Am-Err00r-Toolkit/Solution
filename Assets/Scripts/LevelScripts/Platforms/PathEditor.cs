@@ -20,6 +20,10 @@ namespace MetroidvaniaTools
             //This for loop will count the numberOfPaths that object has withing the MoveablePlatform component
             for (int i = 0; i < platform.numberOfPaths.Count; i++)
             {
+                if(!Application.isPlaying && platform.numberOfPaths.Count >= 0 && platform.placePlatformOnFirstPath)
+                {
+                    platform.gameObject.transform.position = platform.numberOfPaths[0];
+                }
                 //Logic that manages if the Inspector values in the numberOfPaths list on the MoveablePlatform component need to be adjusted; this is the first check to see
                 EditorGUI.BeginChangeCheck();
                 Vector3 position = platform.numberOfPaths[i];

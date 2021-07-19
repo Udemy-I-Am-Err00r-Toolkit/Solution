@@ -969,6 +969,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VerticalPlatform(25) (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 9031318791700052211, guid: 9e348471a56229246825c387d8d7715a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9031318791700052238, guid: 9e348471a56229246825c387d8d7715a, type: 3}
       propertyPath: m_SortingOrder
       value: 0
@@ -1531,6 +1535,7 @@ GameObject:
   - component: {fileID: 1084592918}
   - component: {fileID: 1084592920}
   - component: {fileID: 1084592919}
+  - component: {fileID: 1084592921}
   m_Layer: 8
   m_Name: HorizontalPlatform(25) (5)
   m_TagString: Untagged
@@ -1546,8 +1551,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1084592917}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -45.46, y: 15.8, z: 0}
-  m_LocalScale: {x: 25, y: 1, z: 1}
+  m_LocalPosition: {x: -18.48769, y: 4.1030817, z: 0}
+  m_LocalScale: {x: 9.482159, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 69267250}
   m_RootOrder: 5
@@ -1629,6 +1634,30 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1084592921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084592917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 490f520d13e324844a751e9ae00880fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xMin: 0
+  xMax: 0
+  yMin: 0
+  yMax: 0
+  gamePaused: 0
+  platformType: 0
+  numberOfPaths:
+  - {x: -13.787689, y: 0.3030815, z: 0}
+  - {x: -30.16, y: 12.6, z: 0}
+  - {x: -40.92, y: 0.3030815, z: 0}
+  speed: 5
+  placePlatformOnFirstPath: 1
 --- !u!1 &1155544880
 GameObject:
   m_ObjectHideFlags: 0
@@ -2528,6 +2557,7 @@ MonoBehaviour:
   initialPlayer: {fileID: 3020018129641304751, guid: 81301af7ebb851442bbbadddbc836b80, type: 3}
   fadeScreen: {fileID: 3589503386712572062}
   deadScreen: {fileID: 0}
+  id: 
   tileID: 
   fogSpawnLocation: {fileID: 484618237885957186}
   fogOfWar: {fileID: 5656838312728406031, guid: c6871f1d891c03e46aec19be1158fc37, type: 3}

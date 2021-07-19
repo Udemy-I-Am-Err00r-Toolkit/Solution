@@ -28,6 +28,8 @@ namespace MetroidvaniaTools
         //Finds out based on the currentPath value what the next point in the path should be
         protected int nextPath;
 
+        public bool placePlatformOnFirstPath;
+
         protected override void Initialization()
         {
             base.Initialization();
