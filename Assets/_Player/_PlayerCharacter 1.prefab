@@ -1217,7 +1217,7 @@ MonoBehaviour:
   dashAbility: 0
   wallJumpAbility: 0
   limitAirJumps: 0
-  maxJumps: 1
+  maxJumps: 3
   jumpForce: 350
   holdForce: 150
   buttonHoldTime: 0.35

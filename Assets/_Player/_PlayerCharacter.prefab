@@ -1222,7 +1222,7 @@ MonoBehaviour:
   holdForce: 150
   buttonHoldTime: 0.35
   distanceToCollider: 0.08
-  horizontalWallJumpForce: 50
+  horizontalWallJumpForce: 20
   verticalWallJumpForce: 50
   maxJumpSpeed: 5
   maxFallSpeed: -10
