@@ -17,6 +17,7 @@ namespace MetroidvaniaTools
         {
             base.Initialization();
             slider = GetComponent<Slider>();
+            //Debug.Log(player.name);
             playerHealth = player.GetComponent<PlayerHealth>();
             //Gets an accurate value for how much the UI needs to fill up to when Player health is at max value
             slider.maxValue = playerHealth.maxHealthPoints;

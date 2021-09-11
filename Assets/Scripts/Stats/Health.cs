@@ -12,6 +12,12 @@ namespace MetroidvaniaTools
         //This is the current amount of health an Enemy or Player has
         [HideInInspector]
         public int healthPoints;
+        //A bool that manages the momement the Player is hit
+        [HideInInspector]
+        public bool hit;
+        //A quck bool that manages whether or not the Player is facing left when taking damage to apply horizontal knockback force
+        [HideInInspector]
+        public bool left;
 
         protected override void Initialization()
         {

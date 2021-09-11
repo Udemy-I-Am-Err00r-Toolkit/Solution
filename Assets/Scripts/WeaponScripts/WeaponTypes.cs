@@ -8,6 +8,10 @@ namespace MetroidvaniaTools
     [CreateAssetMenu(fileName = "WeaponType", menuName = "Metroidvania/Weapons", order = 1)]
     public class WeaponTypes : ScriptableObject
     {
+        //Check this if it is a melee weapon
+        public bool melee;
+        //If Melee, then this would be the GameObject for swipe and other propoerties
+        public GameObject meleeWeapon;
         //The actual prefab of the projectile
         public GameObject projectile;
         //How fast the projectile moves when fired

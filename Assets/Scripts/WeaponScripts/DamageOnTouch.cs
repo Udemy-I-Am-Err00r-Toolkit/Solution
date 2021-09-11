@@ -8,18 +8,20 @@ namespace MetroidvaniaTools
     {
         [SerializeField]
         protected int damageAmount;
+        [SerializeField]
+        protected LayerMask damageLayers;
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject == player)
+            if ((1 << collision.gameObject.layer & damageLayers) != 0)
             {
-                player.GetComponent<Health>().DealDamage(damageAmount);
-                if (transform.position.x < player.transform.position.x)
+                collision.gameObject.GetComponent<Health>().DealDamage(damageAmount);
+                if (transform.position.x < collision.transform.position.x)
                 {
-                    player.GetComponent<PlayerHealth>().left = false;
+                    collision.gameObject.GetComponent<Health>().left = false;
                 }
                 else
-                    player.GetComponent<PlayerHealth>().left = true;
+                    collision.gameObject.GetComponent<Health>().left = true;
             }
         }
     }

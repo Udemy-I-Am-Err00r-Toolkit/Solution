@@ -123,10 +123,6 @@ namespace MetroidvaniaTools
                 numberOfJumpsLeft--;
                 if (numberOfJumpsLeft >= 0)
                 {
-                    if (numberOfJumpsLeft == 0)
-                    {
-                        anim.SetBool("SecondJumpAnimationBool", true);
-                    }
                     rb.velocity = new Vector2(rb.velocity.x, 0);
                     jumpCountDown = buttonHoldTime;
                     character.isJumping = true;

@@ -37,12 +37,6 @@ namespace MetroidvaniaTools
         //A bool that prevents damage from happening if the player is either in an iFrameTime or dodge rolling from Dash
         [HideInInspector]
         public bool invulnerable;
-        //A bool that manages the momement the Player is hit
-        [HideInInspector]
-        public bool hit;
-        //A quck bool that manages whether or not the Player is facing left when taking damage to apply horizontal knockback force
-        [HideInInspector]
-        public bool left;
 
 
 
