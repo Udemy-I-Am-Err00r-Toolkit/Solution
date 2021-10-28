@@ -20,6 +20,9 @@ namespace MetroidvaniaTools
         //Manages if the game is paused so other scripts can receive that information
         [HideInInspector]
         public bool gamePaused;
+        //Determines if there is an error with the starting location of the player, have the player indicator start at 0
+        [HideInInspector]
+        public bool playerStartDefault;
         protected GameObject player;
         protected GameObject playerIndicator;
         protected GameObject bigMapCamera;
@@ -63,6 +66,7 @@ namespace MetroidvaniaTools
             }
             Instantiate(initialPlayer, new Vector3(location.x, location.y, 0), Quaternion.identity);
             initialPlayer.GetComponent<Character>().InitializePlayer();
+
         }
 
         //Method that chanages character, called from the CharacterManager script located on Player

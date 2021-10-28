@@ -53,28 +53,29 @@ namespace MetroidvaniaTools
             gameFile = PlayerPrefs.GetInt("GameFile");
             //Sets up the loadFromSave bool based on the PlayerPrefs; this is set through the TitleScreen script
             loadFromSave = PlayerPrefs.GetInt(" " + gameFile + "LoadFromSave") == 1 ? true : false;
+            int start = 0;
             //Ensures that if the scene is loading from a save, it sets the Player and Player Indicator at whatever spawn reference they should be at
             if (loadFromSave)
             {
                 startingLocation = availableSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")].position;
                 playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")].position;
                 initialPlayer = initialPlayer.GetComponent<CharacterManager>().characters[PlayerPrefs.GetInt(" " + gameFile + "Character")];
-                if (availableSpawnLocations.Count <= PlayerPrefs.GetInt(" " + gameFile + "SpawnReference"))
+                if (availableSpawnLocations.Count <= PlayerPrefs.GetInt(" " + gameFile + "SpawnReference") || PlayerPrefs.GetInt(" " + gameFile + "SpawnReference") < 0)
                 {
-                    startingLocation = availableSpawnLocations[0].position;
-                    playerIndicatorLocation = playerIndicatorSpawnLocations[0].position;
+                    startingLocation = availableSpawnLocations[start].position;
+                    gameManager.playerStartDefault = true;
                 }
             }
             else
             {
                 //If the scene is not being loaded from a save, it grabs the starting location that was set by the NextScene script that runs when you enter a door
-                startingLocation = availableSpawnLocations[PlayerPrefs.GetInt("SpawnReference")].position;
-                playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt("SpawnReference")].position;
+                startingLocation = availableSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")].position;
+                playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")].position;
                 initialPlayer = initialPlayer.GetComponent<CharacterManager>().characters[PlayerPrefs.GetInt("Character")];
-                if (availableSpawnLocations.Count <= PlayerPrefs.GetInt("SpawnReference"))
+                if (availableSpawnLocations.Count <= PlayerPrefs.GetInt(" " + gameFile + "SpawnReference") || PlayerPrefs.GetInt(" " + gameFile + "SpawnReference") < 0)
                 {
-                    startingLocation = availableSpawnLocations[0].position;
-                    playerIndicatorLocation = playerIndicatorSpawnLocations[0].position;
+                    startingLocation = availableSpawnLocations[start].position;
+                    gameManager.playerStartDefault = true;
                 }
             }
             //If for some reason the SpawnReference value is higher than it is allowed to be, rather than crashing the game, it automatically sets it at 0 so the game can still be tested; this would be an error on your part that you can fix when not playtesting

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.U2D.IK;
+using UnityEngine.U2D.IK;
 
 namespace MetroidvaniaTools
 {

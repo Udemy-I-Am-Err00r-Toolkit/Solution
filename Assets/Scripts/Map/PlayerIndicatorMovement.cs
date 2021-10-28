@@ -18,20 +18,20 @@ namespace MetroidvaniaTools
         {
             base.Initialization();
             //Sets up the correct game file in case the game is being loaded from a save
-            int gameFile = PlayerPrefs.GetInt("GameFile");
             //Adds the NewCharacter method to the event for the CharacterManager delegate
             CharacterManager.CharacterUpdate += NewCharacter;
             //Checks to see if the game is being loaded from save based on the LevelManager script
-            if (levelManager.loadFromSave)
+            if (gameManager.playerStartDefault)
             {
                 //Sets the original placement for the Player Indicator
-                origin = levelManager.playerIndicatorSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")];
+                origin = levelManager.playerIndicatorSpawnLocations[0];
             }
             //If the scene is not being loaded from a save game file
             else
             {
+                int gameFile = PlayerPrefs.GetInt("GameFile");
                 //Sets the original placement for the Player Indicator
-                origin = levelManager.playerIndicatorSpawnLocations[PlayerPrefs.GetInt("SpawnReference")];
+                origin = levelManager.playerIndicatorSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")];
             }
             relativePosition = player.transform.position * -.1f;
         }
