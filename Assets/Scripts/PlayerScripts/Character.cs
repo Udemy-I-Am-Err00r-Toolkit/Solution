@@ -38,6 +38,12 @@ namespace MetroidvaniaTools
         public int gameFile;
         [HideInInspector]
         public bool grabbingLedge;
+        [HideInInspector]
+        public bool meleeAttacking;
+        [HideInInspector]
+        public bool sprintingMeleeAttack;
+        [HideInInspector]
+        public bool isSprinting;
 
         //These are common component refernces so other scripts can talk to each other if they need to.
         protected Collider2D col;

@@ -38,30 +38,8 @@ namespace MetroidvaniaTools
         protected KeyCode bigMapPressed;
         [SerializeField]
         protected KeyCode changeCharacterPressed;
-
-        //These methods are all bool methods that return true when the key is pressed or held down, depending on how we setup key, and return false when the key is neither presed or held
-        void Update()
-        {
-            /*
-            CrouchHeld();
-            DashPressed();
-            SprintingHeld();
-            JumpPressed();
-            JumpHeld();
-            WeaponFired();
-            WeaponFiredHeld();
-            UpHeld();
-            DownHeld();
-            LeftHeld();
-            RightHeld();
-            TiltedUpHeld();
-            TiltedDownHeld();
-            AimingHeld();
-            ChangeWeaponPressed();
-            BigMapPressed();
-            ChangeCharacterPressed();
-            */
-        }
+        [SerializeField]
+        protected KeyCode meleeAttackPressed;
 
         public virtual bool CrouchHeld()
         {
@@ -216,6 +194,15 @@ namespace MetroidvaniaTools
         public virtual bool ChangeCharacterPressed()
         {
             if (Input.GetKeyDown(changeCharacterPressed))
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+        public virtual bool MeleeAttackPressed()
+        {
+            if (Input.GetKeyDown(meleeAttackPressed))
             {
                 return true;
             }

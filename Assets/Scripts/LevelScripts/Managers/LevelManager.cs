@@ -49,69 +49,51 @@ namespace MetroidvaniaTools
 
         protected virtual void Awake()
         {
-            //Sets up the game file based on PlayerPrefs; this is set through the TitleScreen script
             gameFile = PlayerPrefs.GetInt("GameFile");
-            //Sets up the loadFromSave bool based on the PlayerPrefs; this is set through the TitleScreen script
             loadFromSave = PlayerPrefs.GetInt(" " + gameFile + "LoadFromSave") == 1 ? true : false;
-            int start = 0;
-            //Ensures that if the scene is loading from a save, it sets the Player and Player Indicator at whatever spawn reference they should be at
             if (loadFromSave)
             {
                 startingLocation = availableSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")].position;
                 playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")].position;
-                initialPlayer = initialPlayer.GetComponent<CharacterManager>().characters[PlayerPrefs.GetInt(" " + gameFile + "Character")];
                 if (availableSpawnLocations.Count <= PlayerPrefs.GetInt(" " + gameFile + "SpawnReference") || PlayerPrefs.GetInt(" " + gameFile + "SpawnReference") < 0)
                 {
-                    startingLocation = availableSpawnLocations[start].position;
+                    startingLocation = availableSpawnLocations[0].position;
                     gameManager.playerStartDefault = true;
                 }
             }
             else
             {
-                //If the scene is not being loaded from a save, it grabs the starting location that was set by the NextScene script that runs when you enter a door
-                startingLocation = availableSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")].position;
-                playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")].position;
-                initialPlayer = initialPlayer.GetComponent<CharacterManager>().characters[PlayerPrefs.GetInt("Character")];
-                if (availableSpawnLocations.Count <= PlayerPrefs.GetInt(" " + gameFile + "SpawnReference") || PlayerPrefs.GetInt(" " + gameFile + "SpawnReference") < 0)
+                startingLocation = availableSpawnLocations[PlayerPrefs.GetInt("SpawnReference")].position;
+                playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt("SpawnReference")].position;
+                if (availableSpawnLocations.Count <= PlayerPrefs.GetInt("SpawnReference") || PlayerPrefs.GetInt("SpawnReference") < 0)
                 {
-                    startingLocation = availableSpawnLocations[start].position;
+                    startingLocation = availableSpawnLocations[0].position;
                     gameManager.playerStartDefault = true;
                 }
             }
-            //If for some reason the SpawnReference value is higher than it is allowed to be, rather than crashing the game, it automatically sets it at 0 so the game can still be tested; this would be an error on your part that you can fix when not playtesting
-            //Creates the Player at the correct starting location
             CreatePlayer(initialPlayer, startingLocation);
-            //Adds the Fog Of War in the scene at the correct position
             Instantiate(fogOfWar, fogSpawnLocation.position, Quaternion.identity);
-            //Sets up the Fog array
             fog = FindObjectsOfType<FogOfWar>();
         }
 
         protected override void Initialization()
         {
             base.Initialization();
-            CharacterManager.CharacterUpdate += NewCharacter;
-            //Makes sure gameFile is still correct
             int[] numberArray;
-            //Moves the Player Indicator to the correct position
             playerIndicator.transform.position = playerIndicatorLocation;
-            //Fades the screen in as the camera and everything moves to get setup, this helps make sure everything is in the correct place when scene loads
             StartCoroutine(FadeIn());
-            //Manages all the different fog tiles to find out which need to be removed based on the PlayerPrefsX script
             for (int i = 0; i < fog.Length; i++)
             {
                 fogTiles.Add(fog[i]);
             }
             if (loadFromSave)
             {
-                //Based on previous save data that happens everytime you run into a Fog Of War tile, the correct tiles are removed at Start
                 numberArray = PlayerPrefsX.GetIntArray(" " + gameFile + "TilesToRemove");
             }
             else
             {
                 numberArray = PlayerPrefsX.GetIntArray("TilesToRemove");
             }
-            //The actual foreach loop and method that destroys the Fog tiles already found
             foreach (int number in numberArray)
             {
                 id.Add(number);

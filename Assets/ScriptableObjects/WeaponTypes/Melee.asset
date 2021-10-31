@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Melee
   m_EditorClassIdentifier: 
   melee: 1
-  meleeWeapon: {fileID: 0}
+  meleeWeapon: {fileID: 6288985748290652497, guid: b81f50a748606be46b8586d02de8cc00, type: 3}
   projectile: {fileID: 0}
   projectileSpeed: 0
   amountToPool: 0
-  lifeTime: 0
+  lifeTime: 50
   automatic: 0
   timeBetweenShots: 0
   canExpandPool: 0

@@ -40,13 +40,10 @@ namespace MetroidvaniaTools
         private GameObject projectileParentFolder;
         //The amount of time between each projectile shot
         private float currentTimeBetweenShots;
-        private GameObject meleeWeapon;
 
         protected override void Initialization()
         {
             base.Initialization();
-            meleeWeapon = FindObjectOfType<PlayerMeleeAttack>().gameObject;
-            meleeWeapon.SetActive(false);
             //This sets up the current weapon at Start
             ChangeWeapon();
         }
@@ -78,26 +75,17 @@ namespace MetroidvaniaTools
         //Method that manages the first shot being fired and toggles the character into a weapon fired state
         protected virtual void FireWeapon()
         {
-            if (currentWeapon.melee)
+            //Resets the currentTimeTillChangeArms value to the original value
+            currentTimeTillChangeArms = currentWeapon.lifeTime;
+            //Runs the ChangeArms method found in aimManager script
+            aimManager.ChangeArms();
+            //Sets up the currentProjectile that just got fired
+            currentProjectile = objectPooler.GetObject(currentPool, currentWeapon, this, projectileParentFolder, currentWeapon.projectile.tag);
+            if (currentProjectile != null)
             {
-                meleeWeapon.SetActive(true);
-                meleeWeapon.GetComponent<Animator>().SetBool("Attack", true);
-                Invoke("CancelSwipe", meleeWeapon.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
+                Invoke("PlaceProjectile", .1f);
             }
-            else
-            {
-                //Resets the currentTimeTillChangeArms value to the original value
-                currentTimeTillChangeArms = currentWeapon.lifeTime;
-                //Runs the ChangeArms method found in aimManager script
-                aimManager.ChangeArms();
-                //Sets up the currentProjectile that just got fired
-                currentProjectile = objectPooler.GetObject(currentPool, currentWeapon, this, projectileParentFolder, currentWeapon.projectile.tag);
-                if (currentProjectile != null)
-                {
-                    Invoke("PlaceProjectile", .1f);
-                }
-                currentTimeBetweenShots = currentWeapon.timeBetweenShots;
-            }
+            currentTimeBetweenShots = currentWeapon.timeBetweenShots;
         }
 
         protected virtual void FireWeaponHeld()
@@ -270,12 +258,6 @@ namespace MetroidvaniaTools
                     currentProjectile.GetComponent<Projectile>().left = true;
             }
             currentProjectile.GetComponent<Projectile>().fired = true;
-        }
-
-        protected virtual void CancelSwipe()
-        {
-            meleeWeapon.GetComponent<Animator>().SetBool("Attack", false);
-            meleeWeapon.SetActive(false);
         }
     }
 }

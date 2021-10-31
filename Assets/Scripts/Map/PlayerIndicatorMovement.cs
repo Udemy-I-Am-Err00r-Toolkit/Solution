@@ -30,8 +30,17 @@ namespace MetroidvaniaTools
             else
             {
                 int gameFile = PlayerPrefs.GetInt("GameFile");
-                //Sets the original placement for the Player Indicator
-                origin = levelManager.playerIndicatorSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")];
+                bool loadFromSave = PlayerPrefs.GetInt(" " + gameFile + "LoadFromSave") == 1 ? true : false;
+                if (loadFromSave)
+                {
+                    origin = levelManager.playerIndicatorSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")];
+
+                }
+                else
+                {
+                    //Sets the original placement for the Player Indicator
+                    origin = levelManager.playerIndicatorSpawnLocations[PlayerPrefs.GetInt("SpawnReference")];
+                }
             }
             relativePosition = player.transform.position * -.1f;
         }

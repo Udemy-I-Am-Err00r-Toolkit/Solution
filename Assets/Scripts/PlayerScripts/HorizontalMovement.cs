@@ -87,7 +87,7 @@ namespace MetroidvaniaTools
                 return;
             }
             //Sets up movement based on what direction the player should move towards from key input
-            if (MovementPressed())
+            if (MovementPressed() && !character.meleeAttacking)
             {
                 anim.SetBool("Moving", true);
                 acceleration = maxSpeed / timeTillMaxSpeed;
@@ -199,7 +199,7 @@ namespace MetroidvaniaTools
             if (currentSpeed > 0)
             {
                 //If the character is currently facing left while moving right, we need to call the Flip() method on the character script
-                if (character.isFacingLeft)
+                if (character.isFacingLeft && !character.sprintingMeleeAttack)
                 {
                     character.isFacingLeft = false;
                     Flip();
@@ -213,7 +213,7 @@ namespace MetroidvaniaTools
             //The same as everything above in this method, but for moving left
             if (currentSpeed < 0)
             {
-                if (!character.isFacingLeft)
+                if (!character.isFacingLeft && !character.sprintingMeleeAttack)
                 {
                     character.isFacingLeft = true;
                     Flip();
@@ -233,6 +233,11 @@ namespace MetroidvaniaTools
             if (input.SprintingHeld())
             {
                 currentSpeed *= sprintMultiplier;
+                character.isSprinting = true;
+            }
+            else
+            {
+                character.isSprinting = false;
             }
             //If crouching, multiply currentSpeed with how fast the crouchSpeedMultiplier is
             if (character.isCrouching)

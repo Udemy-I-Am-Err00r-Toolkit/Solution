@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D.IK;
 
 namespace MetroidvaniaTools
 {
     //This script will handle a Melee attack you might want to have on your Enemy
-    public class PlayerMeleeAttack : MonoBehaviour
+    public class PlayerMeleeAttack : Abilities
     {
         //How much damage needs to be applied to the Player when the Player is hit by the attack
         [SerializeField]
@@ -13,23 +14,37 @@ namespace MetroidvaniaTools
         [SerializeField]
         protected float timeTillDamageNext;
         [SerializeField]
+        protected float sprintingHorizontalMovement;
+        [SerializeField]
+        protected float sprintingVerticalMovement;
+        [SerializeField]
         protected LayerMask damageLayers;
 
         //A collider that gets adjusted through an animation to determine if the Player is inside that collider
         protected Collider2D meleeCollider;
         //The animation that needs to play when attacking
         protected Animator meleeAnim;
-        //The game object that is the physical attack; this game object appears as the slashing sprites from the animation
-        protected GameObject meleeWeapon;
         //A quick bool that turns true if the melee attack struck the Player
         protected bool hit;
         protected float originalTimeTillDamageNext;
+        protected PlayerMeleeWeapon playerMeleeWeapon;
 
-        private void Start()
+        protected override void Initialization()
         {
-            meleeWeapon = FindObjectOfType<PlayerMeleeAttack>().gameObject;
-            meleeCollider = meleeWeapon.GetComponent<Collider2D>();
-            meleeWeapon.SetActive(false);
+            base.Initialization();
+        }
+
+
+        private void Update()
+        {
+            if(input.MeleeAttackPressed() && originalTimeTillDamageNext <= 0)
+            {
+                MeleeAttack();
+            }
+            if (originalTimeTillDamageNext > 0)
+            {
+                ManageAttackTime();
+            }
         }
 
         protected virtual void FixedUpdate()
@@ -37,11 +52,55 @@ namespace MetroidvaniaTools
             Hit();
         }
 
+        protected virtual void MeleeAttack()
+        {
+            float meleeAttackTime;
+            RuntimeAnimatorController ac = anim.runtimeAnimatorController;
+            if(character.isSprinting)
+            {
+                character.sprintingMeleeAttack = true;
+                anim.SetBool("SprintingMeleeAttack", true);
+                for(int i = 0; i < ac.animationClips.Length; i++)
+                {
+                    if(ac.animationClips[i].name == "SprintingMeleeAttack")
+                    {
+                        meleeAttackTime = ac.animationClips[i].length;
+                        originalTimeTillDamageNext = meleeAttackTime;
+                        Invoke("CancelAttack", meleeAttackTime);
+                    }
+                }
+            }
+            else
+            {
+                character.meleeAttacking = true;
+                anim.SetBool("MeleeAttack", true);
+                for (int i = 0; i < ac.animationClips.Length; i++)
+                {
+                    if (ac.animationClips[i].name == "Melee Attack")
+                    {
+                        meleeAttackTime = ac.animationClips[i].length;
+                        originalTimeTillDamageNext = meleeAttackTime;
+                        Invoke("CancelAttack", meleeAttackTime);
+                    }
+                }
+            }
+        }
+
+        protected virtual void ManageAttackTime()
+        {
+            originalTimeTillDamageNext -= Time.deltaTime;
+            if (originalTimeTillDamageNext < 0)
+            {
+                originalTimeTillDamageNext = 0;
+            }
+        }
+
         //If the Player is inside the trigger collider of the swipe, then it sets the hit bool to true, and runs the DealDamage method
         protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
             if ((1 << collision.gameObject.layer & damageLayers) != 0)
             {
+                Debug.Log("I hit something I should");
                 hit = true;
                 DealDamage(collision.gameObject);
             }
@@ -74,6 +133,14 @@ namespace MetroidvaniaTools
                     hitTarget.GetComponent<Health>().left = true;
                 hitTarget.GetComponent<Health>().DealDamage(damageAmount);
             }
+        }
+
+        protected virtual void CancelAttack()
+        {
+            character.meleeAttacking = false;
+            character.sprintingMeleeAttack = false;
+            anim.SetBool("MeleeAttack", false);
+            anim.SetBool("SprintingMeleeAttack", false);
         }
     }
 }

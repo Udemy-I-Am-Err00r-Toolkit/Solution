@@ -29,14 +29,13 @@ namespace MetroidvaniaTools
 
         protected virtual void Save()
         {
+            Debug.Log("Saved");
             //Makes sure the current scene is the scene that loads next to you load game
             PlayerPrefs.SetString(" " + character.gameFile + "LoadGame", SceneManager.GetActiveScene().name);
             //Makes sure the correct spawn point is fed to the LevelManager script next time you load game
             PlayerPrefs.SetInt(" " + character.gameFile + "SpawnReference", reference);
             //Makes sure the correct character is selected for the CharacterManager script
             PlayerPrefs.SetInt(" " + character.gameFile + "Character", PlayerPrefs.GetInt("Character"));
-            //Makes sure the Player is facing the correct direction next time you load game
-            PlayerPrefs.SetInt(" " + character.gameFile + "FacingLeft", character.isFacingLeft ? 1 : 0);
             //Makes sure the Player is facing the correct direction next time you load game
             PlayerPrefs.SetInt(" " + character.gameFile + "FacingLeft", character.isFacingLeft ? 1 : 0);
             //Makes sure the FogOfWar tiles that need to be removed when loading are accurate
