@@ -14,8 +14,10 @@ namespace MetroidvaniaTools
         //The Player game object that needs to load into the scene
         public GameObject initialPlayer;
         //Current selection on the characters list that is the character
+        [HideInInspector]
         public int currentPlayerSelection;
         //The reference number that the Player and PlayerIndicator should start from based on a list of references baked into the scene
+        [HideInInspector]
         public int currentStartReference;
         //A quick reference of a UI element that fades in and out between scenes
         public Image fadeScreen;
@@ -63,45 +65,24 @@ namespace MetroidvaniaTools
             {
                 //The reference for the Player and PlayerIndicator to start from
                 currentStartReference = PlayerPrefs.GetInt(" " + gameFile + "SpawnReference");
-                //This will set the player to the correct reference based on the PlayerPref
-                startingLocation = availableSpawnLocations[currentStartReference].position;
-                //This will set the player indicator to the correct reference based on the PlayerPref
-                playerIndicatorLocation = playerIndicatorSpawnLocations[currentStartReference].position;
-                //This will set the current character being used to the correct reference based on PlayerPref when last saved game
-                currentPlayerSelection = PlayerPrefs.GetInt(" " + gameFile + "Character");
-                //If there is a game design mistake and the value for the start reference is higher than the number of start references in the scene, or the that value is less than zero, it sets everything to a default of 0
-                if (availableSpawnLocations.Count <= currentStartReference || currentStartReference < 0)
-                {
-                    //Sets the currentStartReference to a default value
-                    currentStartReference = 0;
-                    //Sets the startingLocation to a default value
-                    startingLocation = availableSpawnLocations[0].position;
-                    //Makes sure the PlayerIndicator is also setup to default location
-                    gameManager.playerStartDefault = true;
-                }
             }
             //If the game is not loading from a save and is just changing scenes, then run the following logic
             else
             {
                 //The reference for the Player and PlayerIndicator to start from
                 currentStartReference = PlayerPrefs.GetInt("SpawnReference");
-                //This will set the player to the correct reference based on the PlayerPref
-                startingLocation = availableSpawnLocations[currentStartReference].position;
-                //This will set the player indicator to the correct reference based on the PlayerPref
-                playerIndicatorLocation = playerIndicatorSpawnLocations[currentStartReference].position;
-                //This will set the current character being used to the correct reference based on PlayerPref when last saved game
-                currentPlayerSelection = PlayerPrefs.GetInt("Character");
-                //If there is a game design mistake and the value for the start reference is higher than the number of start references in the scene, or the that value is less than zero, it sets everything to a default of 0
-                if (availableSpawnLocations.Count <= currentStartReference || currentStartReference < 0)
-                {
-                    //Sets the currentStartReference to a default value
-                    currentStartReference = 0;
-                    //Sets the startingLocation to a default value
-                    startingLocation = availableSpawnLocations[0].position;
-                    //Makes sure the PlayerIndicator is also setup to default location
-                    gameManager.playerStartDefault = true;
-                }
             }
+            if (availableSpawnLocations.Count <= currentStartReference || currentStartReference < 0)
+            {
+                //Sets the currentStartReference to a default value
+                currentStartReference = 0;
+            }
+            //This will set the player to the correct reference based on the PlayerPref
+            startingLocation = availableSpawnLocations[currentStartReference].position;
+            //This will set the player indicator to the correct reference based on the PlayerPref
+            playerIndicatorLocation = playerIndicatorSpawnLocations[currentStartReference].position;
+            //This will set the current character being used to the correct reference based on PlayerPref when last saved game
+            currentPlayerSelection = PlayerPrefs.GetInt("Character");
             //If somehow when loading the scene the currentPlayerSelected is higher than the number of selectable players within the CharacterManager script or is a negative number, it sets it to a default of 0
             if (currentPlayerSelection >= initialPlayer.GetComponent<CharacterManager>().characters.Length || currentPlayerSelection < 0)
             {

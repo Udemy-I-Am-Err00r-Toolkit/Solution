@@ -123,7 +123,10 @@ namespace MetroidvaniaTools
                         aimManager.whereToAim.position = new Vector2(aimManager.bounds.min.x, aimManager.bounds.center.y);
                     }
                     else
+                    {
                         aimManager.whereToAim.position = new Vector2(aimManager.bounds.max.x, aimManager.bounds.center.y);
+                    }
+
                 }
                 else
                 {
@@ -132,7 +135,9 @@ namespace MetroidvaniaTools
                         aimManager.whereToAim.position = new Vector2(aimManager.bounds.max.x, aimManager.bounds.center.y);
                     }
                     else
+                    {
                         aimManager.whereToAim.position = new Vector2(aimManager.bounds.min.x, aimManager.bounds.center.y);
+                    }
                 }
             }
             aimManager.aimingGun.transform.GetChild(0).position = aimManager.whereToAim.position;

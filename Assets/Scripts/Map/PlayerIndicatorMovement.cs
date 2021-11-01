@@ -20,17 +20,7 @@ namespace MetroidvaniaTools
             //Adds the NewCharacter method to the event for the CharacterManager delegate
             CharacterManager.CharacterUpdate += NewCharacter;
             //Checks if the player indicator needs to be setup at the default position
-            if (gameManager.playerStartDefault)
-            {
-                //Sets the original placement for the Player Indicator based on default position
-                origin = levelManager.playerIndicatorSpawnLocations[0];
-            }
-            //If the LevelManger script has a good start position based on save or scene change, it will set the PlayerIndicator to the correct position
-            else
-            {
-                //Grabs the correct position of the PlayerIndicator position based on the LevelManager data
-                origin = levelManager.playerIndicatorSpawnLocations[levelManager.currentStartReference];
-            }
+            origin = levelManager.playerIndicatorSpawnLocations[levelManager.currentStartReference];
             relativePosition = player.transform.position * -.1f;
         }
 
