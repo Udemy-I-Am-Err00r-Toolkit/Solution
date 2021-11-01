@@ -23,26 +23,6 @@ namespace MetroidvaniaTools
         {
             base.Initialization();
             levelManager = FindObjectOfType<LevelManager>();
-            /*
-            //Checks if the game is being loaded from a save to bring in the correct character from last save
-            bool loadFromSave = PlayerPrefs.GetInt(" " + gameFile + "LoadFromSave") == 1 ? true : false;
-            //If the game is being loaded from a save
-            if (loadFromSave)
-            {
-                //Sets the current selection to the saved game file
-                currentSelection = PlayerPrefs.GetInt(" " + gameFile + "Character");
-            }
-            //If the game is not being loaded from a save
-            else
-            {
-                //Sets the current selection to the previous scene
-                currentSelection = PlayerPrefs.GetInt("Character");
-            }
-            if(currentSelection >= characters.Length || currentSelection < 0)
-            {
-                currentSelection = 0;
-            }
-            */
         }
         
 

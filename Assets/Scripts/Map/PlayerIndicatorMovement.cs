@@ -17,30 +17,19 @@ namespace MetroidvaniaTools
         protected override void Initialization()
         {
             base.Initialization();
-            //Sets up the correct game file in case the game is being loaded from a save
             //Adds the NewCharacter method to the event for the CharacterManager delegate
             CharacterManager.CharacterUpdate += NewCharacter;
-            //Checks to see if the game is being loaded from save based on the LevelManager script
+            //Checks if the player indicator needs to be setup at the default position
             if (gameManager.playerStartDefault)
             {
-                //Sets the original placement for the Player Indicator
+                //Sets the original placement for the Player Indicator based on default position
                 origin = levelManager.playerIndicatorSpawnLocations[0];
             }
-            //If the scene is not being loaded from a save game file
+            //If the LevelManger script has a good start position based on save or scene change, it will set the PlayerIndicator to the correct position
             else
             {
-                int gameFile = PlayerPrefs.GetInt("GameFile");
-                bool loadFromSave = PlayerPrefs.GetInt(" " + gameFile + "LoadFromSave") == 1 ? true : false;
-                if (loadFromSave)
-                {
-                    origin = levelManager.playerIndicatorSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")];
-
-                }
-                else
-                {
-                    //Sets the original placement for the Player Indicator
-                    origin = levelManager.playerIndicatorSpawnLocations[PlayerPrefs.GetInt("SpawnReference")];
-                }
+                //Grabs the correct position of the PlayerIndicator position based on the LevelManager data
+                origin = levelManager.playerIndicatorSpawnLocations[levelManager.currentStartReference];
             }
             relativePosition = player.transform.position * -.1f;
         }
@@ -75,7 +64,6 @@ namespace MetroidvaniaTools
             return relativeP;
         }
 
-        //Method found on GameManager script to set the new player
         protected virtual void NewCharacter()
         {
             UpdateCharacter();

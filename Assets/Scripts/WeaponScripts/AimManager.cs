@@ -46,7 +46,7 @@ namespace MetroidvaniaTools
         {
             Aiming();
             DirectionalAim();
-            bounds.center = origin.position;
+            //bounds.center = origin.position;
         }
 
         protected virtual void Aiming()

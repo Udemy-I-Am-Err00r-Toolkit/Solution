@@ -76,14 +76,16 @@ namespace MetroidvaniaTools
             currentCharacter.transform.position = oldPlayer.transform.position;
             currentCharacter.transform.rotation = oldPlayer.transform.rotation;
             Instantiate(currentCharacter);
-            player = currentCharacter;
+            UpdateCharacter();
             Destroy(oldPlayer);
+
         }
 
         //This method is called by other scripts that need to grab the most recent gameobject that is the player
         protected virtual void UpdateCharacter()
         {
             player = FindObjectOfType<Character>().gameObject;
+            Debug.Log(player.name);
         }
     }
 }

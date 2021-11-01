@@ -15,6 +15,8 @@ namespace MetroidvaniaTools
         public GameObject initialPlayer;
         //Current selection on the characters list that is the character
         public int currentPlayerSelection;
+        //The reference number that the Player and PlayerIndicator should start from based on a list of references baked into the scene
+        public int currentStartReference;
         //A quick reference of a UI element that fades in and out between scenes
         public Image fadeScreen;
         //A quick reference of a UI element that fades in when Player dies
@@ -51,63 +53,100 @@ namespace MetroidvaniaTools
 
         protected virtual void Awake()
         {
+            //Sets the game file up so that when saving, it saves on the correct file; when playing a built game, this value will be selected in a 'New Game' or 'Load Game' slot
             gameFile = PlayerPrefs.GetInt("GameFile");
+            //Determines if the game should load from a save or not; this will help keep data consistent from when a scene simply changes as opposed to player dying or loading from the main menu
             loadFromSave = PlayerPrefs.GetInt(" " + gameFile + "LoadFromSave") == 1 ? true : false;
+            //If the game is loading from a save, then it needs to setup some references based on PlayerPrefs of that game file
             if (loadFromSave)
             {
-                startingLocation = availableSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")].position;
-                playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")].position;
+                //The reference for the Player and PlayerIndicator to start from
+                currentStartReference = PlayerPrefs.GetInt(" " + gameFile + "SpawnReference");
+                //This will set the player to the correct reference based on the PlayerPref
+                startingLocation = availableSpawnLocations[currentStartReference].position;
+                //This will set the player indicator to the correct reference based on the PlayerPref
+                playerIndicatorLocation = playerIndicatorSpawnLocations[currentStartReference].position;
+                //This will set the current character being used to the correct reference based on PlayerPref when last saved game
                 currentPlayerSelection = PlayerPrefs.GetInt(" " + gameFile + "Character");
-                if (availableSpawnLocations.Count <= PlayerPrefs.GetInt(" " + gameFile + "SpawnReference") || PlayerPrefs.GetInt(" " + gameFile + "SpawnReference") < 0)
+                //If there is a game design mistake and the value for the start reference is higher than the number of start references in the scene, or the that value is less than zero, it sets everything to a default of 0
+                if (availableSpawnLocations.Count <= currentStartReference || currentStartReference < 0)
                 {
+                    //Sets the currentStartReference to a default value
+                    currentStartReference = 0;
+                    //Sets the startingLocation to a default value
                     startingLocation = availableSpawnLocations[0].position;
+                    //Makes sure the PlayerIndicator is also setup to default location
                     gameManager.playerStartDefault = true;
                 }
             }
+            //If the game is not loading from a save and is just changing scenes, then run the following logic
             else
             {
-                startingLocation = availableSpawnLocations[PlayerPrefs.GetInt("SpawnReference")].position;
-                playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt("SpawnReference")].position;
+                //The reference for the Player and PlayerIndicator to start from
+                currentStartReference = PlayerPrefs.GetInt("SpawnReference");
+                //This will set the player to the correct reference based on the PlayerPref
+                startingLocation = availableSpawnLocations[currentStartReference].position;
+                //This will set the player indicator to the correct reference based on the PlayerPref
+                playerIndicatorLocation = playerIndicatorSpawnLocations[currentStartReference].position;
+                //This will set the current character being used to the correct reference based on PlayerPref when last saved game
                 currentPlayerSelection = PlayerPrefs.GetInt("Character");
-                if (availableSpawnLocations.Count <= PlayerPrefs.GetInt("SpawnReference") || PlayerPrefs.GetInt("SpawnReference") < 0)
+                //If there is a game design mistake and the value for the start reference is higher than the number of start references in the scene, or the that value is less than zero, it sets everything to a default of 0
+                if (availableSpawnLocations.Count <= currentStartReference || currentStartReference < 0)
                 {
+                    //Sets the currentStartReference to a default value
+                    currentStartReference = 0;
+                    //Sets the startingLocation to a default value
                     startingLocation = availableSpawnLocations[0].position;
+                    //Makes sure the PlayerIndicator is also setup to default location
                     gameManager.playerStartDefault = true;
                 }
             }
+            //If somehow when loading the scene the currentPlayerSelected is higher than the number of selectable players within the CharacterManager script or is a negative number, it sets it to a default of 0
             if (currentPlayerSelection >= initialPlayer.GetComponent<CharacterManager>().characters.Length || currentPlayerSelection < 0)
             {
+                //Default value of the current selected playable character
                 currentPlayerSelection = 0;
             }
+            //Sets up which player should initialize based on the CharacterManager values for the player
             initialPlayer = initialPlayer.GetComponent<CharacterManager>().characters[currentPlayerSelection];
+            //Runs a method in the GameManager script to initialize player
             CreatePlayer(initialPlayer, startingLocation);
+            //Sets up the fog of war
             Instantiate(fogOfWar, fogSpawnLocation.position, Quaternion.identity);
+            //Sets up array of fog tiles based on total number of fog tiles
             fog = FindObjectsOfType<FogOfWar>();
         }
 
         protected override void Initialization()
         {
             base.Initialization();
+            //An empty array to store the number of tiles that will need to be removed
             int[] numberArray;
-            playerIndicator.transform.position = playerIndicatorLocation;
+            //Fades in the scene
             StartCoroutine(FadeIn());
+            //First grabs a reference of all the tiles within the fog array setup in the Awake method
             for (int i = 0; i < fog.Length; i++)
             {
+                //Adds the fog tiles to a list so we can remove the ones that we have already found
                 fogTiles.Add(fog[i]);
             }
             if (loadFromSave)
             {
+                //Sets up the empty array we setup in the initialization based on the load data
                 numberArray = PlayerPrefsX.GetIntArray(" " + gameFile + "TilesToRemove");
             }
             else
             {
+                //Sets up the empty array we setup in the initialization based on the next scene data
                 numberArray = PlayerPrefsX.GetIntArray("TilesToRemove");
             }
+            //Checks which fog times setup in the empty array so it can remove them from the fogTiles list
             foreach (int number in numberArray)
             {
                 id.Add(number);
                 Destroy(fogTiles[number].gameObject);
             }
+            //Ensures after the level loads that it is aware the game is no longer loading from a save so when scenes change, it doesn't get confused and load the wrong data
             Invoke("CancelLoadFromSave", .1f);
         }
 
@@ -193,11 +232,6 @@ namespace MetroidvaniaTools
                 yield return new WaitForEndOfFrame();
             }
             SceneManager.LoadScene(scene);
-        }
-
-        protected virtual void NewCharacter()
-        {
-            UpdateCharacter();
         }
 
         private void CancelLoadFromSave()
