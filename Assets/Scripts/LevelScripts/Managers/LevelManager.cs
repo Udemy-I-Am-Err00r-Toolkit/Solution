@@ -9,7 +9,9 @@ namespace MetroidvaniaTools
     //This script does a lot to manage the overall data of each level as well as ensure the Player and Player Indicator are in correct positions when a scene loads; it also manages the Fog of War
     public class LevelManager : Managers
     {
+        //How big the current scene is; this bounds value will help restrict the camera with the level bounds
         public Bounds levelSize;
+        //The Player game object that needs to load into the scene
         public GameObject initialPlayer;
         //Current selection on the characters list that is the character
         public int currentPlayerSelection;
