@@ -9,9 +9,7 @@ namespace MetroidvaniaTools
     //This script does a lot to manage the overall data of each level as well as ensure the Player and Player Indicator are in correct positions when a scene loads; it also manages the Fog of War
     public class LevelManager : Managers
     {
-        //How big the current scene is; this bounds value will help restrict the camera with the level bounds
         public Bounds levelSize;
-        //The Player game object that needs to load into the scene
         public GameObject initialPlayer;
         //Current selection on the characters list that is the character
         public int currentPlayerSelection;
@@ -37,7 +35,8 @@ namespace MetroidvaniaTools
         //The master game object that contains each Fog Of War tile used; this master game object will have children game objects that will act as the individual tiles
         public GameObject fogOfWar;
         //The possible locations in the scene the Player can spawn at when the scene loads
-        public List<Transform> availableSpawnLocations = new List<Transform>();
+        [SerializeField]
+        protected List<Transform> availableSpawnLocations = new List<Transform>();
         //The possible locations in the mini-map the Player Indicator can spawn at when the scene loads
         public List<Transform> playerIndicatorSpawnLocations = new List<Transform>();
 
