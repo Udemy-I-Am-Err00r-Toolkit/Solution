@@ -73,9 +73,7 @@ namespace MetroidvaniaTools
         public virtual void ChangeCharacter(GameObject currentCharacter)
         {
             GameObject oldPlayer = FindObjectOfType<Character>().gameObject;
-            currentCharacter.transform.position = oldPlayer.transform.position;
-            currentCharacter.transform.rotation = oldPlayer.transform.rotation;
-            Instantiate(currentCharacter);
+            Instantiate(currentCharacter, oldPlayer.transform.position, Quaternion.identity);
             UpdateCharacter();
             Destroy(oldPlayer);
 
@@ -85,7 +83,6 @@ namespace MetroidvaniaTools
         protected virtual void UpdateCharacter()
         {
             player = FindObjectOfType<Character>().gameObject;
-            Debug.Log(player.name);
         }
     }
 }
