@@ -160,7 +160,7 @@ namespace MetroidvaniaTools
                 //If there isn't a current weapon, sets up the first weapon type in the list as the current weapon, and creates the pool for that weapon type
                 if (currentWeapon == null)
                 {
-                    currentWeapon = weaponTypes[0];
+                    currentWeapon = weaponTypes[character.currentWeaponSelection];
                     currentTimeBetweenShots = currentWeapon.timeBetweenShots;
                     NewPool();
                     return;
@@ -180,6 +180,8 @@ namespace MetroidvaniaTools
                         }
                         //Whatever the iteration value is, the current weapon is this iteration value in the weaponTypes list
                         currentWeapon = weaponTypes[i];
+                        character.currentWeaponSelection = i;
+                        PlayerPrefs.SetInt("CurrentWeapon", i);
                         //Restes the currentTimeBetweenShots value to the currentWeapon timeBetweenShots value
                         currentTimeBetweenShots = currentWeapon.timeBetweenShots;
                     }
@@ -188,18 +190,14 @@ namespace MetroidvaniaTools
 
             for (int i = 0; i < totalPools.Count; i++)
             {
-                if(currentWeapon.melee)
-                {
-                    return;
-                }
-                if (!currentWeapon.melee && currentWeapon.projectile.tag == totalPools[i].tag)
+                if (currentWeapon.projectile.tag == totalPools[i].tag)
                 {
                     projectileParentFolder = totalPools[i].gameObject;
                     currentProjectile = currentWeapon.projectile;
                     matched = true;
                 }
             }
-            if (!currentWeapon.melee && currentWeapon.projectile.tag == "GrapplingHook")
+            if (currentWeapon.projectile.tag == "GrapplingHook")
             {
                 grapplingHook.enabled = true;
             }

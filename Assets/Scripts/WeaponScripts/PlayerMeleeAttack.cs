@@ -14,10 +14,6 @@ namespace MetroidvaniaTools
         [SerializeField]
         protected float timeTillDamageNext;
         [SerializeField]
-        protected float sprintingHorizontalMovement;
-        [SerializeField]
-        protected float sprintingVerticalMovement;
-        [SerializeField]
         protected LayerMask damageLayers;
 
         //A collider that gets adjusted through an animation to determine if the Player is inside that collider

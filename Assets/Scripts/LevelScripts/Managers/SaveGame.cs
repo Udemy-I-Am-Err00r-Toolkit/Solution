@@ -38,6 +38,8 @@ namespace MetroidvaniaTools
             PlayerPrefs.SetInt(" " + character.gameFile + "Character", PlayerPrefs.GetInt("Character"));
             //Makes sure the Player is facing the correct direction next time you load game
             PlayerPrefs.SetInt(" " + character.gameFile + "FacingLeft", character.isFacingLeft ? 1 : 0);
+            //Makes sure the Player is facing the correct direction next time you load game
+            PlayerPrefs.SetInt(" " + character.gameFile + "CurrentWeapon", character.currentWeaponSelection);
             //Makes sure the FogOfWar tiles that need to be removed when loading are accurate
             levelManager.tileID = levelManager.id.ToArray();
             PlayerPrefsX.SetIntArray(" " + character.gameFile + "TilesToRemove", levelManager.tileID);

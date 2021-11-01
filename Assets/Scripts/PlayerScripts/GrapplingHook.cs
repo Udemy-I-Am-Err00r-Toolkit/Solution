@@ -142,7 +142,7 @@ namespace MetroidvaniaTools
         public virtual void RemoveGrapple()
         {
             //Checks for different removal conditions
-            if (!input.WeaponFiredHeld() || weapon.currentTimeTillChangeArms <= 0 || removed)
+            if (connected && (!input.WeaponFiredHeld() || weapon.currentTimeTillChangeArms <= 0 || removed))
             {
                 //If somehow the removed bool is still false, it toggles it back to true here
                 removed = true;

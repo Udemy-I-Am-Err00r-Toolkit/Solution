@@ -72,13 +72,11 @@ namespace MetroidvaniaTools
         //Method that chanages character, called from the CharacterManager script located on Player
         public virtual void ChangeCharacter(GameObject currentCharacter)
         {
-            //Creates an instance of the current Player
-            GameObject oldPlayer = player;
-            //Creates an instance of the newPlayer from the Character Manager characters list
-            GameObject newPlayer = currentCharacter;
-            //Instantiates the newPlayer instance into the scene
-            Instantiate(newPlayer, player.transform.position, player.transform.rotation);
-            //Gets rid of the oldPlayer instance that used to be the player
+            GameObject oldPlayer = FindObjectOfType<Character>().gameObject;
+            currentCharacter.transform.position = oldPlayer.transform.position;
+            currentCharacter.transform.rotation = oldPlayer.transform.rotation;
+            Instantiate(currentCharacter);
+            player = currentCharacter;
             Destroy(oldPlayer);
         }
 

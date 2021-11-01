@@ -13,6 +13,8 @@ namespace MetroidvaniaTools
         public Bounds levelSize;
         //The Player game object that needs to load into the scene
         public GameObject initialPlayer;
+        //Current selection on the characters list that is the character
+        public int currentPlayerSelection;
         //A quick reference of a UI element that fades in and out between scenes
         public Image fadeScreen;
         //A quick reference of a UI element that fades in when Player dies
@@ -55,6 +57,7 @@ namespace MetroidvaniaTools
             {
                 startingLocation = availableSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")].position;
                 playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt(" " + gameFile + "SpawnReference")].position;
+                currentPlayerSelection = PlayerPrefs.GetInt(" " + gameFile + "Character");
                 if (availableSpawnLocations.Count <= PlayerPrefs.GetInt(" " + gameFile + "SpawnReference") || PlayerPrefs.GetInt(" " + gameFile + "SpawnReference") < 0)
                 {
                     startingLocation = availableSpawnLocations[0].position;
@@ -65,12 +68,18 @@ namespace MetroidvaniaTools
             {
                 startingLocation = availableSpawnLocations[PlayerPrefs.GetInt("SpawnReference")].position;
                 playerIndicatorLocation = playerIndicatorSpawnLocations[PlayerPrefs.GetInt("SpawnReference")].position;
+                currentPlayerSelection = PlayerPrefs.GetInt("Character");
                 if (availableSpawnLocations.Count <= PlayerPrefs.GetInt("SpawnReference") || PlayerPrefs.GetInt("SpawnReference") < 0)
                 {
                     startingLocation = availableSpawnLocations[0].position;
                     gameManager.playerStartDefault = true;
                 }
             }
+            if (currentPlayerSelection >= initialPlayer.GetComponent<CharacterManager>().characters.Length || currentPlayerSelection < 0)
+            {
+                currentPlayerSelection = 0;
+            }
+            initialPlayer = initialPlayer.GetComponent<CharacterManager>().characters[currentPlayerSelection];
             CreatePlayer(initialPlayer, startingLocation);
             Instantiate(fogOfWar, fogSpawnLocation.position, Quaternion.identity);
             fog = FindObjectsOfType<FogOfWar>();
@@ -117,6 +126,7 @@ namespace MetroidvaniaTools
             PlayerPrefs.SetInt("FacingLeft", character.isFacingLeft ? 1 : 0);
             PlayerPrefs.SetInt("SpawnReference", spawnReference);
             PlayerPrefs.SetInt("CurrentHealth", player.GetComponent<PlayerHealth>().healthPoints);
+            PlayerPrefs.SetInt("CurrentWeapon", character.currentWeaponSelection);
             StartCoroutine(FadeOut(scene));
         }
 

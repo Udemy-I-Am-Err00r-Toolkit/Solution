@@ -44,6 +44,8 @@ namespace MetroidvaniaTools
         public bool sprintingMeleeAttack;
         [HideInInspector]
         public bool isSprinting;
+        [HideInInspector]
+        public int currentWeaponSelection;
 
         //These are common component refernces so other scripts can talk to each other if they need to.
         protected Collider2D col;
@@ -75,6 +77,7 @@ namespace MetroidvaniaTools
         protected virtual void Initialization()
         {
             gameFile = PlayerPrefs.GetInt("GameFile");
+            currentWeaponSelection = PlayerPrefs.GetInt("CurrentWeapon");
             col = GetComponent<Collider2D>();
             rb = GetComponent<Rigidbody2D>();
             anim = GetComponent<Animator>();
