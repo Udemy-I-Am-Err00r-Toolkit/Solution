@@ -48,6 +48,18 @@ namespace MetroidvaniaTools
             deadScreenImage = uiManager.deadScreen.GetComponent<Image>();
             deadScreenText = uiManager.deadScreen.GetComponentInChildren<Text>();
             rb = GetComponent<Rigidbody2D>();
+            if(levelManager.loadFromSave)
+            {
+                healthPoints = PlayerPrefs.GetInt(" " + character.gameFile + "CurrentHealth");
+            }
+            else
+            {
+                healthPoints = PlayerPrefs.GetInt("CurrentHealth");
+                if(healthPoints == 0)
+                {
+                    healthPoints = maxHealthPoints;
+                }
+            }
         }
 
         protected virtual void FixedUpdate()

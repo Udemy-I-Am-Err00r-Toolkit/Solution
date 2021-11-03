@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9065041048006677499}
   - component: {fileID: 4092728102360553216}
   - component: {fileID: 217236632813444106}
+  - component: {fileID: 3954675997606906870}
   m_Layer: 0
   m_Name: DashAbility
   m_TagString: Untagged
@@ -123,3 +124,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: b896b9e41eb89b64ea5e4252596df168, type: 2}
+--- !u!114 &3954675997606906870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5422614871400796988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49c4ee98124adb249bdf88e51ab6b423, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xMin: 0
+  xMax: 0
+  yMin: 0
+  yMax: 0
+  gamePaused: 0
+  reference: 0

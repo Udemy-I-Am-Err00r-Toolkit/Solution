@@ -37,6 +37,8 @@ namespace MetroidvaniaTools
         [HideInInspector]
         public int gameFile;
         [HideInInspector]
+        public int currentWeaponSelected;
+        [HideInInspector]
         public bool grabbingLedge;
         [HideInInspector]
         public bool meleeAttacking;
@@ -44,8 +46,6 @@ namespace MetroidvaniaTools
         public bool sprintingMeleeAttack;
         [HideInInspector]
         public bool isSprinting;
-        [HideInInspector]
-        public int currentWeaponSelection;
 
         //These are common component refernces so other scripts can talk to each other if they need to.
         protected Collider2D col;
@@ -77,7 +77,6 @@ namespace MetroidvaniaTools
         protected virtual void Initialization()
         {
             gameFile = PlayerPrefs.GetInt("GameFile");
-            currentWeaponSelection = PlayerPrefs.GetInt("CurrentWeapon");
             col = GetComponent<Collider2D>();
             rb = GetComponent<Rigidbody2D>();
             anim = GetComponent<Animator>();
@@ -152,10 +151,12 @@ namespace MetroidvaniaTools
             if (loadFromSave)
             {
                 player.GetComponent<Character>().isFacingLeft = PlayerPrefs.GetInt(" " + gameFile + "FacingLeft") == 1 ? true : false;
+                currentWeaponSelected = PlayerPrefs.GetInt(" " + gameFile + "CurrentWeapon");
             }
             else
             {
                 player.GetComponent<Character>().isFacingLeft = PlayerPrefs.GetInt("FacingLeft") == 1 ? true : false;
+                currentWeaponSelected = PlayerPrefs.GetInt("CurrentWeapon");
             }
             if (player.GetComponent<Character>().isFacingLeft)
             {

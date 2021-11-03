@@ -165,7 +165,7 @@ namespace MetroidvaniaTools
                 //If there isn't a current weapon, sets up the first weapon type in the list as the current weapon, and creates the pool for that weapon type
                 if (currentWeapon == null)
                 {
-                    currentWeapon = weaponTypes[character.currentWeaponSelection];
+                    currentWeapon = weaponTypes[character.currentWeaponSelected];
                     currentTimeBetweenShots = currentWeapon.timeBetweenShots;
                     NewPool();
                     return;
@@ -185,7 +185,7 @@ namespace MetroidvaniaTools
                         }
                         //Whatever the iteration value is, the current weapon is this iteration value in the weaponTypes list
                         currentWeapon = weaponTypes[i];
-                        character.currentWeaponSelection = i;
+                        character.currentWeaponSelected = i;
                         PlayerPrefs.SetInt("CurrentWeapon", i);
                         //Restes the currentTimeBetweenShots value to the currentWeapon timeBetweenShots value
                         currentTimeBetweenShots = currentWeapon.timeBetweenShots;

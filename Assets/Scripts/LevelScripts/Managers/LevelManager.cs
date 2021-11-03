@@ -21,8 +21,6 @@ namespace MetroidvaniaTools
         public int currentStartReference;
         //A quick reference of a UI element that fades in and out between scenes
         public Image fadeScreen;
-        //A quick reference of a UI element that fades in when Player dies
-        public Image deadScreen;
 
         //An array of game objects that contain the Fog Of War script
         protected FogOfWar[] fog;
@@ -147,7 +145,7 @@ namespace MetroidvaniaTools
             PlayerPrefs.SetInt("FacingLeft", character.isFacingLeft ? 1 : 0);
             PlayerPrefs.SetInt("SpawnReference", spawnReference);
             PlayerPrefs.SetInt("CurrentHealth", player.GetComponent<PlayerHealth>().healthPoints);
-            PlayerPrefs.SetInt("CurrentWeapon", character.currentWeaponSelection);
+            PlayerPrefs.SetInt("CurrentWeapon", character.currentWeaponSelected);
             StartCoroutine(FadeOut(scene));
         }
 
