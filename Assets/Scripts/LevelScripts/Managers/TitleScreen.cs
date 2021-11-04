@@ -82,12 +82,20 @@ namespace MetroidvaniaTools
         //Loads a game from a previous save
         public virtual void LoadGame(int slot)
         {
-            //Makes sure teh current game file is the correct one for PlayerPrefs
-            PlayerPrefs.SetInt("GameFile", slot);
-            //Sets the PlayerPrefs value to whatever the loadFromSave value is
-            PlayerPrefs.SetInt(" " + slot + "LoadFromSave", 1);
-            //Loads the correct scene for that file based on whatever scene the Player was in when last saved
-            SceneManager.LoadScene(PlayerPrefs.GetString(" " + slot + "LoadGame"));
+            if (PlayerPrefs.GetString(" " + slot + "LoadGame") == "")
+            {
+                NewGame(slot);
+                return;
+            }
+            else
+            {
+                //Makes sure teh current game file is the correct one for PlayerPrefs
+                PlayerPrefs.SetInt("GameFile", slot);
+                //Sets the PlayerPrefs value to whatever the loadFromSave value is
+                PlayerPrefs.SetInt(" " + slot + "LoadFromSave", 1);
+                //Loads the correct scene for that file based on whatever scene the Player was in when last saved
+                SceneManager.LoadScene(PlayerPrefs.GetString(" " + slot + "LoadGame"));
+            }
         }
 
         public virtual void ClearAbilities(int slot)
