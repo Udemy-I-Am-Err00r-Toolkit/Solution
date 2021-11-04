@@ -69,9 +69,19 @@ namespace MetroidvaniaTools
         //Method that chanages character, called from the CharacterManager script located on Player
         public virtual void ChangeCharacter(GameObject currentCharacter)
         {
+            //Gets a reference of the old player from the scene
             GameObject oldPlayer = FindObjectOfType<Character>().gameObject;
+            //Spawns in the new player at the position the old player
             Instantiate(currentCharacter, oldPlayer.transform.position, Quaternion.identity);
+            //Handles making sure the player is facing the correct direction
+            PlayerPrefs.SetInt("FacingLeft", character.isFacingLeft ? 1 : 0);
+            //Resets the weapon for the new character in case the new character doesn't have the same iteration of weapons as old character
+            PlayerPrefs.SetInt("CurrentWeapon", 0);
+            //Initializes the new player and sets up proper character properties
+            currentCharacter.GetComponent<Character>().InitializePlayer();
+            //Runs method so other scripts that need to constantly check for player have correct data
             UpdateCharacter();
+            //Gets rid of old player
             Destroy(oldPlayer);
 
         }

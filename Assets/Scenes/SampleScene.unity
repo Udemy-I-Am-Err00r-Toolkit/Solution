@@ -881,7 +881,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 726174255}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1005.41, y: -501.14, z: 0}
+  m_LocalPosition: {x: 996.53, y: -501.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1823923290}
@@ -2671,7 +2671,6 @@ MonoBehaviour:
   currentPlayerSelection: 0
   currentStartReference: 0
   fadeScreen: {fileID: 3589503386712572062}
-  deadScreen: {fileID: 0}
   id: 
   tileID: 
   fogSpawnLocation: {fileID: 484618237885957186}

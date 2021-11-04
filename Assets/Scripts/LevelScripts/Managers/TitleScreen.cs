@@ -53,9 +53,10 @@ namespace MetroidvaniaTools
             PlayerPrefs.SetInt("GameFile", slot);
             //Same as above value, but just for the LevelManager script
             PlayerPrefs.SetInt(" " + slot + "SpawnReference", 0);
-            //Same as above value, but just for the LevelManager script
-            PlayerPrefs.SetInt(" " + slot + "Character", 0);
-            PlayerPrefs.SetInt("Character", 0);
+            //Makes sure the correct Character is selected for game slot
+            PlayerPrefs.SetInt(" " + slot + "Character", 2);
+            //Makes sure the correct Character is selected for game slot
+            PlayerPrefs.SetInt("Character", 2);
             //Sets the health to 100 because most games start you off with full health, you can toggle this any way you want if you don't want the player to start with 100 health
             PlayerPrefs.SetInt(" " + slot + "CurrentHealth", 100);
             //Sets up the string reference for the scene it needs to load

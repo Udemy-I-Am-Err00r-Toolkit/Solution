@@ -151,12 +151,14 @@ namespace MetroidvaniaTools
             if (loadFromSave)
             {
                 player.GetComponent<Character>().isFacingLeft = PlayerPrefs.GetInt(" " + gameFile + "FacingLeft") == 1 ? true : false;
-                currentWeaponSelected = PlayerPrefs.GetInt(" " + gameFile + "CurrentWeapon");
+                player.GetComponent<Character>().currentWeaponSelected = PlayerPrefs.GetInt(" " + gameFile + "CurrentWeapon");
+                PlayerPrefs.SetInt("CurrentWeapon", currentWeaponSelected);
+                PlayerPrefs.SetInt("Character", PlayerPrefs.GetInt(" " + gameFile + "Character"));
             }
             else
             {
                 player.GetComponent<Character>().isFacingLeft = PlayerPrefs.GetInt("FacingLeft") == 1 ? true : false;
-                currentWeaponSelected = PlayerPrefs.GetInt("CurrentWeapon");
+                player.GetComponent<Character>().currentWeaponSelected = PlayerPrefs.GetInt("CurrentWeapon");
             }
             if (player.GetComponent<Character>().isFacingLeft)
             {

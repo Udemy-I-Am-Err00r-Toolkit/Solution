@@ -80,7 +80,14 @@ namespace MetroidvaniaTools
             //This will set the player indicator to the correct reference based on the PlayerPref
             playerIndicatorLocation = playerIndicatorSpawnLocations[currentStartReference].position;
             //This will set the current character being used to the correct reference based on PlayerPref when last saved game
-            currentPlayerSelection = PlayerPrefs.GetInt("Character");
+            if (loadFromSave)
+            {
+                currentPlayerSelection = PlayerPrefs.GetInt(" " + gameFile + "Character");
+            }
+            else
+            {
+                currentPlayerSelection = PlayerPrefs.GetInt("Character");
+            }
             //If somehow when loading the scene the currentPlayerSelected is higher than the number of selectable players within the CharacterManager script or is a negative number, it sets it to a default of 0
             if (currentPlayerSelection >= initialPlayer.GetComponent<CharacterManager>().characters.Length || currentPlayerSelection < 0)
             {
@@ -140,12 +147,13 @@ namespace MetroidvaniaTools
         //When we load the next scene by walking through a door, it remembers everything it should so when the next scene loads it has the correct data; this also loads the next scene of course and starts the FadeOut method
         public virtual void NextScene(SceneReference scene, int spawnReference)
         {
+            player = FindObjectOfType<Character>().gameObject;
             tileID = id.ToArray();
             PlayerPrefsX.SetIntArray("TilesToRemove", tileID);
-            PlayerPrefs.SetInt("FacingLeft", character.isFacingLeft ? 1 : 0);
+            PlayerPrefs.SetInt("FacingLeft", player.GetComponent<Character>().isFacingLeft ? 1 : 0);
             PlayerPrefs.SetInt("SpawnReference", spawnReference);
-            PlayerPrefs.SetInt("CurrentHealth", player.GetComponent<PlayerHealth>().healthPoints);
-            PlayerPrefs.SetInt("CurrentWeapon", character.currentWeaponSelected);
+            PlayerPrefs.SetInt("CurrentHealth", player.GetComponent<Health>().healthPoints);
+            PlayerPrefs.SetInt("CurrentWeapon", player.GetComponent<Character>().currentWeaponSelected);
             StartCoroutine(FadeOut(scene));
         }
 

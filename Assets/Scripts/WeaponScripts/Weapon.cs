@@ -51,7 +51,7 @@ namespace MetroidvaniaTools
         protected virtual void Update()
         {
             //Makes sure if the game is paused, that the weapons can't be fired so when game is unpaused, it doesn't fire a weapon
-            if (gameManager.gamePaused)
+            if (gameManager.gamePaused || character.meleeAttacking)
             {
                 return;
             }
@@ -91,7 +91,7 @@ namespace MetroidvaniaTools
         protected virtual void FireWeaponHeld()
         {
             //Handles the logic that should run if the weapon is automatic and if the input is held down; much of this logic is to ensure that automatic weapons remain firing and have the propper aiming IKs setup
-            if (input.WeaponFiredHeld())
+            if (!character.meleeAttacking && input.WeaponFiredHeld())
             {
                 if (currentWeapon.automatic)
                 {

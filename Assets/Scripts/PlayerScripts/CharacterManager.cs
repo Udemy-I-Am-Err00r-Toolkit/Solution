@@ -9,8 +9,6 @@ namespace MetroidvaniaTools
     {
         //List of playable characters that you can switch between
         public GameObject[] characters;
-        //Current selection on the characters list that is the character
-        //protected int currentSelection; 
 
         protected LevelManager levelManager;
 

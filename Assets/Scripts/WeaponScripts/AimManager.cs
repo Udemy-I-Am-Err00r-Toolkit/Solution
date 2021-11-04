@@ -44,6 +44,15 @@ namespace MetroidvaniaTools
 
         protected virtual void FixedUpdate()
         {
+            if(character.meleeAttacking)
+            {
+                weapon.currentTimeTillChangeArms = 0;
+                notAimingGun.enabled = true;
+                notAimingLeftHand.enabled = true;
+                aimingGun.enabled = false;
+                aimingLeftHand.enabled = false;
+                return;
+            }
             Aiming();
             DirectionalAim();
             bounds.center = origin.position;
