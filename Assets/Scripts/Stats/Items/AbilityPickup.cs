@@ -28,7 +28,7 @@ namespace MetroidvaniaTools
                 item.UseItem(collision.gameObject);
                 found = true;
                 //Sets the PlayerPrefs value so that when game is loading, can determine if this pickup has already been grabbed by Player
-                PlayerPrefs.SetInt(" " + PlayerPrefs.GetInt("GameFile") + item.name, found ? 1 : 0);
+                PlayerPrefs.SetInt(" " + collision.GetComponent<Character>().gameFile + item.name, found ? 1 : 0);
                 Destroy(gameObject);
             }
         }

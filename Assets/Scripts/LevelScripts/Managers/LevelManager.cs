@@ -133,6 +133,7 @@ namespace MetroidvaniaTools
                 id.Add(number);
                 Destroy(fogTiles[number].gameObject);
             }
+            CharacterManager.CharacterUpdate += NewCharacter;
             //Ensures after the level loads that it is aware the game is no longer loading from a save so when scenes change, it doesn't get confused and load the wrong data
             Invoke("CancelLoadFromSave", .1f);
         }
@@ -147,13 +148,12 @@ namespace MetroidvaniaTools
         //When we load the next scene by walking through a door, it remembers everything it should so when the next scene loads it has the correct data; this also loads the next scene of course and starts the FadeOut method
         public virtual void NextScene(SceneReference scene, int spawnReference)
         {
-            player = FindObjectOfType<Character>().gameObject;
             tileID = id.ToArray();
             PlayerPrefsX.SetIntArray("TilesToRemove", tileID);
-            PlayerPrefs.SetInt("FacingLeft", player.GetComponent<Character>().isFacingLeft ? 1 : 0);
+            PlayerPrefs.SetInt("FacingLeft", character.GetComponent<Character>().isFacingLeft ? 1 : 0);
             PlayerPrefs.SetInt("SpawnReference", spawnReference);
             PlayerPrefs.SetInt("CurrentHealth", player.GetComponent<Health>().healthPoints);
-            PlayerPrefs.SetInt("CurrentWeapon", player.GetComponent<Character>().currentWeaponSelected);
+            PlayerPrefs.SetInt("CurrentWeapon", character.currentWeaponSelected);
             StartCoroutine(FadeOut(scene));
         }
 
@@ -228,6 +228,11 @@ namespace MetroidvaniaTools
             loadFromSave = false;
             //Ensures the PlayerPrefs that manages the LoadFromSave value has the correct value
             PlayerPrefs.SetInt(" " + gameFile + "LoadFromSave", levelManager.loadFromSave ? 1 : 0);
+        }
+
+        protected virtual void NewCharacter()
+        {
+            UpdateCharacter();
         }
 
         //Shows visually the bounds for the Level

@@ -57,6 +57,7 @@ namespace MetroidvaniaTools
         protected virtual void NewCharacter()
         {
             UpdateCharacter();
+            Debug.Log("YO!");
         }
     }
 }

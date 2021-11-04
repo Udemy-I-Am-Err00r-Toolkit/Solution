@@ -90,6 +90,7 @@ namespace MetroidvaniaTools
         protected virtual void UpdateCharacter()
         {
             player = FindObjectOfType<Character>().gameObject;
+            character = player.GetComponent<Character>();
         }
     }
 }

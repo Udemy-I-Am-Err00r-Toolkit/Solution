@@ -15,6 +15,7 @@ namespace MetroidvaniaTools
         protected override void Initialization()
         {
             base.Initialization();
+            CharacterManager.CharacterUpdate += NewCharacter;
         }
 
         //If you enter the trigger collider of a save point, it runs the save method
@@ -28,25 +29,23 @@ namespace MetroidvaniaTools
 
         protected virtual void Save()
         {
-            player = FindObjectOfType<Character>().gameObject;
-            int gameFile = player.GetComponent<Character>().gameFile;
             //Refils the player health back to full health, as most games do when you save
             player.GetComponent<Health>().healthPoints = player.GetComponent<Health>().maxHealthPoints;
             //Makes sure the current scene is the scene that loads next to you load game
-            PlayerPrefs.SetString(" " + gameFile + "LoadGame", SceneManager.GetActiveScene().name);
+            PlayerPrefs.SetString(" " + character.gameFile + "LoadGame", SceneManager.GetActiveScene().name);
             //Makes sure the correct spawn point is fed to the LevelManager script next time you load game
-            PlayerPrefs.SetInt(" " + gameFile + "SpawnReference", reference);
+            PlayerPrefs.SetInt(" " + character.gameFile + "SpawnReference", reference);
             //Makes sure the Player is facing the correct direction next time you load game
-            PlayerPrefs.SetInt(" " + gameFile + "FacingLeft", player.GetComponent<Character>().isFacingLeft ? 1 : 0);
+            PlayerPrefs.SetInt(" " + character.gameFile + "FacingLeft", character.isFacingLeft ? 1 : 0);
             //Sets the current health to the correct amount
-            PlayerPrefs.SetInt(" " + gameFile + "CurrentHealth", player.GetComponent<Health>().healthPoints);
+            PlayerPrefs.SetInt(" " + character.gameFile + "CurrentHealth", player.GetComponent<Health>().healthPoints);
             //Makes sure the Player has the correct weapon selected when loading game
-            PlayerPrefs.SetInt(" " + gameFile + "CurrentWeapon", player.GetComponent<Character>().currentWeaponSelected);
+            PlayerPrefs.SetInt(" " + character.gameFile + "CurrentWeapon", character.currentWeaponSelected);
             //Makes sure the FogOfWar tiles that need to be removed when loading are accurate
             levelManager.tileID = levelManager.id.ToArray();
-            PlayerPrefsX.SetIntArray(" " + gameFile + "TilesToRemove", levelManager.tileID);
+            PlayerPrefsX.SetIntArray(" " + character.gameFile + "TilesToRemove", levelManager.tileID);
             //Makes sure the correct character is selected for the CharacterManager script
-            PlayerPrefs.SetInt(" " + gameFile + "Character", PlayerPrefs.GetInt("Character"));
+            PlayerPrefs.SetInt(" " + character.gameFile + "Character", PlayerPrefs.GetInt("Character"));
         }
 
         protected virtual void NewCharacter()
