@@ -53,24 +53,27 @@ namespace MetroidvaniaTools
             PlayerPrefs.SetInt("GameFile", slot);
             //Same as above value, but just for the LevelManager script
             PlayerPrefs.SetInt(" " + slot + "SpawnReference", 0);
-            //Makes sure the correct Character is selected for game slot
-            PlayerPrefs.SetInt(" " + slot + "Character", 0);
-            //Makes sure the correct Character is selected for scene change slot
-            PlayerPrefs.SetInt("Character", 0);
             //Sets the health to 100 because most games start you off with full health, you can toggle this any way you want if you don't want the player to start with 100 health
             PlayerPrefs.SetInt(" " + slot + "CurrentHealth", 100);
+            //Sets up the string reference for the scene it needs to load
+            PlayerPrefs.SetString(" " + slot + "LoadGame", newGameScene);
+            //Sets the PlayerPrefs LoadFromSave value to true in case player dies or quits before first checkpoint
+            PlayerPrefs.SetInt(" " + slot + "LoadFromSave", 1);
+            //Sets the player to face right when starting new game; if you want player to face left, have the value equal 1 instead of 0
+            PlayerPrefs.SetInt(" " + slot + "FacingLeft", 0);
             //Sets the current weapon iteration to 0 as the first weapon to load into the game
             PlayerPrefs.SetInt(" " + slot + "CurrentWeapon", 0);
             //Sets the current weapon iteration to 0 as the first weapon for when scene changes
             PlayerPrefs.SetInt("CurrentWeapon", 0);
-            //Sets up the string reference for the scene it needs to load
-            PlayerPrefs.SetString(" " + slot + "LoadGame", newGameScene);
-            //Sets the PlayerPrefs value to whatever the loadFromSave value is
-            PlayerPrefs.SetInt(" " + slot + "LoadFromSave", 1);
-            PlayerPrefs.SetInt(" " + slot + "FacingLeft", 0);
-            //PlayerPrefs.SetString("LoadGame", newGameScene);
+            //Makes sure the correct Character is selected for new game slot
+            PlayerPrefs.SetInt(" " + slot + "Character", 0);
+            //Makes sure the correct Character is selected for scene change slot
+            PlayerPrefs.SetInt("Character", 0);
+            //Clears the player abilities for this slot
             ClearAbilities(slot);
+            //Creats a new FogOfWar with all the tiles
             int[] newFog = new int[0];
+            //Resests the PlayerPrefsX value of the array for which tiles need to be removed
             PlayerPrefsX.SetIntArray(" " + slot + "TilesToRemove", newFog);
             //Loads the first scene for the game
             SceneManager.LoadScene(newGameScene);
