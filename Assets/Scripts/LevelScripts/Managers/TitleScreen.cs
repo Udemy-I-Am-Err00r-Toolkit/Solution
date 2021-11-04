@@ -16,7 +16,7 @@ namespace MetroidvaniaTools
         public GameObject newGameMenu;
         //A quick reference to the UI that contains the Load Game menu screen
         public GameObject loadGameMenu;
-
+        //List that needs to be setup in the Unity Editor with all the discoverable abilities loaded; this does nothing if not setup within the Editor
         public List<AbilityItem> abilitiesToClear = new List<AbilityItem>();
 
         private void Start()
@@ -82,11 +82,14 @@ namespace MetroidvaniaTools
         //Loads a game from a previous save
         public virtual void LoadGame(int slot)
         {
+            //Makes sure that there is an actual game file saved for that slot already, if not it runs the if statement
             if (PlayerPrefs.GetString(" " + slot + "LoadGame") == "")
             {
+                //Creates a new game so the game doesn't crash, might be a good idea to have a UI screen pop-up to remind you there is no slot
                 NewGame(slot);
                 return;
             }
+            //if the above if statement is not true, it loads the game based on slot values
             else
             {
                 //Makes sure teh current game file is the correct one for PlayerPrefs
@@ -98,10 +101,13 @@ namespace MetroidvaniaTools
             }
         }
 
+        //Clears out the abiliites the player may have found for this slot
         public virtual void ClearAbilities(int slot)
         {
+            //Checks the abilites that are loaded into the TitleScreen component within the Unity editor
             for (int i = 0; i < abilitiesToClear.Count; i++)
             {
+                //Makes sure that slot file sets the bool from found, to not found
                 PlayerPrefs.SetInt(" " + slot + abilitiesToClear[i].itemName, 0);
             }
         }
