@@ -197,6 +197,23 @@ namespace MetroidvaniaTools
                     break;
                 }
                 yield return new WaitForEndOfFrame();
+                //Gets a reference of all the characters within the CharacterManager script
+                int gameFile = PlayerPrefs.GetInt("GameFile");
+                for (int i = 0; i < character.GetComponent<CharacterManager>().characters.Length; i++)
+                {
+                    //If the current character is not the being played; this is to add the "(Clone)" string to the character name to properly save the PlayerPref
+                    if (levelManager.currentPlayerSelection != i)
+                    {
+                        //Sets the weapon for this character to whatever was the weapon the last time the game was saved
+                        PlayerPrefs.SetInt(character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon"));
+                    }
+                    //If the current character is the one being played
+                    else
+                    {
+                        //Sets the weapon for this character to the last weapon that the game file was saved with
+                        PlayerPrefs.SetInt(character.name + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + character.name + "CurrentWeapon"));
+                    }
+                }
             }
             Invoke("LoadGame", 2);
         }

@@ -29,8 +29,9 @@ namespace MetroidvaniaTools
 
         protected virtual void Save()
         {
-            int gameFile = PlayerPrefs.GetInt("GameFile");
             //The file slot based on if it's 1, 2, or 3
+            int gameFile = PlayerPrefs.GetInt("GameFile");
+            //Sets a value for the FileCreated PlayerPref that allows to load from save instead of starting a new game; this value gets created the very first time the game is saved
             PlayerPrefs.SetInt("FileCreated" + gameFile, 1);
             //Refils the player health back to full health, as most games do when you save
             player.GetComponent<Health>().healthPoints = player.GetComponent<Health>().maxHealthPoints;
