@@ -143,25 +143,47 @@ namespace MetroidvaniaTools
 
         //This method will be handled by the LevelManager and GameManager scripts, will instantiate the player into the scene where the player
         //needs to be.
-        public void InitializePlayer()
+        public void InitializePlayer(int characterSelected)
         {
+            //Refernce to the current game file
             gameFile = PlayerPrefs.GetInt("GameFile");
+            //Reference to the current character loaded into the scene
             player = FindObjectOfType<Character>().gameObject;
+            //Checks to see if the game is loading from a save or a scene change
             bool loadFromSave = PlayerPrefs.GetInt(" " + gameFile + "LoadFromSave") == 1 ? true : false;
+            //If loading from save, the if statement logic runs
             if (loadFromSave)
             {
+                //Gets an int reference to each character within the CharacterManager script
+                for(int i = 0; i < player.GetComponent<CharacterManager>().characters.Length; i ++)
+                {
+                    //Checks to see if out of all the characters in the CharacterManager script, this is not the current one loaded into the scene because the string name of that characer won't have (Clone) at the end of it and needs the (Clone) to properly save the data
+                    if (characterSelected != i)
+                    {
+                        //Sets the last weapon this character used to the current weapon that should be selected when the character is loaded into the scene
+                        PlayerPrefs.SetInt(player.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + player.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon"));
+                    }
+                    else
+                    {
+                        //Same as the line of code above, but is the current character loaded into the scene and doesn't need the (Clone) as this character will have that in the name when loaded into scene
+                        PlayerPrefs.SetInt(player.name + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + player.name + "CurrentWeapon"));
+                    }
+                }
+                //Checks what direction the player was facing last when the game was saved
                 player.GetComponent<Character>().isFacingLeft = PlayerPrefs.GetInt(" " + gameFile + "FacingLeft") == 1 ? true : false;
-                player.GetComponent<Character>().currentWeaponSelected = PlayerPrefs.GetInt(" " + gameFile + "CurrentWeapon");
-                PlayerPrefs.SetInt("CurrentWeapon", currentWeaponSelected);
-                PlayerPrefs.SetInt("Character", PlayerPrefs.GetInt(" " + gameFile + "Character"));
             }
+            //If not loading from a save
             else
             {
+                //Sets the player in the correct direction when based on the PlayerPref "FacingLeft"
                 player.GetComponent<Character>().isFacingLeft = PlayerPrefs.GetInt("FacingLeft") == 1 ? true : false;
-                player.GetComponent<Character>().currentWeaponSelected = PlayerPrefs.GetInt("CurrentWeapon");
             }
+            //Sets the current weapon for the player based on the previous load data; if no load data exists, it goes with the first iteration by default
+            player.GetComponent<Character>().currentWeaponSelected = PlayerPrefs.GetInt(player.gameObject.name + "CurrentWeapon");
+            //If the character is facing left
             if (player.GetComponent<Character>().isFacingLeft)
             {
+                //Has the player face the left direction and ensures they can Flip the correct direction
                 player.transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
             }
         }

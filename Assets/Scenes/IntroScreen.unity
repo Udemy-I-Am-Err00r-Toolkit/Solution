@@ -439,6 +439,7 @@ GameObject:
   - component: {fileID: 384706640}
   - component: {fileID: 384706639}
   - component: {fileID: 384706638}
+  - component: {fileID: 384706641}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -511,6 +512,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &384706641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 384706637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &406782084
 GameObject:
   m_ObjectHideFlags: 0
@@ -2147,7 +2180,13 @@ MonoBehaviour:
   mainMenu: {fileID: 1654759029}
   newGameMenu: {fileID: 2093183706}
   loadGameMenu: {fileID: 458419478}
-  abilitiesToClear: []
+  abilitiesToClear:
+  - {fileID: 11400000, guid: b896b9e41eb89b64ea5e4252596df168, type: 2}
+  - {fileID: 11400000, guid: 8394535c00cd76541ba478ca491ef339, type: 2}
+  playersToStartWith:
+  - {fileID: 3020018129641304751, guid: 81301af7ebb851442bbbadddbc836b80, type: 3}
+  - {fileID: 3020018129641304751, guid: fea34fc44ee0cfd42be1ea8b93f50bc5, type: 3}
+  - {fileID: 3020018129641304751, guid: 166eeb80d3ea4a74f9007e95ea92fb53, type: 3}
 --- !u!4 &1590129818
 Transform:
   m_ObjectHideFlags: 0

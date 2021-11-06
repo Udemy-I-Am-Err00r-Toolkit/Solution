@@ -165,8 +165,11 @@ namespace MetroidvaniaTools
                 //If there isn't a current weapon, sets up the first weapon type in the list as the current weapon, and creates the pool for that weapon type
                 if (currentWeapon == null)
                 {
+                    //Based on the character initialization, sets up the initial weapon
                     currentWeapon = weaponTypes[character.currentWeaponSelected];
+                    //Sets up the time between shots
                     currentTimeBetweenShots = currentWeapon.timeBetweenShots;
+                    //Sets up new pool
                     NewPool();
                     return;
                 }
@@ -185,8 +188,10 @@ namespace MetroidvaniaTools
                         }
                         //Whatever the iteration value is, the current weapon is this iteration value in the weaponTypes list
                         currentWeapon = weaponTypes[i];
+                        //Sets up the currentWeapon selected on the character
                         character.currentWeaponSelected = i;
-                        PlayerPrefs.SetInt("CurrentWeapon", i);
+                        //Saves the current weapon so if the character changes in between scene loads, it has a good reference to whatever weapon it last used
+                        PlayerPrefs.SetInt(character.name + "CurrentWeapon", i);
                         //Restes the currentTimeBetweenShots value to the currentWeapon timeBetweenShots value
                         currentTimeBetweenShots = currentWeapon.timeBetweenShots;
                     }
@@ -262,5 +267,7 @@ namespace MetroidvaniaTools
             }
             currentProjectile.GetComponent<Projectile>().fired = true;
         }
+
+
     }
 }

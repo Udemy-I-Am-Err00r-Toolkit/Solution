@@ -123,9 +123,30 @@ namespace MetroidvaniaTools
         //If you want to quit game, it saves the player's position within that scene, and goes back to the main menu screen
         public virtual void SureToQuit()
         {
-            SceneManager.LoadScene(mainMenuScene);
+            //Grabs a reference of the game file
+            int gameFile = PlayerPrefs.GetInt("GameFile");
+            //Gets a reference of all the characters within the CharacterManager script
+            for (int i = 0; i < character.GetComponent<CharacterManager>().characters.Length; i++)
+            {
+                //If the current character is not the being played; this is to add the "(Clone)" string to the character name to properly save the PlayerPref
+                if (levelManager.currentPlayerSelection != i)
+                {
+                    //Sets the weapon for this character to whatever was the weapon the last time the game was saved
+                    PlayerPrefs.SetInt(character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon"));
+                }
+                //If the current character is the one being played
+                else
+                {
+                    //Sets the weapon for this character to the last weapon that the game file was saved with
+                    PlayerPrefs.SetInt(character.name + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + character.name + "CurrentWeapon"));
+                }
+            }
+            //Resets time back to a normal scale
             Time.timeScale = originalTimeScale;
+            //Unpauses the game
             gameManager.gamePaused = false;
+            //Load the title screen
+            SceneManager.LoadScene(mainMenuScene);
         }
 
         //Allows the UI to move around while looking at the Big Map
@@ -153,6 +174,7 @@ namespace MetroidvaniaTools
             bigMapCamera.transform.position = new Vector3(currentPosition.x + horizontal, currentPosition.y + vertical, -10);
         }
 
+        //This is called by the CharacterManager script when the character is changed based on Delegate event
         protected virtual void NewCharacter()
         {
             UpdateCharacter();

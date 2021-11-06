@@ -18,6 +18,8 @@ namespace MetroidvaniaTools
         public GameObject loadGameMenu;
         //List that needs to be setup in the Unity Editor with all the discoverable abilities loaded; this does nothing if not setup within the Editor
         public List<AbilityItem> abilitiesToClear = new List<AbilityItem>();
+        //
+        public List<GameObject> playersToStartWith = new List<GameObject>();
 
         private void Start()
         {
@@ -62,7 +64,11 @@ namespace MetroidvaniaTools
             //Sets the player to face right when starting new game; if you want player to face left, have the value equal 1 instead of 0
             PlayerPrefs.SetInt(" " + slot + "FacingLeft", 0);
             //Sets the current weapon iteration to 0 as the first weapon to load into the game
-            PlayerPrefs.SetInt(" " + slot + "CurrentWeapon", 0);
+            foreach(GameObject character in playersToStartWith)
+            {
+                PlayerPrefs.SetInt(" " + slot + character.name + "(Clone)" + "CurrentWeapon", 0);
+                PlayerPrefs.SetInt(character.name + "(Clone)" + "CurrentWeapon", 0);
+            }
             //Sets the current weapon iteration to 0 as the first weapon for when scene changes
             PlayerPrefs.SetInt("CurrentWeapon", 0);
             //Makes sure the correct Character is selected for new game slot
@@ -82,8 +88,9 @@ namespace MetroidvaniaTools
         //Loads a game from a previous save
         public virtual void LoadGame(int slot)
         {
+            PlayerPrefs.SetInt("GameFile", slot);
             //Makes sure that there is an actual game file saved for that slot already, if not it runs the if statement
-            if (PlayerPrefs.GetString(" " + slot + "LoadGame") == "")
+            if (PlayerPrefs.GetInt("FileCreated" + slot) == 0)
             {
                 //Creates a new game so the game doesn't crash, might be a good idea to have a UI screen pop-up to remind you there is no slot
                 NewGame(slot);

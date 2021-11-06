@@ -29,6 +29,9 @@ namespace MetroidvaniaTools
 
         protected virtual void Save()
         {
+            int gameFile = PlayerPrefs.GetInt("GameFile");
+            //The file slot based on if it's 1, 2, or 3
+            PlayerPrefs.SetInt("FileCreated" + gameFile, 1);
             //Refils the player health back to full health, as most games do when you save
             player.GetComponent<Health>().healthPoints = player.GetComponent<Health>().maxHealthPoints;
             //Makes sure the current scene is the scene that loads next to you load game
@@ -40,7 +43,21 @@ namespace MetroidvaniaTools
             //Sets the current health to the correct amount
             PlayerPrefs.SetInt(" " + character.gameFile + "CurrentHealth", player.GetComponent<Health>().healthPoints);
             //Makes sure the Player has the correct weapon selected when loading game
-            PlayerPrefs.SetInt(" " + character.gameFile + "CurrentWeapon", character.currentWeaponSelected);
+            for (int i = 0; i<character.GetComponent<CharacterManager>().characters.Length; i ++)
+            {
+                //Makes sure if the character is the one being played or not; this is so it can name the PlayerPref correctly with the additional "(Clone)" string within the character name
+                if(levelManager.currentPlayerSelection != i)
+                {
+                    //Sets the game file weapon with the last weapon that character used based on the PlayerPref of that character
+                    PlayerPrefs.SetInt(" " + gameFile + character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon", PlayerPrefs.GetInt(character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon"));
+                }
+                //If the current character is the one being played
+                else
+                {
+                    //Sets the game file weapon with the weapon the character was using when saving the game
+                    PlayerPrefs.SetInt(" " + gameFile + character.name + "CurrentWeapon", character.GetComponent<Character>().currentWeaponSelected);
+                }
+            }
             //Makes sure the FogOfWar tiles that need to be removed when loading are accurate
             levelManager.tileID = levelManager.id.ToArray();
             PlayerPrefsX.SetIntArray(" " + character.gameFile + "TilesToRemove", levelManager.tileID);

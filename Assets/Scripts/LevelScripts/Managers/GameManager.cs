@@ -51,7 +51,7 @@ namespace MetroidvaniaTools
         }
 
         //Instantiates the Player into the scene; this method is called by the LevelManager script
-        protected virtual void CreatePlayer(GameObject initialPlayer, Vector3 location)
+        protected virtual void CreatePlayer(GameObject initialPlayer, Vector3 location, int characterSelected)
         {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
             if (players.Length > 0)
@@ -62,7 +62,7 @@ namespace MetroidvaniaTools
                 }
             }
             Instantiate(initialPlayer, new Vector3(location.x, location.y, 0), Quaternion.identity);
-            initialPlayer.GetComponent<Character>().InitializePlayer();
+            initialPlayer.GetComponent<Character>().InitializePlayer(characterSelected);
 
         }
 
@@ -75,10 +75,8 @@ namespace MetroidvaniaTools
             Instantiate(currentCharacter, oldPlayer.transform.position, Quaternion.identity);
             //Handles making sure the player is facing the correct direction
             PlayerPrefs.SetInt("FacingLeft", character.isFacingLeft ? 1 : 0);
-            //Resets the weapon for the new character in case the new character doesn't have the same iteration of weapons as old character
-            PlayerPrefs.SetInt("CurrentWeapon", 0);
             //Initializes the new player and sets up proper character properties
-            currentCharacter.GetComponent<Character>().InitializePlayer();
+            currentCharacter.GetComponent<Character>().InitializePlayer(levelManager.currentPlayerSelection);
             //Runs method so other scripts that need to constantly check for player have correct data
             UpdateCharacter();
             //Gets rid of old player
@@ -87,7 +85,7 @@ namespace MetroidvaniaTools
         }
 
         //This method is called by other scripts that need to grab the most recent gameobject that is the player
-        protected virtual void UpdateCharacter()
+        public virtual void UpdateCharacter()
         {
             player = FindObjectOfType<Character>().gameObject;
             character = player.GetComponent<Character>();

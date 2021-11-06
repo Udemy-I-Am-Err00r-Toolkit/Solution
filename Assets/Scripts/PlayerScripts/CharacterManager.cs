@@ -46,6 +46,8 @@ namespace MetroidvaniaTools
                 }
                 //Sets the PlayerPrefs so if the scene changes, the new scene has the correct value for the current Character
                 PlayerPrefs.SetInt("Character", levelManager.currentPlayerSelection);
+                //Saves the current weapon so next time the character is selected, the weapon they were last using is the current one.
+                PlayerPrefs.SetInt(character.gameObject.name + "(Clone)" + "CurrentWeapon", character.currentWeaponSelected);
                 //Runs a method in the Game Manager script to change the character
                 gameManager.ChangeCharacter(characters[levelManager.currentPlayerSelection]);
                 //Lets the other scripts listening to this event know the character has changed

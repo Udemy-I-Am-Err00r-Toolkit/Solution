@@ -97,7 +97,7 @@ namespace MetroidvaniaTools
             //Sets up which player should initialize based on the CharacterManager values for the player
             initialPlayer = initialPlayer.GetComponent<CharacterManager>().characters[currentPlayerSelection];
             //Runs a method in the GameManager script to initialize player
-            CreatePlayer(initialPlayer, startingLocation);
+            CreatePlayer(initialPlayer, startingLocation, currentPlayerSelection);
             //Sets up the fog of war
             Instantiate(fogOfWar, fogSpawnLocation.position, Quaternion.identity);
             //Sets up array of fog tiles based on total number of fog tiles
