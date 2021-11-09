@@ -8,7 +8,7 @@ AnimationClip:
   m_PrefabAsset: {fileID: 0}
   m_Name: Swipe
   serializedVersion: 6
-  m_Legacy: 1
+  m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
   m_RotationCurves: []
@@ -317,8 +317,50 @@ AnimationClip:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   m_ClipBindingConstant:
-    genericBindings: []
-    pptrCurveMapping: []
+    genericBindings:
+    - serializedVersion: 2
+      path: 0
+      attribute: 4197328169
+      script: {fileID: 0}
+      typeID: 61
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 0
+      attribute: 2368279999
+      script: {fileID: 0}
+      typeID: 61
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 0
+      attribute: 413499720
+      script: {fileID: 0}
+      typeID: 61
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 0
+      attribute: 1872933342
+      script: {fileID: 0}
+      typeID: 61
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+    pptrCurveMapping:
+    - {fileID: -3037847575978188021, guid: 3331ebed300a90345921ff78760bc39e, type: 3}
+    - {fileID: -5922286521050702299, guid: 3331ebed300a90345921ff78760bc39e, type: 3}
+    - {fileID: -5922286521050702299, guid: 3331ebed300a90345921ff78760bc39e, type: 3}
+    - {fileID: -3709616576477347655, guid: 3331ebed300a90345921ff78760bc39e, type: 3}
+    - {fileID: -3709616576477347655, guid: 3331ebed300a90345921ff78760bc39e, type: 3}
+    - {fileID: -4974707101244789186, guid: 3331ebed300a90345921ff78760bc39e, type: 3}
+    - {fileID: -4974707101244789186, guid: 3331ebed300a90345921ff78760bc39e, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

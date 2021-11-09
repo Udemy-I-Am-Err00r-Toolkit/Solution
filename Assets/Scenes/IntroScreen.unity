@@ -2185,8 +2185,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8394535c00cd76541ba478ca491ef339, type: 2}
   playersToStartWith:
   - {fileID: 3020018129641304751, guid: 81301af7ebb851442bbbadddbc836b80, type: 3}
-  - {fileID: 3020018129641304751, guid: fea34fc44ee0cfd42be1ea8b93f50bc5, type: 3}
-  - {fileID: 3020018129641304751, guid: 166eeb80d3ea4a74f9007e95ea92fb53, type: 3}
+  - {fileID: 3020018129641304751, guid: 5f04f7d77a954bc4cb6bc9d045f65c5c, type: 3}
+  - {fileID: 3020018129641304751, guid: fc7291fd814e2094d9af2afd936c591e, type: 3}
 --- !u!4 &1590129818
 Transform:
   m_ObjectHideFlags: 0

@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1551211445
 Transform:
   m_ObjectHideFlags: 0
@@ -146,7 +146,8 @@ GameObject:
   - component: {fileID: 2094571404}
   - component: {fileID: 2094571397}
   - component: {fileID: 7782070403610031974}
-  m_Layer: 0
+  - component: {fileID: 995588755}
+  m_Layer: 13
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +163,7 @@ Transform:
   m_GameObject: {fileID: 8896368579243638753}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -38, y: -8.1, z: -2.05701}
-  m_LocalScale: {x: 2, y: 4, z: 1}
+  m_LocalScale: {x: 1, y: 3, z: 1}
   m_Children:
   - {fileID: 1551211445}
   m_Father: {fileID: 0}
@@ -263,8 +264,8 @@ Rigidbody2D:
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &2094571399
 MonoBehaviour:
@@ -281,7 +282,7 @@ MonoBehaviour:
   facingLeft: 0
   followPlayer: 0
   playerIsClose: 0
-  originalTimeTillDoAction: 0
+  originalTimeTillDoAction: 2
 --- !u!114 &2094571398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,7 +298,7 @@ MonoBehaviour:
   facingLeft: 0
   followPlayer: 0
   playerIsClose: 0
-  originalTimeTillDoAction: 0
+  originalTimeTillDoAction: 2
   type: 0
   spawnFacingLeft: 1
   turnAroundOnCollision: 1
@@ -306,8 +307,8 @@ MonoBehaviour:
   standStill: 0
   timeTillMaxSpeed: 0
   maxSpeed: 6
-  jumpVerticalForce: 0
-  jumpHorizontalForce: 0
+  jumpVerticalForce: 10
+  jumpHorizontalForce: 20
   minDistance: 4
   collidersToTurnAroundOn:
     serializedVersion: 2
@@ -380,4 +381,28 @@ MonoBehaviour:
   playerIsClose: 0
   originalTimeTillDoAction: 1
   hitPlayerWhenClose: 1
-  damageAmount: 80
+  damageAmount: 30
+--- !u!114 &995588755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8896368579243638753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63c2e2d3a8d4f2342808ed3e85e946aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xMin: -63
+  xMax: 63
+  yMin: -12.5
+  yMax: 12.5
+  gamePaused: 0
+  maxHealthPoints: 5000
+  iFrameTime: 0.5
+  verticalDamageForce: 50
+  horizontalDamageForce: 50
+  healthPoints: 4740
+  left: 0
+  hit: 0

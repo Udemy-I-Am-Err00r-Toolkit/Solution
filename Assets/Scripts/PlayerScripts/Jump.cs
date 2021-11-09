@@ -118,8 +118,7 @@ namespace MetroidvaniaTools
                     isWallJumping = true;
                     return false;
                 }
-                //If none of the other if statements are true and the logic flows here, then performs a standard jump and negates a jump from
-                // numberOfJumpsLeft.
+                //If none of the other if statements are true and the logic flows here, then performs a standard jump and negates a jump from numberOfJumpsLeft
                 numberOfJumpsLeft--;
                 if (numberOfJumpsLeft >= 0)
                 {

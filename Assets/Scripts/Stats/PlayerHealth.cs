@@ -9,15 +9,6 @@ namespace MetroidvaniaTools
     //Health script specific to Player; it houses a lot of extra data that normally an Enemy wouldn't need
     public class PlayerHealth : Health
     {
-        //How much time after the Player is hit that they can no longer receive damage; usually a brief amount of time like half a second
-        [SerializeField]
-        protected float iFrameTime;
-        //How much vertical knockback needs to be applied to the Player when they are dealt damage
-        [SerializeField]
-        protected float verticalDamageForce;
-        //How much horizontal knockback needs to be applied to the Player when they are dealt damage
-        [SerializeField]
-        protected float horizontalDamageForce;
         //How long the time value needs to be adjusted to better visualize when the player is hit; this is an effects feature, not needed for actual gameplay
         [SerializeField]
         protected float slowDownTimeAmount;
@@ -26,8 +17,6 @@ namespace MetroidvaniaTools
         protected float slowDownSpeed;
         //A reference to all the different sprites that make up the Player; this is used to make the Player slightly transparent when hit to visualize the Player received damage
         protected SpriteRenderer[] sprites;
-        //A reference to the Player's RigidBody component to apply knockback force
-        protected Rigidbody2D rb;
         //A reference to a UI screen that would pop-up when the Player dies
         protected Image deadScreenImage;
         //A reference to the UI text that would display a "Game Over" type message when the Player dies
@@ -35,8 +24,6 @@ namespace MetroidvaniaTools
         //The original timescale that needs to go back to after the time is slowed from damage
         protected float originalTimeScale;
         //A bool that prevents damage from happening if the player is either in an iFrameTime or dodge rolling from Dash
-        [HideInInspector]
-        public bool invulnerable;
 
 
 
@@ -50,11 +37,15 @@ namespace MetroidvaniaTools
             rb = GetComponent<Rigidbody2D>();
             if(levelManager.loadFromSave)
             {
-                healthPoints = PlayerPrefs.GetInt(" " + character.gameFile + "CurrentHealth");
+                healthPoints = PlayerPrefs.GetInt(" " + character.name + character.gameFile + "CurrentHealth");
+                if (healthPoints == 0)
+                {
+                    healthPoints = maxHealthPoints;
+                }
             }
             else
             {
-                healthPoints = PlayerPrefs.GetInt("CurrentHealth");
+                healthPoints = PlayerPrefs.GetInt(character.name + "CurrentHealth");
                 if(healthPoints == 0)
                 {
                     healthPoints = maxHealthPoints;
@@ -62,10 +53,10 @@ namespace MetroidvaniaTools
             }
         }
 
-        protected virtual void FixedUpdate()
+        protected override void FixedUpdate()
         {
+            base.FixedUpdate();
             HandleIFrames();
-            HandleDamageMovement();
         }
 
         public override void DealDamage(int amount)
@@ -96,8 +87,7 @@ namespace MetroidvaniaTools
             }
         }
 
-        //Manages all the damage effects that should happen when damage is dealt
-        public virtual void HandleDamageMovement()
+        public override void HandleDamageMovement()
         {
             if (hit)
             {
@@ -116,6 +106,7 @@ namespace MetroidvaniaTools
                 //Calls method that cancels damage state after the set amount of time
                 Invoke("HitCancel", slowDownTimeAmount);
             }
+
         }
 
         //Special effect that makes Player transparent when hit
@@ -142,16 +133,9 @@ namespace MetroidvaniaTools
             }
         }
 
-        //Allows Player to receive damage again
-        protected virtual void Cancel()
-        {
-            invulnerable = false;
-        }
-
         //Method that removes player from Damage state
         protected virtual void HitCancel()
         {
-            hit = false;
             Time.timeScale = originalTimeScale;
         }
 

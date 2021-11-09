@@ -37,6 +37,7 @@ namespace MetroidvaniaTools
             enemyMovement = GetComponent<EnemyMovement>();
             player = FindObjectOfType<Character>().gameObject;
             playerCollider = player.GetComponent<Collider2D>();
+            CharacterManager.CharacterUpdate += NewCharacter;
         }
 
         protected virtual bool CollisionCheck(Vector2 direction, float distance, LayerMask collision)
@@ -152,6 +153,10 @@ namespace MetroidvaniaTools
                 }
             }
             rayHitNumber = numberOfHits;
+        }
+        protected virtual void NewCharacter()
+        {
+            player = FindObjectOfType<Character>().gameObject;
         }
     }
 }

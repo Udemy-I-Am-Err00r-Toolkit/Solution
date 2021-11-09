@@ -152,8 +152,8 @@ namespace MetroidvaniaTools
             PlayerPrefsX.SetIntArray("TilesToRemove", tileID);
             PlayerPrefs.SetInt("FacingLeft", character.GetComponent<Character>().isFacingLeft ? 1 : 0);
             PlayerPrefs.SetInt("SpawnReference", spawnReference);
-            PlayerPrefs.SetInt("CurrentHealth", player.GetComponent<Health>().healthPoints);
-            PlayerPrefs.SetInt("CurrentWeapon", character.currentWeaponSelected);
+            PlayerPrefs.SetInt(player.name + "CurrentHealth", player.GetComponent<Health>().healthPoints);
+            PlayerPrefs.SetInt(player.name + "CurrentWeapon", character.currentWeaponSelected);
             StartCoroutine(FadeOut(scene));
         }
 

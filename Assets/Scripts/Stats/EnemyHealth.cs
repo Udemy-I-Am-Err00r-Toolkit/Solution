@@ -7,6 +7,7 @@ namespace MetroidvaniaTools
     //Health script that is specific for Enemies; this script inherits from Health, where a lot of the logic is derived from
     public class EnemyHealth : Health
     {
+        
         //This method handles logic specific to dealing damage to an Enemy; this could also be used on a wall that the Player can destroy
         public override void DealDamage(int amount)
         {

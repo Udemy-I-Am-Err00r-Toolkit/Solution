@@ -33,16 +33,21 @@ namespace MetroidvaniaTools
             int gameFile = PlayerPrefs.GetInt("GameFile");
             //Sets a value for the FileCreated PlayerPref that allows to load from save instead of starting a new game; this value gets created the very first time the game is saved
             PlayerPrefs.SetInt("FileCreated" + gameFile, 1);
+            /*
             //Refils the player health back to full health, as most games do when you save
             player.GetComponent<Health>().healthPoints = player.GetComponent<Health>().maxHealthPoints;
+            */
             //Makes sure the current scene is the scene that loads next to you load game
             PlayerPrefs.SetString(" " + character.gameFile + "LoadGame", SceneManager.GetActiveScene().name);
             //Makes sure the correct spawn point is fed to the LevelManager script next time you load game
             PlayerPrefs.SetInt(" " + character.gameFile + "SpawnReference", reference);
             //Makes sure the Player is facing the correct direction next time you load game
             PlayerPrefs.SetInt(" " + character.gameFile + "FacingLeft", character.isFacingLeft ? 1 : 0);
-            //Sets the current health to the correct amount
-            PlayerPrefs.SetInt(" " + character.gameFile + "CurrentHealth", player.GetComponent<Health>().healthPoints);
+            //Resets all the characters health to maxhealth
+            foreach(GameObject player in character.GetComponent<CharacterManager>().characters)
+            {
+                PlayerPrefs.SetInt(player.name + "(Clone)" + "CurrentHealth", player.GetComponent<Health>().maxHealthPoints);
+            }
             //Makes sure the Player has the correct weapon selected when loading game
             for (int i = 0; i<character.GetComponent<CharacterManager>().characters.Length; i ++)
             {
@@ -51,12 +56,17 @@ namespace MetroidvaniaTools
                 {
                     //Sets the game file weapon with the last weapon that character used based on the PlayerPref of that character
                     PlayerPrefs.SetInt(" " + gameFile + character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon", PlayerPrefs.GetInt(character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon"));
+                    //Sets the game file health points with the last value that character used based on the PlayerPref of that character
+                    PlayerPrefs.SetInt(" " + gameFile + character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentHealth", PlayerPrefs.GetInt(character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentHealth"));
                 }
                 //If the current character is the one being played
                 else
                 {
+                    player.GetComponent<Health>().healthPoints = player.GetComponent<Health>().maxHealthPoints;
                     //Sets the game file weapon with the weapon the character was using when saving the game
                     PlayerPrefs.SetInt(" " + gameFile + character.name + "CurrentWeapon", character.GetComponent<Character>().currentWeaponSelected);
+                    //Sets the game file weapon with the weapon the character was using when saving the game
+                    PlayerPrefs.SetInt(" " + gameFile + character.name + "CurrentHealth", character.GetComponent<Health>().healthPoints);
                 }
             }
             //Makes sure the FogOfWar tiles that need to be removed when loading are accurate

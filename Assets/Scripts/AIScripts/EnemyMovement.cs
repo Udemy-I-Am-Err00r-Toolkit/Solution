@@ -91,6 +91,10 @@ namespace MetroidvaniaTools
         //Handles movement for Normal and Flying enemies
         protected virtual void Movement()
         {
+            if (GetComponent<Health>().hit)
+            {
+                return;
+            }
             //This ensures if the Enemy is flying, it never has gravity applied to it
             if (type == MovementType.Flying)
             {
@@ -141,7 +145,7 @@ namespace MetroidvaniaTools
         //This method will have the Enemy move towards the Player if that is what should happen
         protected virtual void FollowPlayer()
         {
-            if (enemyCharacter.followPlayer)
+            if (enemyCharacter.followPlayer && !GetComponent<Health>().hit)
             {
                 bool tooClose = new bool();
                 //This is the math needed to check the distance of the Player from the enemy, and if that distance is less than minDistance, then the tooClose bool is set to true
@@ -209,7 +213,7 @@ namespace MetroidvaniaTools
                 if (rayHitNumber > 0 && jump)
                 {
                     timeTillDoAction -= Time.deltaTime;
-                    if (timeTillDoAction <= 0)
+                    if (timeTillDoAction <= 0 && !GetComponent<Health>().hit)
                     {
                         rb.AddForce(Vector2.up * jumpVerticalForce);
                         if (!enemyCharacter.facingLeft)
@@ -220,6 +224,7 @@ namespace MetroidvaniaTools
                         {
                             rb.velocity = new Vector2(-jumpHorizontalForce, rb.velocity.y);
                         }
+                        timeTillDoAction = originalTimeTillDoAction;
                     }
                 }
                 if (rayHitNumber > 0 && rb.velocity.y < 0)

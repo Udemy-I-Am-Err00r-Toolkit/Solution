@@ -20,10 +20,6 @@ namespace MetroidvaniaTools
         protected Animator anim;
         //The game object that is the physical attack; this game object appears as the slashing sprites from the animation
         protected GameObject swipe;
-        //A quick reference to the PlayerHealth script to deal damage
-        protected PlayerHealth playerHealth;
-        //A quick bool that turns true if the melee attack struck the Player
-        protected bool hit;
 
         protected override void Initialization()
         {
@@ -31,7 +27,6 @@ namespace MetroidvaniaTools
             swipe = transform.GetChild(0).gameObject;
             anim = swipe.GetComponent<Animator>();
             swipeCollider = swipe.GetComponent<Collider2D>();
-            playerHealth = player.GetComponent<PlayerHealth>();
             swipe.SetActive(false);
         }
 
@@ -43,9 +38,8 @@ namespace MetroidvaniaTools
         //If the Player is inside the trigger collider of the swipe, then it sets the hit bool to true, and runs the DealDamage method
         protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.gameObject == player && !hit)
+            if (collision.gameObject == player)
             {
-                hit = true;
                 DealDamage();
             }
         }
@@ -63,10 +57,6 @@ namespace MetroidvaniaTools
                 swipe.SetActive(true);
                 anim.SetBool("Attack", true);
                 timeTillDoAction = originalTimeTillDoAction;
-                if (hit)
-                {
-                    hit = false;
-                }
             }
             Invoke("CancelSwipe", anim.GetCurrentAnimatorStateInfo(0).length);
         }
@@ -74,16 +64,15 @@ namespace MetroidvaniaTools
         //Runs the DealDamage method found on the PlayerHealth script if hit is true
         protected virtual void DealDamage()
         {
-            if (hit)
+            if (player.transform.position.x < transform.position.x)
             {
-                if (player.transform.position.x < transform.position.x)
-                {
-                    playerHealth.left = false;
-                }
-                else
-                    playerHealth.left = true;
-                playerHealth.DealDamage(damageAmount);
+                player.GetComponent<Health>().left = false;
             }
+            else
+            {
+                player.GetComponent<Health>().left = true;
+            }
+            player.GetComponent<Health>().DealDamage(damageAmount);
         }
 
         //Manages the animation and disables the swipe game object from the scene until the Enemy melee attacks again

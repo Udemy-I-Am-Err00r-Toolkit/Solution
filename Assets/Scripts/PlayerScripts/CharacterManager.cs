@@ -34,7 +34,7 @@ namespace MetroidvaniaTools
         void CheckChangeCharacter()
         {
             //If the button setup in the inspector to change characters is pressed
-            if(input.ChangeCharacterPressed())
+            if(input.ChangeCharacterPressed() && !character.GetComponent<Health>().hit)
             {
                 //Increase currentSelection by 1
                 levelManager.currentPlayerSelection++;
@@ -47,7 +47,9 @@ namespace MetroidvaniaTools
                 //Sets the PlayerPrefs so if the scene changes, the new scene has the correct value for the current Character
                 PlayerPrefs.SetInt("Character", levelManager.currentPlayerSelection);
                 //Saves the current weapon so next time the character is selected, the weapon they were last using is the current one.
-                PlayerPrefs.SetInt(character.gameObject.name + "(Clone)" + "CurrentWeapon", character.currentWeaponSelected);
+                PlayerPrefs.SetInt(character.name + "CurrentWeapon", character.currentWeaponSelected);
+                //Saves the health on the character
+                PlayerPrefs.SetInt(character.name + "CurrentHealth",  character.GetComponent<Health>().healthPoints);
                 //Runs a method in the Game Manager script to change the character
                 gameManager.ChangeCharacter(characters[levelManager.currentPlayerSelection]);
                 //Lets the other scripts listening to this event know the character has changed

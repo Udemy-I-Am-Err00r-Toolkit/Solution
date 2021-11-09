@@ -133,12 +133,16 @@ namespace MetroidvaniaTools
                 {
                     //Sets the weapon for this character to whatever was the weapon the last time the game was saved
                     PlayerPrefs.SetInt(character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon"));
+                    //Sets the health points for this character to whatever was the value the last time the game was saved
+                    PlayerPrefs.SetInt(character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentHealth"));
                 }
                 //If the current character is the one being played
                 else
                 {
                     //Sets the weapon for this character to the last weapon that the game file was saved with
                     PlayerPrefs.SetInt(character.name + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + character.name + "CurrentWeapon"));
+                    //Sets the health points for this character to the last value that the game file was saved with
+                    PlayerPrefs.SetInt(character.name + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + character.name + "CurrentWeapon"));
                 }
             }
             //Resets time back to a normal scale

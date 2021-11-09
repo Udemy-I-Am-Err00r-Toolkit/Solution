@@ -191,5 +191,6 @@ namespace MetroidvaniaTools
             }
             currentProjectile.GetComponent<Projectile>().fired = true;
         }
+
     }
 }

@@ -162,11 +162,14 @@ namespace MetroidvaniaTools
                     {
                         //Sets the last weapon this character used to the current weapon that should be selected when the character is loaded into the scene
                         PlayerPrefs.SetInt(player.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + player.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon"));
+                        //Set the current health of the last character to the amount of health it should have when loaded into the scene
+                        PlayerPrefs.SetInt(player.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + player.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentHealth"));
                     }
                     else
                     {
                         //Same as the line of code above, but is the current character loaded into the scene and doesn't need the (Clone) as this character will have that in the name when loaded into scene
                         PlayerPrefs.SetInt(player.name + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + player.name + "CurrentWeapon"));
+                        PlayerPrefs.SetInt(player.name + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + player.name + "CurrentHealth"));
                     }
                 }
                 //Checks what direction the player was facing last when the game was saved
@@ -179,7 +182,9 @@ namespace MetroidvaniaTools
                 player.GetComponent<Character>().isFacingLeft = PlayerPrefs.GetInt("FacingLeft") == 1 ? true : false;
             }
             //Sets the current weapon for the player based on the previous load data; if no load data exists, it goes with the first iteration by default
-            player.GetComponent<Character>().currentWeaponSelected = PlayerPrefs.GetInt(player.gameObject.name + "CurrentWeapon");
+            player.GetComponent<Character>().currentWeaponSelected = PlayerPrefs.GetInt(player.name + "CurrentWeapon");
+            //Sets the current health for the player based on the previous load data; if no load data exists, it goes with the first iteration by default
+            player.GetComponent<Health>().healthPoints = PlayerPrefs.GetInt(player.name + "CurrentHealth");
             //If the character is facing left
             if (player.GetComponent<Character>().isFacingLeft)
             {
