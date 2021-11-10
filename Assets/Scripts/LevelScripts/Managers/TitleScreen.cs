@@ -54,14 +54,7 @@ namespace MetroidvaniaTools
             //The file slot based on if it's 1, 2, or 3
             PlayerPrefs.SetInt("GameFile", slot);
             //Same as above value, but just for the LevelManager script
-            PlayerPrefs.SetInt(" " + slot + "SpawnReference", 0);
-
-
-            //Sets the health to 100 because most games start you off with full health, you can toggle this any way you want if you don't want the player to start with 100 health
-            //PlayerPrefs.SetInt(" " + slot + "CurrentHealth", 100);
-            
-            
-            
+            PlayerPrefs.SetInt(" " + slot + "SpawnReference", 0);            
             //Sets up the string reference for the scene it needs to load
             PlayerPrefs.SetString(" " + slot + "LoadGame", newGameScene);
             //Sets the PlayerPrefs LoadFromSave value to true in case player dies or quits before first checkpoint

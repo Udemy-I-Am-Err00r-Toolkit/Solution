@@ -1484,8 +1484,7 @@ MonoBehaviour:
   dashAbility: 0
   wallJumpAbility: 0
   weaponTypes:
-  - {fileID: 11400000, guid: dfe59817a89f18e4db829df5623143bf, type: 2}
-  - {fileID: 11400000, guid: 2c567983b5ee87649a71c6b2196cadd6, type: 2}
+  - {fileID: 11400000, guid: ca12ce4bfb6490e48a06dbd1ff0a7988, type: 2}
   - {fileID: 11400000, guid: f9ab83bf84a96914d904274642b8909d, type: 2}
   gunBarrel: {fileID: 8039780283096432915}
   gunRotation: {fileID: 2213069773933426775}

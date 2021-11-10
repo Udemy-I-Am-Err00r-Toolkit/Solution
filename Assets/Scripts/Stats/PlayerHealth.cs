@@ -37,11 +37,7 @@ namespace MetroidvaniaTools
             rb = GetComponent<Rigidbody2D>();
             if(levelManager.loadFromSave)
             {
-                healthPoints = PlayerPrefs.GetInt(" " + character.name + character.gameFile + "CurrentHealth");
-                if (healthPoints == 0)
-                {
-                    healthPoints = maxHealthPoints;
-                }
+                healthPoints = PlayerPrefs.GetInt(" " + character.gameFile + character.name + "CurrentHealth");
             }
             else
             {
@@ -185,17 +181,23 @@ namespace MetroidvaniaTools
                 int gameFile = PlayerPrefs.GetInt("GameFile");
                 for (int i = 0; i < character.GetComponent<CharacterManager>().characters.Length; i++)
                 {
-                    //If the current character is not the being played; this is to add the "(Clone)" string to the character name to properly save the PlayerPref
+                    //Creates a temporary GameObject variable for convenience naming
+                    GameObject player = character.GetComponent<CharacterManager>().characters[i];
+                    //Checks if the iteration value is not the current character
                     if (levelManager.currentPlayerSelection != i)
                     {
-                        //Sets the weapon for this character to whatever was the weapon the last time the game was saved
-                        PlayerPrefs.SetInt(character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon"));
+                        //Sets the current weapon for this character
+                        PlayerPrefs.SetInt(player.name + "(Clone)" + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + player.name + "(Clone)" + "CurrentWeapon"));
+                        //Sets the current health for this character
+                        PlayerPrefs.SetInt(player.name + "(Clone)" + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + player.name + "(Clone)" + "CurrentHealth"));
                     }
-                    //If the current character is the one being played
+                    //Checks if the iteration value is the current character
                     else
                     {
-                        //Sets the weapon for this character to the last weapon that the game file was saved with
-                        PlayerPrefs.SetInt(character.name + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + character.name + "CurrentWeapon"));
+                        //Sets the current weapon for this character
+                        PlayerPrefs.SetInt(player.name + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + player.name + "CurrentWeapon"));
+                        //Sets the current health for this character
+                        PlayerPrefs.SetInt(player.name + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + player.name + "CurrentHealth"));
                     }
                 }
             }

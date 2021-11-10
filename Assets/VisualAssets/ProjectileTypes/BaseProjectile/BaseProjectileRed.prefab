@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 5696393165194666665}
   - component: {fileID: -7077886869364576667}
   m_Layer: 0
-  m_Name: SecondProjectile
-  m_TagString: SecondWeapon
+  m_Name: BaseProjectileRed
+  m_TagString: BaseProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,8 +27,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6241955206778430949}
-  m_LocalRotation: {x: -0, y: -0, z: -0.00094363093, w: -0.99999964}
-  m_LocalPosition: {x: -57.33433, y: -8.053402, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.0009433031, w: -0.99999964}
+  m_LocalPosition: {x: -56.929848, y: -8.040834, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -74,8 +74,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1237062986e86794a9f4eb67b032a9bf, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 66263bb472d489747b8edc306889c1fe, type: 3}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -102,7 +102,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.64, y: 0.64}
+    oldSize: {x: 0.4, y: 0.15}
     newSize: {x: 0.4, y: 0.15}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -144,11 +144,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aed7b8b92823489418f36e9c544d2bb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapon: {fileID: 11400000, guid: 2c567983b5ee87649a71c6b2196cadd6, type: 2}
-  damageAmount: 0
+  weapon: {fileID: 11400000, guid: dfe59817a89f18e4db829df5623143bf, type: 2}
+  damageAmount: 100
   damageLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8192
   fired: 1
   left: 0
   projectileLifeTime: 2

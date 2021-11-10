@@ -15,7 +15,6 @@ namespace MetroidvaniaTools
         protected override void Initialization()
         {
             base.Initialization();
-            CharacterManager.CharacterUpdate += NewCharacter;
         }
 
         //If you enter the trigger collider of a save point, it runs the save method
@@ -33,40 +32,37 @@ namespace MetroidvaniaTools
             int gameFile = PlayerPrefs.GetInt("GameFile");
             //Sets a value for the FileCreated PlayerPref that allows to load from save instead of starting a new game; this value gets created the very first time the game is saved
             PlayerPrefs.SetInt("FileCreated" + gameFile, 1);
-            /*
-            //Refils the player health back to full health, as most games do when you save
-            player.GetComponent<Health>().healthPoints = player.GetComponent<Health>().maxHealthPoints;
-            */
             //Makes sure the current scene is the scene that loads next to you load game
             PlayerPrefs.SetString(" " + character.gameFile + "LoadGame", SceneManager.GetActiveScene().name);
             //Makes sure the correct spawn point is fed to the LevelManager script next time you load game
             PlayerPrefs.SetInt(" " + character.gameFile + "SpawnReference", reference);
             //Makes sure the Player is facing the correct direction next time you load game
             PlayerPrefs.SetInt(" " + character.gameFile + "FacingLeft", character.isFacingLeft ? 1 : 0);
-            //Resets all the characters health to maxhealth
-            foreach(GameObject player in character.GetComponent<CharacterManager>().characters)
+            //Resets all the characters health to maxhealth and saves the weapons and health to a PlayerPref
+            for (int i = 0; i < character.GetComponent<CharacterManager>().characters.Length; i++)
             {
-                PlayerPrefs.SetInt(player.name + "(Clone)" + "CurrentHealth", player.GetComponent<Health>().maxHealthPoints);
-            }
-            //Makes sure the Player has the correct weapon selected when loading game
-            for (int i = 0; i<character.GetComponent<CharacterManager>().characters.Length; i ++)
-            {
-                //Makes sure if the character is the one being played or not; this is so it can name the PlayerPref correctly with the additional "(Clone)" string within the character name
-                if(levelManager.currentPlayerSelection != i)
+                //Creates a temporary GameObject variable for convenience naming
+                GameObject player = character.GetComponent<CharacterManager>().characters[i];
+                player.GetComponent<Health>().healthPoints = player.GetComponent<Health>().maxHealthPoints;
+                //Checks if the iteration value is not the current character
+                if (levelManager.currentPlayerSelection != i)
                 {
-                    //Sets the game file weapon with the last weapon that character used based on the PlayerPref of that character
-                    PlayerPrefs.SetInt(" " + gameFile + character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon", PlayerPrefs.GetInt(character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon"));
-                    //Sets the game file health points with the last value that character used based on the PlayerPref of that character
-                    PlayerPrefs.SetInt(" " + gameFile + character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentHealth", PlayerPrefs.GetInt(character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentHealth"));
+                    //Sets the current weapon for this character
+                    PlayerPrefs.SetInt(" " + gameFile + player.name + "(Clone)" + "CurrentWeapon", PlayerPrefs.GetInt(player.name + "(Clone)" + "CurrentWeapon"));
+                    //Sets the current health for this character back to max health
+                    PlayerPrefs.SetInt(" " + gameFile + player.name + "(Clone)" + "CurrentHealth", player.GetComponent<Health>().maxHealthPoints);
+                    //Sets the current health for this character back to max health
+                    PlayerPrefs.SetInt(player.name + "(Clone)" + "CurrentHealth", player.GetComponent<Health>().maxHealthPoints);
                 }
-                //If the current character is the one being played
+                //Checks if the iteration value is the current character
                 else
                 {
-                    player.GetComponent<Health>().healthPoints = player.GetComponent<Health>().maxHealthPoints;
-                    //Sets the game file weapon with the weapon the character was using when saving the game
-                    PlayerPrefs.SetInt(" " + gameFile + character.name + "CurrentWeapon", character.GetComponent<Character>().currentWeaponSelected);
-                    //Sets the game file weapon with the weapon the character was using when saving the game
-                    PlayerPrefs.SetInt(" " + gameFile + character.name + "CurrentHealth", character.GetComponent<Health>().healthPoints);
+                    //Sets the current weapon for this character
+                    PlayerPrefs.SetInt(" " + gameFile + player.name + "CurrentWeapon", PlayerPrefs.GetInt(player.name + "CurrentWeapon"));
+                    //Sets the current health for this character to max health
+                    PlayerPrefs.SetInt(" " + gameFile + player.name + "CurrentHealth", player.GetComponent<Health>().maxHealthPoints);
+                    //Sets the current health for this character to max health
+                    PlayerPrefs.SetInt(player.name + "CurrentHealth", player.GetComponent<Health>().maxHealthPoints);
                 }
             }
             //Makes sure the FogOfWar tiles that need to be removed when loading are accurate
@@ -74,11 +70,6 @@ namespace MetroidvaniaTools
             PlayerPrefsX.SetIntArray(" " + character.gameFile + "TilesToRemove", levelManager.tileID);
             //Makes sure the correct character is selected for the CharacterManager script
             PlayerPrefs.SetInt(" " + character.gameFile + "Character", PlayerPrefs.GetInt("Character"));
-        }
-
-        protected virtual void NewCharacter()
-        {
-            UpdateCharacter();
         }
     }
 }

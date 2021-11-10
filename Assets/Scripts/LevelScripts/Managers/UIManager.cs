@@ -37,8 +37,6 @@ namespace MetroidvaniaTools
             deadScreen = FindObjectOfType<DeadScreenFinder>().gameObject;
             gamePausedScreen = FindObjectOfType<GamePausedFinder>().gameObject;
             areYouSureScreen = FindObjectOfType<AreYouSureFinder>().gameObject;
-            //Adds the NewCharacter method to the event for the CharacterManager delegate
-            CharacterManager.CharacterUpdate += NewCharacter;
             ManageUI();
         }
 
@@ -128,23 +126,26 @@ namespace MetroidvaniaTools
             //Gets a reference of all the characters within the CharacterManager script
             for (int i = 0; i < character.GetComponent<CharacterManager>().characters.Length; i++)
             {
-                //If the current character is not the being played; this is to add the "(Clone)" string to the character name to properly save the PlayerPref
+                //Creates a temporary GameObject variable for convenience naming
+                GameObject player = character.GetComponent<CharacterManager>().characters[i];
+                //Checks if the iteration value is not the current character
                 if (levelManager.currentPlayerSelection != i)
                 {
-                    //Sets the weapon for this character to whatever was the weapon the last time the game was saved
-                    PlayerPrefs.SetInt(character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon"));
-                    //Sets the health points for this character to whatever was the value the last time the game was saved
-                    PlayerPrefs.SetInt(character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + character.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentHealth"));
+                    //Sets the current weapon for this character
+                    PlayerPrefs.SetInt(player.name + "(Clone)" + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + player.name + "(Clone)" + "CurrentWeapon"));
+                    //Sets the current health for this character
+                    PlayerPrefs.SetInt(player.name + "(Clone)" + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + player.name + "(Clone)" + "CurrentHealth"));
                 }
-                //If the current character is the one being played
+                //Checks if the iteration value is the current character
                 else
                 {
-                    //Sets the weapon for this character to the last weapon that the game file was saved with
-                    PlayerPrefs.SetInt(character.name + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + character.name + "CurrentWeapon"));
-                    //Sets the health points for this character to the last value that the game file was saved with
-                    PlayerPrefs.SetInt(character.name + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + character.name + "CurrentWeapon"));
+                    //Sets the current weapon for this character
+                    PlayerPrefs.SetInt(player.name + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + player.name + "CurrentWeapon"));
+                    //Sets the current health for this character
+                    PlayerPrefs.SetInt(player.name + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + player.name + "CurrentHealth"));
                 }
             }
+            PlayerPrefs.SetInt(" " + gameFile + "Character", levelManager.currentPlayerSelection);
             //Resets time back to a normal scale
             Time.timeScale = originalTimeScale;
             //Unpauses the game
@@ -176,12 +177,6 @@ namespace MetroidvaniaTools
             }
             Vector3 currentPosition = bigMapCamera.transform.position;
             bigMapCamera.transform.position = new Vector3(currentPosition.x + horizontal, currentPosition.y + vertical, -10);
-        }
-
-        //This is called by the CharacterManager script when the character is changed based on Delegate event
-        protected virtual void NewCharacter()
-        {
-            UpdateCharacter();
         }
     }
 }

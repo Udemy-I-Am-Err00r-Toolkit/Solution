@@ -63,37 +63,30 @@ namespace MetroidvaniaTools
             {
                 //The reference for the Player and PlayerIndicator to start from
                 currentStartReference = PlayerPrefs.GetInt(" " + gameFile + "SpawnReference");
+                currentPlayerSelection = PlayerPrefs.GetInt(" " + gameFile + "Character");
             }
             //If the game is not loading from a save and is just changing scenes, then run the following logic
             else
             {
                 //The reference for the Player and PlayerIndicator to start from
                 currentStartReference = PlayerPrefs.GetInt("SpawnReference");
+                currentPlayerSelection = PlayerPrefs.GetInt("Character");
             }
             if (availableSpawnLocations.Count <= currentStartReference || currentStartReference < 0)
             {
                 //Sets the currentStartReference to a default value
                 currentStartReference = 0;
             }
-            //This will set the player to the correct reference based on the PlayerPref
-            startingLocation = availableSpawnLocations[currentStartReference].position;
-            //This will set the player indicator to the correct reference based on the PlayerPref
-            playerIndicatorLocation = playerIndicatorSpawnLocations[currentStartReference].position;
-            //This will set the current character being used to the correct reference based on PlayerPref when last saved game
-            if (loadFromSave)
-            {
-                currentPlayerSelection = PlayerPrefs.GetInt(" " + gameFile + "Character");
-            }
-            else
-            {
-                currentPlayerSelection = PlayerPrefs.GetInt("Character");
-            }
-            //If somehow when loading the scene the currentPlayerSelected is higher than the number of selectable players within the CharacterManager script or is a negative number, it sets it to a default of 0
             if (currentPlayerSelection >= initialPlayer.GetComponent<CharacterManager>().characters.Length || currentPlayerSelection < 0)
             {
                 //Default value of the current selected playable character
                 currentPlayerSelection = 0;
             }
+            //This will set the player to the correct reference based on the PlayerPref
+            startingLocation = availableSpawnLocations[currentStartReference].position;
+            //This will set the player indicator to the correct reference based on the PlayerPref
+            playerIndicatorLocation = playerIndicatorSpawnLocations[currentStartReference].position;
+            //If somehow when loading the scene the currentPlayerSelected is higher than the number of selectable players within the CharacterManager script or is a negative number, it sets it to a default of 0
             //Sets up which player should initialize based on the CharacterManager values for the player
             initialPlayer = initialPlayer.GetComponent<CharacterManager>().characters[currentPlayerSelection];
             //Runs a method in the GameManager script to initialize player
@@ -133,7 +126,6 @@ namespace MetroidvaniaTools
                 id.Add(number);
                 Destroy(fogTiles[number].gameObject);
             }
-            CharacterManager.CharacterUpdate += NewCharacter;
             //Ensures after the level loads that it is aware the game is no longer loading from a save so when scenes change, it doesn't get confused and load the wrong data
             Invoke("CancelLoadFromSave", .1f);
         }
@@ -228,11 +220,6 @@ namespace MetroidvaniaTools
             loadFromSave = false;
             //Ensures the PlayerPrefs that manages the LoadFromSave value has the correct value
             PlayerPrefs.SetInt(" " + gameFile + "LoadFromSave", levelManager.loadFromSave ? 1 : 0);
-        }
-
-        protected virtual void NewCharacter()
-        {
-            UpdateCharacter();
         }
 
         //Shows visually the bounds for the Level

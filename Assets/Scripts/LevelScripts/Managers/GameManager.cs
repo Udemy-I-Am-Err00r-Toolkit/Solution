@@ -48,6 +48,7 @@ namespace MetroidvaniaTools
             xMax = levelManager.levelSize.max.x;
             yMin = levelManager.levelSize.min.y;
             yMax = levelManager.levelSize.max.y;
+            CharacterManager.CharacterUpdate += UpdateCharacter;
         }
 
         //Instantiates the Player into the scene; this method is called by the LevelManager script
@@ -70,18 +71,15 @@ namespace MetroidvaniaTools
         public virtual void ChangeCharacter(GameObject currentCharacter)
         {
             //Gets a reference of the old player from the scene
-            GameObject oldPlayer = FindObjectOfType<Character>().gameObject;
+            GameObject oldCharacter = FindObjectOfType<Character>().gameObject;
             //Spawns in the new player at the position the old player
-            Instantiate(currentCharacter, oldPlayer.transform.position, Quaternion.identity);
+            Instantiate(currentCharacter, oldCharacter.transform.position, Quaternion.identity);
             //Handles making sure the player is facing the correct direction
             PlayerPrefs.SetInt("FacingLeft", character.isFacingLeft ? 1 : 0);
             //Initializes the new player and sets up proper character properties
             currentCharacter.GetComponent<Character>().InitializePlayer(levelManager.currentPlayerSelection);
-            //Runs method so other scripts that need to constantly check for player have correct data
-            UpdateCharacter();
             //Gets rid of old player
-            Destroy(oldPlayer);
-
+            Destroy(oldCharacter);
         }
 
         //This method is called by other scripts that need to grab the most recent gameobject that is the player

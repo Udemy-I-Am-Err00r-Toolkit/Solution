@@ -17,8 +17,6 @@ namespace MetroidvaniaTools
         protected override void Initialization()
         {
             base.Initialization();
-            //Adds the NewCharacter method to the event for the CharacterManager delegate
-            CharacterManager.CharacterUpdate += NewCharacter;
             //Checks if the player indicator needs to be setup at the default position
             origin = levelManager.playerIndicatorSpawnLocations[levelManager.currentStartReference];
             relativePosition = player.transform.position * -.1f;
@@ -52,11 +50,6 @@ namespace MetroidvaniaTools
             relativeP.y = Vector3.Dot(distance, origin.up.normalized);
             relativeP.z = Vector3.Dot(distance, origin.forward.normalized);
             return relativeP;
-        }
-
-        protected virtual void NewCharacter()
-        {
-            UpdateCharacter();
         }
     }
 }

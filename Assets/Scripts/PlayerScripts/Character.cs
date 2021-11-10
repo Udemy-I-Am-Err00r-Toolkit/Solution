@@ -141,8 +141,7 @@ namespace MetroidvaniaTools
             rb.velocity = new Vector2(rb.velocity.x, (rb.velocity.y * speed));
         }
 
-        //This method will be handled by the LevelManager and GameManager scripts, will instantiate the player into the scene where the player
-        //needs to be.
+        //This method will be handled by the LevelManager and GameManager scripts, will instantiate the player into the scene where the player needs to be.
         public void InitializePlayer(int characterSelected)
         {
             //Refernce to the current game file
@@ -154,26 +153,30 @@ namespace MetroidvaniaTools
             //If loading from save, the if statement logic runs
             if (loadFromSave)
             {
-                //Gets an int reference to each character within the CharacterManager script
                 for(int i = 0; i < player.GetComponent<CharacterManager>().characters.Length; i ++)
                 {
-                    //Checks to see if out of all the characters in the CharacterManager script, this is not the current one loaded into the scene because the string name of that characer won't have (Clone) at the end of it and needs the (Clone) to properly save the data
+                    //Creates a temporary GameObject variable for convenience naming
+                    GameObject character = player.GetComponent<CharacterManager>().characters[i];
+                    //Checks if the iteration value is not the current character
                     if (characterSelected != i)
                     {
-                        //Sets the last weapon this character used to the current weapon that should be selected when the character is loaded into the scene
-                        PlayerPrefs.SetInt(player.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + player.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentWeapon"));
-                        //Set the current health of the last character to the amount of health it should have when loaded into the scene
-                        PlayerPrefs.SetInt(player.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + player.GetComponent<CharacterManager>().characters[i].name + "(Clone)" + "CurrentHealth"));
+                        //Sets the current weapon for this character
+                        PlayerPrefs.SetInt(character.name + "(Clone)" + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + character.name + "(Clone)" + "CurrentWeapon"));
+                        //Sets the current health for this character
+                        PlayerPrefs.SetInt(character.name + "(Clone)" + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + character.name + "(Clone)" + "CurrentHealth"));
                     }
+                    //Checks if the iteration value is the current character
                     else
                     {
-                        //Same as the line of code above, but is the current character loaded into the scene and doesn't need the (Clone) as this character will have that in the name when loaded into scene
-                        PlayerPrefs.SetInt(player.name + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + player.name + "CurrentWeapon"));
-                        PlayerPrefs.SetInt(player.name + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + player.name + "CurrentHealth"));
+                        //Sets the current weapon for this character
+                        PlayerPrefs.SetInt(character.name + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + character.name + "CurrentWeapon"));
+                        //Sets the current health for this character
+                        PlayerPrefs.SetInt(character.name + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + character.name + "CurrentHealth"));
                     }
                 }
-                //Checks what direction the player was facing last when the game was saved
+                //Has the character facing the direction from last save
                 player.GetComponent<Character>().isFacingLeft = PlayerPrefs.GetInt(" " + gameFile + "FacingLeft") == 1 ? true : false;
+                
             }
             //If not loading from a save
             else

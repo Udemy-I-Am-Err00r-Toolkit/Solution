@@ -9,7 +9,7 @@ namespace MetroidvaniaTools
     {
         //List of playable characters that you can switch between
         public GameObject[] characters;
-
+        //Reference to the LevelManager GameObject in each scene
         protected LevelManager levelManager;
 
         //Delegate void that lets other scripts know when this button is pressed so they can assign new player
@@ -31,7 +31,7 @@ namespace MetroidvaniaTools
             CheckChangeCharacter();
         }
 
-        void CheckChangeCharacter()
+        protected virtual void CheckChangeCharacter()
         {
             //If the button setup in the inspector to change characters is pressed
             if(input.ChangeCharacterPressed() && !character.GetComponent<Health>().hit)
