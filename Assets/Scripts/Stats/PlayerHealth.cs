@@ -178,25 +178,28 @@ namespace MetroidvaniaTools
                 yield return new WaitForEndOfFrame();
                 //Gets a reference of all the characters within the CharacterManager script
                 int gameFile = PlayerPrefs.GetInt("GameFile");
-                for (int i = 0; i < character.GetComponent<CharacterManager>().characters.Length; i++)
+                if (character.GetComponent<CharacterManager>())
                 {
-                    //Creates a temporary GameObject variable for convenience naming
-                    GameObject player = character.GetComponent<CharacterManager>().characters[i];
-                    //Checks if the iteration value is not the current character
-                    if (levelManager.currentPlayerSelection != i)
+                    for (int i = 0; i < character.GetComponent<CharacterManager>().characters.Length; i++)
                     {
-                        //Sets the current weapon for this character
-                        PlayerPrefs.SetInt(player.name + "(Clone)" + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + player.name + "(Clone)" + "CurrentWeapon"));
-                        //Sets the current health for this character
-                        PlayerPrefs.SetInt(player.name + "(Clone)" + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + player.name + "(Clone)" + "CurrentHealth"));
-                    }
-                    //Checks if the iteration value is the current character
-                    else
-                    {
-                        //Sets the current weapon for this character
-                        PlayerPrefs.SetInt(player.name + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + player.name + "CurrentWeapon"));
-                        //Sets the current health for this character
-                        PlayerPrefs.SetInt(player.name + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + player.name + "CurrentHealth"));
+                        //Creates a temporary GameObject variable for convenience naming
+                        GameObject player = character.GetComponent<CharacterManager>().characters[i];
+                        //Checks if the iteration value is not the current character
+                        if (levelManager.currentPlayerSelection != i)
+                        {
+                            //Sets the current weapon for this character
+                            PlayerPrefs.SetInt(player.name + "(Clone)" + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + player.name + "(Clone)" + "CurrentWeapon"));
+                            //Sets the current health for this character
+                            PlayerPrefs.SetInt(player.name + "(Clone)" + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + player.name + "(Clone)" + "CurrentHealth"));
+                        }
+                        //Checks if the iteration value is the current character
+                        else
+                        {
+                            //Sets the current weapon for this character
+                            PlayerPrefs.SetInt(player.name + "CurrentWeapon", PlayerPrefs.GetInt(" " + gameFile + player.name + "CurrentWeapon"));
+                            //Sets the current health for this character
+                            PlayerPrefs.SetInt(player.name + "CurrentHealth", PlayerPrefs.GetInt(" " + gameFile + player.name + "CurrentHealth"));
+                        }
                     }
                 }
             }

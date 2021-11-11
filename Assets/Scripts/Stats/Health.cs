@@ -48,7 +48,7 @@ namespace MetroidvaniaTools
         //This method negates the health points based on the damage value found on the Projectile or Melee script that caused damage
         public virtual void DealDamage(int amount)
         {
-            //If not invulnerable
+            //If not hit
             if (!hit)
             {
                 //Negates healthpoints
