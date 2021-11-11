@@ -14,8 +14,6 @@ namespace MetroidvaniaTools
         [SerializeField]
         protected LayerMask damageLayers;
 
-        //A collider that gets adjusted through an animation to determine if an attackable object is inside that collider
-        protected Collider2D meleeCollider;
         //A value the timeTillDamageNext needs to reset back to after input is pressed
         protected float originalTimeTillDamageNext;
 

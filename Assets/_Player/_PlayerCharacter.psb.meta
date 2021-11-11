@@ -6840,7 +6840,7 @@ ScriptedImporter:
     spriteName: 
     isGroup: 1
     parentIndex: -1
-    spriteID: 00000000000000000000000000000000
+    spriteID: c26adb481a7006840bd4f16e705b4c19
     layerID: 59
     mosaicPosition: {x: 0, y: 0}
   - name: Right Arm Shoulder

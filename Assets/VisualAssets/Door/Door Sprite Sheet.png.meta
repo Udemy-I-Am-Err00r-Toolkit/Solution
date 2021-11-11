@@ -51,6 +51,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -60,8 +61,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -82,6 +83,8 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
@@ -314,6 +317,16 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Door Sprite Sheet_8: -4519021621332560107
+      Door Sprite Sheet_5: 2825967958930954229
+      Door Sprite Sheet_3: -5843239330994452492
+      Door Sprite Sheet_1: 5690413011239793544
+      Door Sprite Sheet_0: 7910820492225093474
+      Door Sprite Sheet_4: 7181414400091039293
+      Door Sprite Sheet_6: 3807039671478184932
+      Door Sprite Sheet_2: -8768993218345435839
+      Door Sprite Sheet_7: 3931685943519176413
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
