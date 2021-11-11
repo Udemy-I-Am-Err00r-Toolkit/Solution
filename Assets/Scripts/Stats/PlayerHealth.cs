@@ -61,7 +61,7 @@ namespace MetroidvaniaTools
             if (!character.isDead)
             {
                 //If invulnerable or dashing, we return out of this method and deal no damage
-                if (invulnerable || character.isDashing)
+                if (hit || character.isDashing)
                 {
                     return;
                 }
@@ -78,7 +78,6 @@ namespace MetroidvaniaTools
                 //Puts the Player into a damage state, and quickly sets everything up so we can handle all the damage effects
                 originalTimeScale = Time.timeScale;
                 hit = true;
-                invulnerable = true;
                 Invoke("Cancel", iFrameTime);
             }
         }
@@ -109,7 +108,7 @@ namespace MetroidvaniaTools
         protected virtual void HandleIFrames()
         {
             Color spriteColors = new Color();
-            if (invulnerable)
+            if (hit)
             {
                 foreach (SpriteRenderer sprite in sprites)
                 {

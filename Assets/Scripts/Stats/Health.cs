@@ -29,8 +29,6 @@ namespace MetroidvaniaTools
         public bool hit;
         //A reference to the Rigidbody on the object
         protected Rigidbody2D rb;
-        //The amount of time after receiving damage that the object can no longer receive additional damage to prevent being hit twice from the same strike
-        protected bool invulnerable;
 
         protected override void Initialization()
         {
@@ -51,14 +49,13 @@ namespace MetroidvaniaTools
         public virtual void DealDamage(int amount)
         {
             //If not invulnerable
-            if (!invulnerable)
+            if (!hit)
             {
                 //Negates healthpoints
                 healthPoints -= amount;
                 //Sets the hit bool to true
                 hit = true;
                 //Sets the invulnerable bool to true
-                invulnerable = true;
                 Invoke("Cancel", iFrameTime);
             }
         }
@@ -88,7 +85,6 @@ namespace MetroidvaniaTools
         protected virtual void Cancel()
         {
             hit = false;
-            invulnerable = false;
         }
     }
 }
