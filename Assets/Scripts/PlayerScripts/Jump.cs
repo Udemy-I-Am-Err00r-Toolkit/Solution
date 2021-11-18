@@ -164,12 +164,9 @@ namespace MetroidvaniaTools
             }
         }
 
+        //Performs a downward jump to fall faster
         protected virtual void DownJumping()
         {
-            if(!character.isGrounded)
-            {
-                Debug.Log("Not Grounded");
-            }
             if (downwardJump && !character.isGrounded)
             {
                 rb.AddForce(Vector2.down * jumpForce);
