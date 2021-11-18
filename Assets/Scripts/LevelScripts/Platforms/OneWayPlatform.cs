@@ -11,32 +11,61 @@ namespace MetroidvaniaTools
         protected enum OneWayPlatforms { GoingUp, GoingDown, Both }
         [SerializeField]
         protected OneWayPlatforms type;
+        //A quick delay so the player can receive platform collision again
+        private float delay = .5f;
 
         protected override void Initialization()
         {
             base.Initialization();
         }
 
-        //Checks to make sure the Player is either below or above the platform when colliding, and depending on what oneway platform type it is, allows the player to pass through it by making the platform collider a trigger collider.
-        protected virtual void OnCollisionStay2D(Collision2D collision)
+        //This will run when the player colides with the platform and the logic inside works for going up through the platform
+        protected virtual void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.gameObject == player)
+            //Checks to make sure it's the player colliding with the platform
+            if(collision.gameObject == player)
             {
-                if (collision.gameObject.transform.position.y < transform.position.y && (type == OneWayPlatforms.Both || type == OneWayPlatforms.GoingUp))
+                //Checks to see if the maximum point on the player collider is lower than the center of the platform, meaning the player is beneath the platform
+                if(player.GetComponent<Collider2D>().bounds.max.y < platformCollider.bounds.center.y && (type == OneWayPlatforms.Both || type == OneWayPlatforms.GoingUp))
                 {
-                    platformCollider.isTrigger = true;
-                }
-                if (collision.gameObject.transform.position.y > transform.position.y && (type == OneWayPlatforms.Both || type == OneWayPlatforms.GoingDown) && character.isJumpingThroughPlatform)
-                {
-                    platformCollider.isTrigger = true;
+                    //Sets the isJumpingThroughPlatform bool to true
+                    player.GetComponent<Character>().isJumpingThroughPlatform = true;
+                    //Method that will allow the player to pass through the platform collider while everything else stays
+                    Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), platformCollider, true);
+                    //Runs Coroutine to reestablish collider for player and turn off the isJumpingThroughPlatform bool
+                    StartCoroutine(StopIgnoring());
                 }
             }
         }
 
-        //Once the player passes through a trigger collider, it turns the collider back into a regular collider
-        protected virtual void OnTriggerExit2D(Collider2D collision)
+        //This method will run as long as the player is touching the collider and the logic inside works for going down through the platform
+        protected virtual void OnCollisionStay2D(Collision2D collision)
         {
-            platformCollider.isTrigger = false;
+            //Checks to make sure it's the player colliding with the platform
+            if (collision.gameObject == player)
+            {
+                //Checks to see if the minimum point on the player collider is above than the center of the platform, meaning the player is above the platform while holding down and jumping
+                if (player.GetComponent<Collider2D>().bounds.min.y > platformCollider.bounds.center.y && (type == OneWayPlatforms.Both || type == OneWayPlatforms.GoingDown) && player.GetComponent<Jump>().downwardJump)
+                {
+                    //Sets the isJumpingThroughPlatform bool to true
+                    player.GetComponent<Character>().isJumpingThroughPlatform = true;
+                    //Method that will allow the player to pass through the platform collider while everything else stays
+                    Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), platformCollider, true);
+                    //Runs Coroutine to reestablish collider for player and turn off the isJumpingThroughPlatform bool
+                    StartCoroutine(StopIgnoring());
+                }
+            }
+        }
+
+        //Coroutine that resets the isJumpingThroughPlatform bool back to false and allows the player to collide with the platform
+        protected IEnumerator StopIgnoring()
+        {
+            //Half secod delay wait to perform the logic next; change value through code up top
+            yield return new WaitForSeconds(delay);
+            //Makes the player collide with platform again
+            Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), platformCollider, false);
+            //Resets the isJumpingThroughPlatform bool back to false
+            player.GetComponent<Character>().isJumpingThroughPlatform = false;
         }
     }
 }

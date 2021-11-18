@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,13 +16,13 @@ namespace MetroidvaniaTools
         public delegate void UpdateCharacter();
         public static event UpdateCharacter CharacterUpdate;
 
-        
+
         protected override void Initialization()
         {
             base.Initialization();
             levelManager = FindObjectOfType<LevelManager>();
         }
-        
+
 
         // Update is called once per frame
         void Update()
@@ -34,12 +34,12 @@ namespace MetroidvaniaTools
         protected virtual void CheckChangeCharacter()
         {
             //If the button setup in the inspector to change characters is pressed
-            if(input.ChangeCharacterPressed() && !character.GetComponent<Health>().hit)
+            if (input.ChangeCharacterPressed() && !character.GetComponent<Health>().hit)
             {
                 //Increase currentSelection by 1
                 levelManager.currentPlayerSelection++;
                 //Checks to see if currentSelection is outside of the amount
-                if(levelManager.currentPlayerSelection == characters.Length)
+                if (levelManager.currentPlayerSelection == characters.Length)
                 {
                     //If it is, sets currentSelection to 0
                     levelManager.currentPlayerSelection = 0;
@@ -49,7 +49,7 @@ namespace MetroidvaniaTools
                 //Saves the current weapon so next time the character is selected, the weapon they were last using is the current one.
                 PlayerPrefs.SetInt(character.name + "CurrentWeapon", character.currentWeaponSelected);
                 //Saves the health on the character
-                PlayerPrefs.SetInt(character.name + "CurrentHealth",  character.GetComponent<Health>().healthPoints);
+                PlayerPrefs.SetInt(character.name + "CurrentHealth", character.GetComponent<Health>().healthPoints);
                 //Runs a method in the Game Manager script to change the character
                 gameManager.ChangeCharacter(characters[levelManager.currentPlayerSelection]);
                 //Lets the other scripts listening to this event know the character has changed

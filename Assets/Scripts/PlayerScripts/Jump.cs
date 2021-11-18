@@ -68,6 +68,8 @@ namespace MetroidvaniaTools
         //The number of additonal jumps left after each jump is performed.
         private int numberOfJumpsLeft;
 
+        [HideInInspector]
+        public bool downwardJump;
 
         protected override void Initialization()
         {
@@ -90,15 +92,17 @@ namespace MetroidvaniaTools
             {
                 return false;
             }
+            if(input.JumpHeld() && input.DownHeld())
+            {
+                downwardJump = true;
+                return false;
+            }
+            else
+            {
+                downwardJump = false;
+            }
             if (input.JumpPressed())
             {
-                //Checks to see if the player should jump down through a one-way platform.
-                if (currentPlatform != null && currentPlatform.GetComponent<OneWayPlatform>() && input.DownHeld())
-                {
-                    character.isJumpingThroughPlatform = true;
-                    Invoke("NotJumpingThroughPlatform", .1f);
-                    return false;
-                }
                 //Checks to see if the player fell off a ledge first and then tried to jump.
                 if (!character.isGrounded && numberOfJumpsLeft == maxJumps)
                 {
@@ -137,6 +141,7 @@ namespace MetroidvaniaTools
         protected virtual void FixedUpdate()
         {
             IsJumping();
+            DownJumping();
             Gliding();
             GroundCheck();
             WallSliding();
@@ -159,11 +164,23 @@ namespace MetroidvaniaTools
             }
         }
 
+        protected virtual void DownJumping()
+        {
+            if(!character.isGrounded)
+            {
+                Debug.Log("Not Grounded");
+            }
+            if (downwardJump && !character.isGrounded)
+            {
+                rb.AddForce(Vector2.down * jumpForce);
+            }
+        }
+
         //Checks for input and manages the fall speed while gliding.
         protected virtual void Gliding()
         {
             //If the Player's vertical speed is less than zero and the button that controls the glide is held, then allows the Player to enter the gliding state
-            if (character.Falling(0) && input.JumpHeld())
+            if (character.Falling(0) && input.JumpHeld() && !downwardJump)
             {
                 //Negates the time the player is allowed to glide
                 fallCountDown -= Time.deltaTime;
@@ -202,7 +219,7 @@ namespace MetroidvaniaTools
         protected virtual void GroundCheck()
         {
             //Runs method to see what the Player is colliding with beneath them
-            if (CollisionCheck(Vector2.down, distanceToCollider, collisionLayer) && !character.isJumping)
+            if (CollisionCheck(Vector2.down, distanceToCollider, collisionLayer) && !character.isJumping && !character.isJumpingThroughPlatform)
             {
                 //If the player is on a moving platform, sets the Player as a child of the moving platform so the Player moves with the platform
                 if (currentPlatform.GetComponent<MoveablePlatform>())
@@ -269,7 +286,7 @@ namespace MetroidvaniaTools
         {
             if ((!character.isFacingLeft && CollisionCheck(Vector2.right, distanceToCollider, collisionLayer) || character.isFacingLeft && CollisionCheck(Vector2.left, distanceToCollider, collisionLayer)) && movement.MovementPressed() && !character.isGrounded)
             {
-                if (currentPlatform.GetComponent<OneWayPlatform>() || currentPlatform.GetComponent<Ladder>())
+                if (currentPlatform.GetComponent<Ladder>() || character.isJumpingThroughPlatform)
                 {
                     return false;
                 }
@@ -325,11 +342,6 @@ namespace MetroidvaniaTools
             justWallJumped = true;
         }
 
-        //Lets other scripts know the player isn't jumping through a platform.
-        protected virtual void NotJumpingThroughPlatform()
-        {
-            character.isJumpingThroughPlatform = false;
-        }
 
         //Turns off horizontal movement when wall jumping to restrict movement when performing a wall jump.
         protected virtual IEnumerator WallJumped()
