@@ -338,15 +338,5 @@ namespace MetroidvaniaTools
         {
             justWallJumped = true;
         }
-
-
-        //Turns off horizontal movement when wall jumping to restrict movement when performing a wall jump.
-        protected virtual IEnumerator WallJumped()
-        {
-            movement.enabled = false;
-            yield return new WaitForSeconds(wallJumpTime);
-            movement.enabled = true;
-            isWallJumping = false;
-        }
     }
 }
