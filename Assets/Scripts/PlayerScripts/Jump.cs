@@ -141,7 +141,6 @@ namespace MetroidvaniaTools
         protected virtual void FixedUpdate()
         {
             IsJumping();
-            DownJumping();
             Gliding();
             GroundCheck();
             WallSliding();
@@ -162,15 +161,16 @@ namespace MetroidvaniaTools
             {
                 rb.velocity = new Vector2(rb.velocity.x, maxJumpSpeed);
             }
+            if(downwardJump)
+            {
+                DownwardJump();
+            }
         }
 
         //Performs a downward jump to fall faster
-        protected virtual void DownJumping()
+        protected virtual void DownwardJump()
         {
-            if (downwardJump && !character.isGrounded)
-            {
-                rb.AddForce(Vector2.down * jumpForce);
-            }
+            rb.AddForce(Vector2.down * jumpForce);
         }
 
         //Checks for input and manages the fall speed while gliding.
@@ -216,7 +216,7 @@ namespace MetroidvaniaTools
         protected virtual void GroundCheck()
         {
             //Runs method to see what the Player is colliding with beneath them
-            if (CollisionCheck(Vector2.down, distanceToCollider, collisionLayer) && !character.isJumping && !character.isJumpingThroughPlatform)
+            if (CollisionCheck(Vector2.down, distanceToCollider, collisionLayer) && !character.isJumping)
             {
                 //If the player is on a moving platform, sets the Player as a child of the moving platform so the Player moves with the platform
                 if (currentPlatform.GetComponent<MoveablePlatform>())
@@ -283,7 +283,7 @@ namespace MetroidvaniaTools
         {
             if ((!character.isFacingLeft && CollisionCheck(Vector2.right, distanceToCollider, collisionLayer) || character.isFacingLeft && CollisionCheck(Vector2.left, distanceToCollider, collisionLayer)) && movement.MovementPressed() && !character.isGrounded)
             {
-                if (currentPlatform.GetComponent<Ladder>() || character.isJumpingThroughPlatform)
+                if (currentPlatform.GetComponent<Ladder>() || currentPlatform.GetComponent<OneWayPlatform>())
                 {
                     return false;
                 }

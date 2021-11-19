@@ -54,7 +54,7 @@ namespace MetroidvaniaTools
 
         protected virtual void Update()
         {
-            //MovementPressed();
+            MovementPressed();
         }
 
 
@@ -267,16 +267,13 @@ namespace MetroidvaniaTools
                 currentSpeed = 0;
             }
             //Makes sure the player doesn't stick to a wall like velcro when jumping into it; this doesn't apply to oneway platforms and ladders, only platforms that would normally not allow the Player to pass through
-            if (currentPlatform != null &&  !currentPlatform.GetComponent<Ladder>())
+            if (!character.isFacingLeft && CollisionCheck(Vector2.right, .05f, jump.collisionLayer) || character.isFacingLeft && CollisionCheck(Vector2.left, .05f, jump.collisionLayer))
             {
-                if(character.isJumpingThroughPlatform)
+                if(currentPlatform != null && (currentPlatform.GetComponent<Ladder>() || currentPlatform.GetComponent<OneWayPlatform>()))
                 {
                     return;
                 }
-                if (!character.isFacingLeft && CollisionCheck(Vector2.right, .05f, jump.collisionLayer) || character.isFacingLeft && CollisionCheck(Vector2.left, .05f, jump.collisionLayer))
-                {
-                    currentSpeed = .01f;
-                }
+                currentSpeed = .01f;
             }
         }
     }

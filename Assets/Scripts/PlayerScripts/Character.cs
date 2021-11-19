@@ -19,8 +19,6 @@ namespace MetroidvaniaTools
         [HideInInspector]
         public bool isJumping;
         [HideInInspector]
-        public bool isJumpingThroughPlatform;
-        [HideInInspector]
         public bool isSwimming;
         [HideInInspector]
         public bool isOnLadder;
